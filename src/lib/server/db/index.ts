@@ -1,10 +1,13 @@
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
 import * as schema from './schema';
-import { env } from '$env/dynamic/private';
+import { seedDatabase } from './seed';
 
-if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
+const databaseUrl = process.env.DATABASE_URL || 'local.db';
 
-const client = new Database(env.DATABASE_URL);
+const client = new Database(databaseUrl);
 
 export const db = drizzle(client, { schema });
+
+// Populate database from words.csv asynchronously
+seedDatabase();
