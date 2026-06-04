@@ -75,6 +75,7 @@ export function setupSockets(io: Server) {
 
 			io.to(code).emit('room_updated', {
 				players: room.players.map((p) => ({
+					id: p.id,
 					username: p.username,
 					isHost: p.isHost,
 					score: p.score
@@ -174,6 +175,7 @@ export function setupSockets(io: Server) {
 						}
 						io.to(code).emit('room_updated', {
 							players: room.players.map((p) => ({
+								id: p.id,
 								username: p.username,
 								isHost: p.isHost,
 								score: p.score
@@ -236,6 +238,7 @@ function revealRoundResults(io: Server, room: Room) {
 		word,
 		players: room.players
 			.map((p) => ({
+				id: p.id,
 				username: p.username,
 				score: p.score,
 				lastVoteCorrect:
@@ -271,7 +274,7 @@ function revealRoundResults(io: Server, room: Room) {
 
 			io.to(room.code).emit('game_ended', {
 				players: room.players
-					.map((p) => ({ username: p.username, score: p.score }))
+					.map((p) => ({ id: p.id, username: p.username, score: p.score }))
 					.sort((a, b) => b.score - a.score)
 			});
 		}

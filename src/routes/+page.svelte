@@ -115,7 +115,6 @@
 			onclick={goToMenu}
 			class="group flex cursor-pointer items-center gap-3 border-none bg-transparent focus:outline-none"
 		>
-			<span class="text-3xl">🇸🇨</span>
 			<h1
 				class="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400 bg-clip-text font-display text-2xl font-bold tracking-wider text-transparent transition-opacity group-hover:opacity-80"
 			>

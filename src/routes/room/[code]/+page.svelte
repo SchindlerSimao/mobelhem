@@ -25,6 +25,7 @@
 		roomCode = data.code;
 	});
 	interface Player {
+		id: string;
 		username: string;
 		isHost: boolean;
 		score: number;
@@ -42,6 +43,7 @@
 	}
 
 	interface RoundPlayerResult {
+		id: string;
 		username: string;
 		score: number;
 		lastVoteCorrect: boolean;
@@ -68,7 +70,7 @@
 	let errorMessage = $state<string | null>(null);
 
 	// Check if this player is the host
-	let isHost = $derived(lobbyPlayers.find((p) => p.username === currentUsername)?.isHost ?? false);
+	let isHost = $derived(lobbyPlayers.find((p) => p.id === socket?.id)?.isHost ?? false);
 
 	// Connect socket when pseudo is filled
 	$effect(() => {

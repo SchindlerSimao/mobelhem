@@ -3,6 +3,7 @@
 	import type { GameItem } from '$lib/dataset';
 
 	interface RoundPlayerResult {
+		id: string;
 		username: string;
 		score: number;
 		lastVoteCorrect: boolean;
@@ -180,7 +181,7 @@
 			</h4>
 
 			<div class="max-h-[285px] space-y-2 overflow-y-auto pr-1">
-				{#each playersResult as player, index (player.username)}
+				{#each playersResult as player, index (player.id)}
 					<div
 						class="border-slate-850 flex items-center justify-between rounded-xl border bg-slate-900/40 p-3"
 					>

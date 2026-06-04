@@ -64,7 +64,7 @@
 					? 'border border-emerald-500/30 bg-gradient-to-r from-emerald-500/20 to-teal-600/20 text-emerald-400'
 					: 'border border-transparent text-slate-400'}"
 			>
-				👤 Mode Solo
+				👤 Solo
 			</button>
 			<button
 				onclick={() => (activeTab = 'multi')}
@@ -73,7 +73,7 @@
 					? 'border border-sky-500/30 bg-gradient-to-r from-sky-500/20 to-blue-600/20 text-sky-400'
 					: 'border border-transparent text-slate-400'}"
 			>
-				👥 Mode Multijoueur
+				👥 Multijoueur
 			</button>
 		</div>
 

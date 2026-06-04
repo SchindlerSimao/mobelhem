@@ -2,6 +2,7 @@
 	import { scale } from 'svelte/transition';
 
 	interface Player {
+		id: string;
 		username: string;
 		isHost: boolean;
 		score: number;
@@ -66,7 +67,7 @@
 		<div
 			class="border-slate-850 max-h-[200px] space-y-2 overflow-y-auto rounded-2xl border bg-slate-950/40 p-4"
 		>
-			{#each players as player (player.username)}
+			{#each players as player (player.id)}
 				<div
 					class="flex items-center justify-between border-b border-slate-900/50 py-1.5 last:border-none"
 				>

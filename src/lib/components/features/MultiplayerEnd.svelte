@@ -2,6 +2,7 @@
 	import { scale } from 'svelte/transition';
 
 	interface Player {
+		id: string;
 		username: string;
 		score: number;
 	}
@@ -30,7 +31,7 @@
 
 	<!-- Leaderboard -->
 	<div class="border-slate-850 space-y-2 rounded-2xl border bg-slate-950/40 p-4">
-		{#each players as player, index (player.username)}
+		{#each players as player, index (player.id)}
 			<div
 				class="border-slate-850 flex items-center justify-between rounded-xl border bg-slate-900/40 p-3 transition-colors hover:bg-slate-900/30"
 			>
