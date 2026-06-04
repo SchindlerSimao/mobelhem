@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { dataset, shuffle, type GameItem } from '$lib/dataset';
+	import type { GameItem } from '$lib/dataset';
+	import { shuffle } from '$lib/utils/shuffle';
+	import { GAME_CONSTANTS } from '$lib/config/gameConstants';
 
 	import WelcomeScreen from '$lib/components/features/WelcomeScreen.svelte';
 	import GameplayScreen from '$lib/components/features/GameplayScreen.svelte';
@@ -14,7 +16,7 @@
 	// Game States
 	let gameStatus = $state<GameStatus>('welcome');
 	let score = $state(0);
-	let timeLeft = $state(60);
+	let timeLeft = $state(GAME_CONSTANTS.SOLO_INITIAL_TIME_SECONDS);
 	let streak = $state(0);
 
 	let shuffledItems = $state<GameItem[]>([]);
@@ -60,9 +62,9 @@
 		streak = 0;
 		answered = false;
 		isCorrect = null;
-		shuffledItems = shuffle(dataset);
+		shuffledItems = shuffle(data.gameWords);
 		currentItemIndex = 0;
-		timeLeft = 60;
+		timeLeft = GAME_CONSTANTS.SOLO_INITIAL_TIME_SECONDS;
 		gameStatus = 'playing';
 	}
 
@@ -79,12 +81,12 @@
 		isCorrect = guess === currentItem.type;
 
 		if (isCorrect) {
-			score += guess === 'both' ? 150 : 100;
+			score += guess === 'both' ? GAME_CONSTANTS.SOLO_POINTS_BOTH : GAME_CONSTANTS.SOLO_POINTS_CORRECT;
 			streak++;
-			timeLeft = Math.min(timeLeft + 2, 99);
+			timeLeft = Math.min(timeLeft + GAME_CONSTANTS.SOLO_TIME_BONUS_CORRECT, 99);
 		} else {
 			streak = 0;
-			timeLeft = Math.max(timeLeft - 5, 0);
+			timeLeft = Math.max(timeLeft - GAME_CONSTANTS.SOLO_TIME_PENALTY_WRONG, 0);
 			if (timeLeft <= 0) endGame();
 		}
 	}
@@ -97,7 +99,7 @@
 		if (currentItemIndex + 1 < shuffledItems.length) {
 			currentItemIndex++;
 		} else {
-			shuffledItems = shuffle(dataset);
+			shuffledItems = shuffle(data.gameWords);
 			currentItemIndex = 0;
 		}
 	}

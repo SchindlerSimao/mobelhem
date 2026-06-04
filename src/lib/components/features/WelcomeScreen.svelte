@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
+	import { GAME_CONSTANTS } from '$lib/config/gameConstants';
 	import Leaderboard from './Leaderboard.svelte';
 
 	interface ScoreEntry {
@@ -160,14 +161,14 @@
 								<input
 									type="text"
 									bind:value={roomCode}
-									placeholder="Code (ex: ABCD)..."
-									maxlength="4"
-									class="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-1.5 text-center font-bold tracking-widest text-slate-200 uppercase transition-colors focus:border-sky-500 focus:outline-none"
-								/>
-							</div>
-							<button
-								onclick={handleJoinRoom}
-								disabled={!username.trim() || roomCode.trim().length !== 4}
+								placeholder="Code (ex: AB1234)..."
+								maxlength={GAME_CONSTANTS.ROOM_CODE_LENGTH}
+								class="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-1.5 text-center font-bold tracking-widest text-slate-200 uppercase transition-colors focus:border-sky-500 focus:outline-none"
+							/>
+						</div>
+						<button
+							onclick={handleJoinRoom}
+							disabled={!username.trim() || roomCode.trim().length !== GAME_CONSTANTS.ROOM_CODE_LENGTH}
 								class="bg-slate-850 w-full cursor-pointer rounded-xl border border-slate-800 py-2.5 text-xs font-bold tracking-wider text-slate-200 transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
 							>
 								Rejoindre

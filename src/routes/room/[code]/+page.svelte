@@ -3,6 +3,7 @@
 	import { io, type Socket } from 'socket.io-client';
 	import { goto } from '$app/navigation';
 	import { fade } from 'svelte/transition';
+	import { GAME_CONSTANTS } from '$lib/config/gameConstants';
 
 	import PseudoEntry from '$lib/components/features/PseudoEntry.svelte';
 	import MultiplayerLobby from '$lib/components/features/MultiplayerLobby.svelte';
@@ -59,7 +60,7 @@
 	let activeWord = $state<RoundWord | null>(null);
 	let roundIndex = $state(0);
 	let totalRounds = $state(0);
-	let timeLeft = $state(8);
+	let timeLeft = $state(GAME_CONSTANTS.MULTIPLAYER_ROUND_TIME_SECONDS);
 	let voted = $state(false);
 	let votedPlayers = $state<string[]>([]);
 	let roundStartTimestamp = $state(0);

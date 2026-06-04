@@ -1,196 +1,232 @@
 import type { Server, Socket } from 'socket.io';
 import { db } from './db';
-import { words } from './db/schema';
+import { words, scores } from './db/schema';
+import { RoomManager } from './game/RoomManager';
+import { calculateRoundScore, isAnswerCorrect } from './game/scoring';
+import { generateRoomCode } from '../utils/codeGenerator';
+import { selectRandomItems } from '../utils/shuffle';
+import { validators } from '../utils/validators';
+import { handleError, ValidationError, RoomNotFoundError, GameAlreadyStartedError } from './utils/errorHandler';
+import { GAME_CONSTANTS } from '../config/gameConstants';
 
-interface Player {
-	id: string;
-	socketId: string;
-	username: string;
-	score: number;
-	voted: boolean;
-	vote: 'ikea' | 'city' | null;
-	voteTime: number;
-	isHost: boolean;
-}
-
-type DbWord = typeof words.$inferSelect;
-
-interface Room {
-	code: string;
-	players: Player[];
-	status: 'lobby' | 'playing' | 'ended';
-	currentRoundIndex: number;
-	selectedWords: DbWord[];
-	timeLeft: number;
-	timer: NodeJS.Timeout | null;
-}
-
-const rooms = new Map<string, Room>();
+let roomManager: RoomManager;
 
 export function setupSockets(io: Server) {
+	roomManager = new RoomManager(io);
+
 	io.on('connection', (socket: Socket) => {
 		console.log(`Socket connected: ${socket.id}`);
 
 		// Create Room
 		socket.on('create_room', () => {
-			const code = Math.random().toString(36).substring(2, 6).toUpperCase();
-			rooms.set(code, {
-				code,
-				players: [],
-				status: 'lobby',
-				currentRoundIndex: 0,
-				selectedWords: [],
-				timeLeft: 8,
-				timer: null
-			});
-			socket.emit('room_created', code);
+			try {
+				const code = generateRoomCode();
+				const room = roomManager.createRoom(code);
+				socket.emit('room_created', code);
+				console.log(`[socket] Room created: ${code}`);
+			} catch (error) {
+				const err = handleError(error, 'create_room');
+				socket.emit('error_message', err.message);
+			}
 		});
 
 		// Join Room
 		socket.on('join_room', ({ code, username }: { code: string; username: string }) => {
-			const room = rooms.get(code);
-			if (!room) {
-				socket.emit('error_message', "Le salon n'existe pas.");
-				return;
-			}
-			if (room.status !== 'lobby') {
-				socket.emit('error_message', 'La partie a déjà commencé.');
-				return;
-			}
+			try {
+				// Validate inputs
+				const usernameValidation = validators.username(username);
+				if (!usernameValidation.valid) {
+					throw new ValidationError(usernameValidation.error || 'Invalid username');
+				}
 
-			// Add player
-			const isHost = room.players.length === 0;
-			const player: Player = {
-				id: socket.id,
-				socketId: socket.id,
-				username,
-				score: 0,
-				voted: false,
-				vote: null,
-				voteTime: 0,
-				isHost
-			};
-			room.players.push(player);
-			socket.join(code);
+				const room = roomManager.getRoom(code);
+				if (!room) {
+					throw new RoomNotFoundError();
+				}
 
-			io.to(code).emit('room_updated', {
-				players: room.players.map((p) => ({
-					id: p.id,
-					username: p.username,
-					isHost: p.isHost,
-					score: p.score
-				})),
-				status: room.status,
-				code: room.code
-			});
+				if (room.status !== 'lobby') {
+					throw new GameAlreadyStartedError();
+				}
+
+				// Add player
+				const isHost = room.players.length === 0;
+				const player = {
+					id: socket.id,
+					socketId: socket.id,
+					username: username.trim(),
+					score: 0,
+					voted: false,
+					vote: null as 'ikea' | 'city' | null,
+					voteTime: 0,
+					isHost
+				};
+
+				room.players.push(player);
+				socket.join(code);
+				roomManager.updateActivity(code);
+
+				io.to(code).emit('room_updated', {
+					players: room.players.map((p) => ({
+						id: p.id,
+						username: p.username,
+						isHost: p.isHost,
+						score: p.score
+					})),
+					status: room.status,
+					code: room.code
+				});
+
+				console.log(`[socket] Player joined: ${username} in room ${code}`);
+			} catch (error) {
+				const err = handleError(error, 'join_room');
+				socket.emit('error_message', err.message);
+			}
 		});
 
 		// Start Game
 		socket.on('start_game', async ({ code }: { code: string }) => {
-			const room = rooms.get(code);
-			if (!room) return;
-
-			const player = room.players.find((p) => p.socketId === socket.id);
-			if (!player || !player.isHost) return;
-
-			let gameWords: DbWord[] = [];
 			try {
-				const allWords = await db.select().from(words);
-				if (allWords.length > 0) {
-					gameWords = allWords.sort(() => 0.5 - Math.random()).slice(0, 10);
+				const room = roomManager.getRoom(code);
+				if (!room) {
+					throw new RoomNotFoundError();
 				}
-			} catch (e) {
-				console.error('Failed to query words:', e);
+
+				const player = room.players.find((p) => p.socketId === socket.id);
+				if (!player?.isHost) {
+					throw new ValidationError('Only host can start the game');
+				}
+
+				const gameWords = await loadGameWords();
+
+				room.status = 'playing';
+				room.selectedWords = gameWords;
+				room.currentRoundIndex = 0;
+				room.players.forEach((p) => {
+					p.score = 0;
+					p.voted = false;
+					p.vote = null;
+				});
+
+				roomManager.updateActivity(code);
+				io.to(code).emit('game_started');
+				startRound(io, room);
+
+				console.log(`[socket] Game started in room ${code}`);
+			} catch (error) {
+				const err = handleError(error, 'start_game');
+				socket.emit('error_message', err.message);
 			}
-
-			if (gameWords.length === 0) {
-				const { dataset } = await import('../dataset');
-				gameWords = dataset
-					.sort(() => 0.5 - Math.random())
-					.slice(0, 10)
-					.map((item, idx) => ({
-						id: `static-${idx}`,
-						name: item.name,
-						type: item.type,
-						country: item.country,
-						lat: item.lat ? String(item.lat) : null,
-						lng: item.lng ? String(item.lng) : null,
-						ikeaDesc: item.ikeaDesc || null,
-						cityDesc: item.cityDesc || null,
-						funFact: item.funFact
-					}));
-			}
-
-			room.status = 'playing';
-			room.selectedWords = gameWords;
-			room.currentRoundIndex = 0;
-			room.players.forEach((p) => {
-				p.score = 0;
-				p.voted = false;
-				p.vote = null;
-			});
-
-			io.to(code).emit('game_started');
-			startRound(io, room);
 		});
 
 		// Submit vote
 		socket.on(
 			'submit_vote',
-			({ code, vote, voteTime }: { code: string; vote: 'ikea' | 'city'; voteTime: number }) => {
-				const room = rooms.get(code);
-				if (!room || room.status !== 'playing') return;
+			({ code, vote, voteTime }: { code: string; vote: string; voteTime: number }) => {
+				try {
+					// Validate vote
+					const voteValidation = validators.vote(vote);
+					if (!voteValidation.valid) {
+						throw new ValidationError(voteValidation.error || 'Invalid vote');
+					}
 
-				const player = room.players.find((p) => p.socketId === socket.id);
-				if (!player || player.voted) return;
+					const timeValidation = validators.voteTime(voteTime);
+					if (!timeValidation.valid) {
+						throw new ValidationError(timeValidation.error || 'Invalid vote time');
+					}
 
-				player.voted = true;
-				player.vote = vote;
-				player.voteTime = voteTime;
+					const room = roomManager.getRoom(code);
+					if (!room || room.status !== 'playing') {
+						throw new RoomNotFoundError();
+					}
 
-				io.to(code).emit('player_voted', player.username);
+					const player = room.players.find((p) => p.socketId === socket.id);
+					if (!player) {
+						throw new RoomNotFoundError();
+					}
 
-				const allVoted = room.players.every((p) => p.voted);
-				if (allVoted) {
-					if (room.timer) clearInterval(room.timer);
-					revealRoundResults(io, room);
+					if (player.voted) {
+						throw new ValidationError('You already voted');
+					}
+
+					player.voted = true;
+					player.vote = vote as 'ikea' | 'city';
+					player.voteTime = voteTime;
+					roomManager.updateActivity(code);
+
+					io.to(code).emit('player_voted', player.username);
+
+					const allVoted = room.players.every((p) => p.voted);
+					if (allVoted) {
+						if (room.timer) clearInterval(room.timer);
+						revealRoundResults(io, room);
+					}
+				} catch (error) {
+					const err = handleError(error, 'submit_vote');
+					socket.emit('error_message', err.message);
 				}
 			}
 		);
 
 		// Disconnect
 		socket.on('disconnect', () => {
-			rooms.forEach((room, code) => {
-				const playerIdx = room.players.findIndex((p) => p.socketId === socket.id);
-				if (playerIdx !== -1) {
-					const player = room.players[playerIdx];
-					room.players.splice(playerIdx, 1);
+			try {
+				roomManager.getAllRooms().forEach((room) => {
+					const playerIdx = room.players.findIndex((p) => p.socketId === socket.id);
+					if (playerIdx !== -1) {
+						const player = room.players[playerIdx];
+						room.players.splice(playerIdx, 1);
 
-					if (room.players.length === 0) {
-						if (room.timer) clearInterval(room.timer);
-						rooms.delete(code);
-					} else {
-						if (player.isHost) {
-							room.players[0].isHost = true;
+						if (room.players.length === 0) {
+							roomManager.deleteRoom(room.code);
+						} else {
+							if (player.isHost && room.players.length > 0) {
+								room.players[0].isHost = true;
+							}
+
+							roomManager.updateActivity(room.code);
+							io.to(room.code).emit('room_updated', {
+								players: room.players.map((p) => ({
+									id: p.id,
+									username: p.username,
+									isHost: p.isHost,
+									score: p.score
+								})),
+								status: room.status,
+								code: room.code
+							});
 						}
-						io.to(code).emit('room_updated', {
-							players: room.players.map((p) => ({
-								id: p.id,
-								username: p.username,
-								isHost: p.isHost,
-								score: p.score
-							})),
-							status: room.status,
-							code: room.code
-						});
 					}
-				}
-			});
+				});
+			} catch (error) {
+				handleError(error, 'disconnect');
+			}
 		});
 	});
 }
 
-function startRound(io: Server, room: Room) {
+/**
+ * Loads game words from database
+ */
+async function loadGameWords() {
+	try {
+		const allWords = await db.select().from(words);
+		if (allWords.length > 0) {
+			return selectRandomItems(allWords, GAME_CONSTANTS.MULTIPLAYER_WORDS_PER_GAME);
+		}
+		console.warn('No words found in database');
+		return [];
+	} catch (e) {
+		console.error('Failed to query words:', e);
+		return [];
+	}
+}
+
+/**
+ * Starts a new round
+ */
+function startRound(io: Server, room: ReturnType<RoomManager['getRoom']>) {
+	if (!room) return;
+
 	room.players.forEach((p) => {
 		p.voted = false;
 		p.vote = null;
@@ -198,7 +234,7 @@ function startRound(io: Server, room: Room) {
 	});
 
 	const word = room.selectedWords[room.currentRoundIndex];
-	room.timeLeft = 8;
+	room.timeLeft = GAME_CONSTANTS.MULTIPLAYER_ROUND_TIME_SECONDS;
 
 	io.to(room.code).emit('round_started', {
 		wordName: word.name,
@@ -218,19 +254,18 @@ function startRound(io: Server, room: Room) {
 	}, 1000);
 }
 
-function revealRoundResults(io: Server, room: Room) {
+/**
+ * Reveals round results and advances to next round or ends game
+ */
+function revealRoundResults(io: Server, room: ReturnType<RoomManager['getRoom']>) {
+	if (!room) return;
+
 	const word = room.selectedWords[room.currentRoundIndex];
 
+	// Calculate scores using centralized logic
 	room.players.forEach((p) => {
 		if (p.voted && p.vote) {
-			const isCorrect =
-				(p.vote === 'ikea' && (word.type === 'ikea' || word.type === 'both')) ||
-				(p.vote === 'city' && (word.type === 'city' || word.type === 'both'));
-
-			if (isCorrect) {
-				const speedBonus = Math.max(0, Math.floor(100 - p.voteTime / 80));
-				p.score += 100 + speedBonus;
-			}
+			p.score += calculateRoundScore(p.vote, word.type as 'ikea' | 'city' | 'both', p.voteTime);
 		}
 	});
 
@@ -241,42 +276,54 @@ function revealRoundResults(io: Server, room: Room) {
 				id: p.id,
 				username: p.username,
 				score: p.score,
-				lastVoteCorrect:
-					p.voted &&
-					p.vote &&
-					((p.vote === 'ikea' && (word.type === 'ikea' || word.type === 'both')) ||
-						(p.vote === 'city' && (word.type === 'city' || word.type === 'both'))),
+				lastVoteCorrect: isAnswerCorrect(p.vote, word.type as 'ikea' | 'city' | 'both'),
 				lastVote: p.vote,
 				lastVoteTime: p.voteTime
 			}))
 			.sort((a, b) => b.score - a.score)
 	});
 
+	// Advance to next round or end game
 	setTimeout(() => {
 		room.currentRoundIndex++;
+
 		if (room.currentRoundIndex < room.selectedWords.length) {
 			startRound(io, room);
 		} else {
-			room.status = 'ended';
-
-			room.players.forEach(async (p) => {
-				try {
-					const { scores } = await import('./db/schema');
-					await db.insert(scores).values({
-						username: p.username,
-						score: p.score,
-						mode: 'multiplayer'
-					});
-				} catch (e) {
-					console.error('Failed to save multiplayer score:', e);
-				}
-			});
-
-			io.to(room.code).emit('game_ended', {
-				players: room.players
-					.map((p) => ({ id: p.id, username: p.username, score: p.score }))
-					.sort((a, b) => b.score - a.score)
-			});
+			endGame(io, room);
 		}
-	}, 7000);
+	}, GAME_CONSTANTS.MULTIPLAYER_ROUND_END_DELAY_MS);
+}
+
+/**
+ * Ends the game and saves scores
+ */
+async function endGame(io: Server, room: ReturnType<RoomManager['getRoom']>) {
+	if (!room) return;
+
+	room.status = 'ended';
+
+	// Save all player scores
+	for (const p of room.players) {
+		try {
+			await db.insert(scores).values({
+				username: p.username,
+				score: p.score,
+				mode: 'multiplayer'
+			});
+		} catch (e) {
+			console.error(`Failed to save score for ${p.username}:`, e);
+		}
+	}
+
+	io.to(room.code).emit('game_ended', {
+		players: room.players
+			.map((p) => ({ id: p.id, username: p.username, score: p.score }))
+			.sort((a, b) => b.score - a.score)
+	});
+
+	// Schedule room cleanup
+	setTimeout(() => {
+		roomManager.deleteRoom(room.code);
+	}, 30000); // Clean up after 30 seconds
 }
