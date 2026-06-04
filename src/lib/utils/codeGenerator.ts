@@ -9,24 +9,11 @@ import { GAME_CONSTANTS } from '../config/gameConstants';
  */
 export function generateRoomCode(length: number = GAME_CONSTANTS.ROOM_CODE_LENGTH): string {
 	const chars = GAME_CONSTANTS.ROOM_CODE_CHARSET;
+	const array = new Uint8Array(length);
+	globalThis.crypto.getRandomValues(array);
 	let code = '';
-
-	if (typeof window === 'undefined') {
-		// Server-side: use Node.js crypto
-		const array = new Uint8Array(length);
-		const crypto = require('crypto');
-		crypto.getRandomValues(array);
-		for (let i = 0; i < length; i++) {
-			code += chars[array[i] % chars.length];
-		}
-	} else {
-		// Client-side: use Web Crypto
-		const array = new Uint8Array(length);
-		globalThis.crypto.getRandomValues(array);
-		for (let i = 0; i < length; i++) {
-			code += chars[array[i] % chars.length];
-		}
+	for (let i = 0; i < length; i++) {
+		code += chars[array[i] % chars.length];
 	}
-
 	return code;
 }

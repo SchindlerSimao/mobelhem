@@ -16,7 +16,7 @@
 	// Game States
 	let gameStatus = $state<GameStatus>('welcome');
 	let score = $state(0);
-	let timeLeft = $state(GAME_CONSTANTS.SOLO_INITIAL_TIME_SECONDS);
+	let timeLeft = $state<number>(GAME_CONSTANTS.SOLO_INITIAL_TIME_SECONDS);
 	let streak = $state(0);
 
 	let shuffledItems = $state<GameItem[]>([]);
@@ -81,7 +81,8 @@
 		isCorrect = guess === currentItem.type;
 
 		if (isCorrect) {
-			score += guess === 'both' ? GAME_CONSTANTS.SOLO_POINTS_BOTH : GAME_CONSTANTS.SOLO_POINTS_CORRECT;
+			score +=
+				guess === 'both' ? GAME_CONSTANTS.SOLO_POINTS_BOTH : GAME_CONSTANTS.SOLO_POINTS_CORRECT;
 			streak++;
 			timeLeft = Math.min(timeLeft + GAME_CONSTANTS.SOLO_TIME_BONUS_CORRECT, 99);
 		} else {

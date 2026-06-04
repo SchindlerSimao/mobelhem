@@ -23,7 +23,10 @@ export const validators = {
 		if (!code) return { valid: false, error: 'Room code required' };
 		const codeUpper = code.toUpperCase().trim();
 		if (codeUpper.length !== GAME_CONSTANTS.ROOM_CODE_LENGTH) {
-			return { valid: false, error: `Room code must be exactly ${GAME_CONSTANTS.ROOM_CODE_LENGTH} characters` };
+			return {
+				valid: false,
+				error: `Room code must be exactly ${GAME_CONSTANTS.ROOM_CODE_LENGTH} characters`
+			};
 		}
 		if (!/^[A-Z0-9]+$/.test(codeUpper)) {
 			return { valid: false, error: 'Room code must contain only letters and numbers' };

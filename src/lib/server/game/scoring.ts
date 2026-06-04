@@ -26,28 +26,10 @@ export function calculateRoundScore(vote: Vote, itemType: ItemType, voteTime: nu
 
 	const speedBonus = Math.max(
 		0,
-		Math.floor(GAME_CONSTANTS.MULTIPLAYER_BASE_POINTS - voteTime / GAME_CONSTANTS.MULTIPLAYER_SPEED_BONUS_DIVISOR)
+		Math.floor(
+			GAME_CONSTANTS.MULTIPLAYER_BASE_POINTS -
+				voteTime / GAME_CONSTANTS.MULTIPLAYER_SPEED_BONUS_DIVISOR
+		)
 	);
 	return GAME_CONSTANTS.MULTIPLAYER_BASE_POINTS + speedBonus;
-}
-
-/**
- * Calculates solo game score based on answer correctness and time
- */
-export function calculateSoloScore(
-	isCorrect: boolean,
-	timeTaken: number,
-	maxTime: number = GAME_CONSTANTS.SOLO_INITIAL_TIME_SECONDS
-): { score: number; timeDelta: number } {
-	if (!isCorrect) {
-		return {
-			score: 0,
-			timeDelta: -GAME_CONSTANTS.SOLO_TIME_PENALTY_WRONG
-		};
-	}
-
-	return {
-		score: GAME_CONSTANTS.SOLO_POINTS_CORRECT,
-		timeDelta: GAME_CONSTANTS.SOLO_TIME_BONUS_CORRECT
-	};
 }

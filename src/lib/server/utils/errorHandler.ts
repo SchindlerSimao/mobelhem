@@ -48,11 +48,7 @@ export function handleError(error: unknown, context: string): GameError {
 		return error;
 	}
 
-	const gameError = new GameError(
-		'An unexpected error occurred',
-		'INTERNAL_ERROR',
-		500
-	);
+	const gameError = new GameError('An unexpected error occurred', 'INTERNAL_ERROR', 500);
 
 	console.error(`[${context}] Unexpected error:`, error);
 	return gameError;

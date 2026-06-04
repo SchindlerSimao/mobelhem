@@ -6,7 +6,12 @@ import { calculateRoundScore, isAnswerCorrect } from './game/scoring';
 import { generateRoomCode } from '../utils/codeGenerator';
 import { selectRandomItems } from '../utils/shuffle';
 import { validators } from '../utils/validators';
-import { handleError, ValidationError, RoomNotFoundError, GameAlreadyStartedError } from './utils/errorHandler';
+import {
+	handleError,
+	ValidationError,
+	RoomNotFoundError,
+	GameAlreadyStartedError
+} from './utils/errorHandler';
 import { GAME_CONSTANTS } from '../config/gameConstants';
 
 let roomManager: RoomManager;
@@ -21,7 +26,7 @@ export function setupSockets(io: Server) {
 		socket.on('create_room', () => {
 			try {
 				const code = generateRoomCode();
-				const room = roomManager.createRoom(code);
+				roomManager.createRoom(code);
 				socket.emit('room_created', code);
 				console.log(`[socket] Room created: ${code}`);
 			} catch (error) {

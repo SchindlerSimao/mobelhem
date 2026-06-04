@@ -1,5 +1,5 @@
 <script lang="ts">
-	type GameMode = 'classic' | 'time_attack' | 'zen';
+	type GameMode = 'time_attack' | 'multiplayer';
 
 	interface ScoreEntry {
 		id: string;
@@ -15,7 +15,7 @@
 		highScores: ScoreEntry[];
 	} = $props();
 
-	let activeTab = $state<GameMode>('classic');
+	let activeTab = $state<GameMode>('time_attack');
 	let filteredScores = $derived(highScores.filter((s) => s.mode === activeTab));
 </script>
 
@@ -28,20 +28,20 @@
 		<!-- Leaderboard Tab Toggles -->
 		<div class="flex rounded-xl border border-slate-800/60 bg-slate-950/60 p-1 text-xs">
 			<button
-				onclick={() => (activeTab = 'classic')}
-				class="rounded-lg px-3 py-1.5 font-medium transition-colors {activeTab === 'classic'
+				onclick={() => (activeTab = 'time_attack')}
+				class="rounded-lg px-3 py-1.5 font-medium transition-colors {activeTab === 'time_attack'
 					? 'border border-emerald-500/30 bg-emerald-500/20 text-emerald-400'
 					: 'text-slate-400'}"
 			>
-				Classique
+				Chrono
 			</button>
 			<button
-				onclick={() => (activeTab = 'time_attack')}
-				class="rounded-lg px-3 py-1.5 font-medium transition-colors {activeTab === 'time_attack'
+				onclick={() => (activeTab = 'multiplayer')}
+				class="rounded-lg px-3 py-1.5 font-medium transition-colors {activeTab === 'multiplayer'
 					? 'border border-sky-500/30 bg-sky-500/20 text-sky-400'
 					: 'text-slate-400'}"
 			>
-				Chrono
+				Multijoueur
 			</button>
 		</div>
 	</div>
@@ -80,7 +80,7 @@
 						</span>
 						<span
 							class="font-display text-sm font-bold
-							{activeTab === 'classic' ? 'text-emerald-400' : 'text-sky-400'}
+							{activeTab === 'time_attack' ? 'text-emerald-400' : 'text-sky-400'}
 						"
 						>
 							{entry.score} pts

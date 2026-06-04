@@ -33,7 +33,7 @@ export async function seedDatabase() {
 
 				return {
 					name: name?.trim() || '',
-					type: type?.trim() || 'ikea',
+					type: (type?.trim() || 'ikea') as 'ikea' | 'city' | 'both',
 					country: country?.trim() || null,
 					lat: lat?.trim() || null,
 					lng: lng?.trim() || null,

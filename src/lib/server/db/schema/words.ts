@@ -6,10 +6,8 @@ export const words = sqliteTable(
 		id: text('id')
 			.primaryKey()
 			.$defaultFn(() => crypto.randomUUID()),
-		name: text('name')
-			.notNull()
-			.unique(),
-		type: text('type').notNull(),
+		name: text('name').notNull().unique(),
+		type: text('type', { enum: ['ikea', 'city', 'both'] }).notNull(),
 		country: text('country'),
 		lat: text('lat'),
 		lng: text('lng'),

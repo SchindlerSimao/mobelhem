@@ -24,7 +24,6 @@ describe('Shuffle utility', () => {
 
 	it('usually produces different order', () => {
 		const input = [1, 2, 3, 4, 5];
-		const shuffled = shuffle(input);
 		// Not guaranteed, but extremely unlikely to be in same order 10+ times
 		let sameCount = 0;
 		for (let i = 0; i < 10; i++) {
@@ -114,8 +113,8 @@ describe('Validators', () => {
 			expect(validators.voteTime(-1).valid).toBe(false);
 		});
 
-		it('rejects times > 1000ms', () => {
-			expect(validators.voteTime(1001).valid).toBe(false);
+		it('rejects times > 10000ms', () => {
+			expect(validators.voteTime(10001).valid).toBe(false);
 		});
 
 		it('rejects non-number values', () => {

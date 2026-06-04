@@ -60,7 +60,7 @@
 	let activeWord = $state<RoundWord | null>(null);
 	let roundIndex = $state(0);
 	let totalRounds = $state(0);
-	let timeLeft = $state(GAME_CONSTANTS.MULTIPLAYER_ROUND_TIME_SECONDS);
+	let timeLeft = $state<number>(GAME_CONSTANTS.MULTIPLAYER_ROUND_TIME_SECONDS);
 	let voted = $state(false);
 	let votedPlayers = $state<string[]>([]);
 	let roundStartTimestamp = $state(0);
@@ -228,7 +228,7 @@
 			<MultiplayerLobby
 				code={roomCode}
 				players={lobbyPlayers}
-				isHost={isHost}
+				{isHost}
 				onStart={triggerStart}
 				onLeave={leaveRoom}
 			/>

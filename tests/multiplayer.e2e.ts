@@ -50,8 +50,12 @@ test('multiplayer room creation and joining', async ({ page, context }) => {
 
 	// Check player lists on both pages
 	const hostPlayers = await page.locator('div.border-slate-850 >> text=HostPlayer').isVisible();
-	const hostGuestVisible = await page.locator('div.border-slate-850 >> text=GuestPlayer').isVisible();
-	const guestPlayers = await guestPage.locator('div.border-slate-850 >> text=GuestPlayer').isVisible();
+	const hostGuestVisible = await page
+		.locator('div.border-slate-850 >> text=GuestPlayer')
+		.isVisible();
+	const guestPlayers = await guestPage
+		.locator('div.border-slate-850 >> text=GuestPlayer')
+		.isVisible();
 
 	console.log('Host sees HostPlayer:', hostPlayers);
 	console.log('Host sees GuestPlayer:', hostGuestVisible);
@@ -111,4 +115,3 @@ test('multiplayer room duplicate usernames', async ({ page, context }) => {
 	expect(hostCount).toBe(2);
 	expect(guestCount).toBe(2);
 });
-

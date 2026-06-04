@@ -8,11 +8,7 @@ import { validators } from '$lib/utils/validators';
 export const load: PageServerLoad = async () => {
 	try {
 		const [highScores, gameWords] = await Promise.all([
-			db
-				.select()
-				.from(scores)
-				.orderBy(desc(scores.score))
-				.limit(GAME_CONSTANTS.LEADERBOARD_LIMIT),
+			db.select().from(scores).orderBy(desc(scores.score)).limit(GAME_CONSTANTS.LEADERBOARD_LIMIT),
 			db.select().from(words)
 		]);
 

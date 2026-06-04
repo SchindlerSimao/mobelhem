@@ -113,7 +113,9 @@ export class RoomManager {
 		const timeout = setTimeout(() => {
 			const room = this.rooms.get(code);
 			if (room) {
-				console.log(`[RoomManager] Room ${code} auto-deleted due to inactivity (created: ${room.createdAt.toISOString()})`);
+				console.log(
+					`[RoomManager] Room ${code} auto-deleted due to inactivity (created: ${room.createdAt.toISOString()})`
+				);
 				this.deleteRoom(code);
 				this.io.to(code).emit('room_closed', { reason: 'inactivity' });
 			}
@@ -144,25 +146,27 @@ export class RoomManager {
 	 * Starts periodic cleanup for orphaned/stuck games
 	 */
 	private startCleanupInterval(): void {
-		this.cleanupInterval = setInterval(() => {
-			const now = new Date();
-			const stuckRooms: string[] = [];
+		this.cleanupInterval = setInterval(
+			() => {
+				const now = new Date();
+				const stuckRooms: string[] = [];
 
-			for (const [code, room] of this.rooms.entries()) {
-				// Check for stuck games (more than room timeout without updates)
-				const ageMs = now.getTime() - room.createdAt.getTime();
-				const inactiveMs = now.getTime() - room.lastActivityAt.getTime();
+				for (const [code, room] of this.rooms.entries()) {
+					// Check for stuck games (more than room timeout without updates)
+					const ageMs = now.getTime() - room.createdAt.getTime();
 
-				if (ageMs > GAME_CONSTANTS.MULTIPLAYER_ROOM_TIMEOUT_MS * 2) {
-					stuckRooms.push(code);
+					if (ageMs > GAME_CONSTANTS.MULTIPLAYER_ROOM_TIMEOUT_MS * 2) {
+						stuckRooms.push(code);
+					}
 				}
-			}
 
-			if (stuckRooms.length > 0) {
-				console.log(`[RoomManager] Cleaning up ${stuckRooms.length} stuck rooms`);
-				stuckRooms.forEach(code => this.deleteRoom(code));
-			}
-		}, 5 * 60 * 1000); // Every 5 minutes
+				if (stuckRooms.length > 0) {
+					console.log(`[RoomManager] Cleaning up ${stuckRooms.length} stuck rooms`);
+					stuckRooms.forEach((code) => this.deleteRoom(code));
+				}
+			},
+			5 * 60 * 1000
+		); // Every 5 minutes
 	}
 
 	/**
@@ -173,6 +177,6 @@ export class RoomManager {
 
 		// Clean up all rooms
 		const codes = Array.from(this.rooms.keys());
-		codes.forEach(code => this.deleteRoom(code));
+		codes.forEach((code) => this.deleteRoom(code));
 	}
 }
