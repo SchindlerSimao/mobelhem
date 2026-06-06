@@ -1,45 +1,524 @@
-name;type;country;lat;lng;ikeaDesc;cityDesc;funFact
-HEMNES;both;NO;66.2263;13.6158;Une série emblématique de meubles de chambre et de salon en bois massif.;Une commune du comté de Nordland en Norvège, bordée par de magnifiques fjords.;Chez IKEA, les lits, armoires et meubles de hall d'entrée portent généralement des noms de lieux norvégiens.
-KALLAX;both;SE;65.5947;22.0838;La célébrissime étagère à cases personnalisables, adorée notamment par les collectionneurs de vinyles.;Un petit village côtier suédois situé près de la ville de Luleå, tout au nord du pays.;Le village de Kallax compte moins de 1 000 habitants, mais son nom est mondialement connu grâce à l'étagère !
-KLIPPAN;both;SE;56.1309;13.1311;Un canapé compact à deux places, très abordable et doté de housses interchangeables depuis les années 1980.;Une municipalité de Scanie dans le sud de la Suède.;Le canapé KLIPPAN a été conçu pour résister aux enfants qui sautent dessus, d'où ses lignes arrondies et sa structure solide.
-MALM;both;NO;64.0725;11.2186;Une gamme de meubles de chambre (lits, commodes, tables de chevet) aux lignes épurées et minimalistes.;Un ancien village minier situé dans la municipalité de Steinkjer, en Norvège.;Le mot 'Malm' signifie également 'minerai' en suédois, un clin d'œil à l'histoire minière du village norvégien.
-EKTORP;both;SE;59.3167;18.2167;Une série de canapés et fauteuils ultra-confortables avec des coussins généreux et des housses lavables.;Une banlieue résidentielle calme de la municipalité de Nacka, juste à l'est de Stockholm.;C'est l'un des canapés les plus vendus au monde pour son style de maison de campagne anglaise traditionnelle.
-BRIMNES;both;NO;60.4704;7.0274;Une série fonctionnelle de lits avec rangements intégrés et de meubles TV pour petits espaces.;Un tout technique hameau situé sur la rive du Hardangerfjord dans le comté de Vestland, en Norvège.;Brimnes était historiquement connu pour son service de ferry traversant le fjord avant la construction du pont de Hardanger.
-LANDSKRONA;both;SE;55.8708;12.8302;Une série de canapés et de fauteuils modernes en cuir ou en tissu avec des pieds en bois ou en métal.;Une ville côtière historique de Scanie, dans le sud de la Suède, fondée au XVe siècle.;La ville possède la seule citadelle du XVIIe siècle entièrement préservée de Scandinavie.
-JOKKMOKK;both;SE;66.6072;19.8222;Un ensemble table et 4 chaises en pin massif teinté, très rustique.;Une ville de Laponie suédoise, située juste au nord du cercle polaire arctique.;Jokkmokk est le centre de la culture Samie en Suède, célèbre pour son marché d'hiver annuel qui existe depuis plus de 400 ans.
-POÄNG;ikea;;;;Le légendaire fauteuil suspendu en multiplis de bois courbé, créé en 1976 par le designer japonais Noboru Nakamura.;;Le mot suédois 'Poäng' signifie 'point' ou 'score'. Plus de 30 millions d'exemplaires ont été vendus depuis sa création.
-LACK;ikea;;;;La fameuse petite table basse carrée et ultra-légère disponible dans de nombreuses couleurs.;;Le nom signifie 'laque' en suédois. Sa structure interne utilise du carton alvéolé (technique sandwich) pour rester légère et solide.
-PAX;ikea;;;;L'armoire de rangement entièrement personnalisable avec portes coulissantes ou battantes.;;Le mot 'Pax' signifie 'paix' en latin. C'est l'un des systèmes de rangement les plus modulables de la marque.
-FRAKTA;ikea;;;;Le grand sac cabas bleu en plastique, symbole ultime d'IKEA.;;Le nom signifie 'transporter' ou 'expédier' en suédois. Il a même été revisité par des créateurs de haute couture !
-GLADOM;ikea;;;;Une petite table d'appoint en métal dont le plateau supérieur amovible peut servir de plateau de service.;;Le mot signifie approximativement 'joyeux' ou 'heureux' en suédois dialectal.
-BÄSTIS;ikea;;;;La brosse adhésive anti-poils et anti-poussière indispensable pour les vêtements et canapés.;;En argot suédois, 'Bästis' signifie 'meilleur ami'. Un ami fidèle pour vos vêtements noirs !
-FEJKA;ikea;;;;La gamme de plantes et fleurs artificielles en pot, d'intérieur et d'extérieur.;;Le nom vient directement du verbe suédois 'fejka' qui signifie 'simuler' ou 'contrefaire'.
-IVAR;ikea;;;;Le système de rangement modulable en pin massif brut, présent dans le catalogue depuis plus de 50 ans.;;Ivar est un prénom masculin scandinave d'origine norroise, signifiant 'guerrier à l'arc'.
-STOCKHOLM;both;SE;59.3293;18.0686;Une collection haut de gamme d'IKEA, mettant l'accent sur le design scandinave classique et les matériaux nobles.;La capitale et plus grande ville de la Suède, construite sur 14 îles reliées par 57 ponts.;Stockholm est surnommée la 'Venise du Nord' pour son omniprésence de l'eau.
-UPPSALA;city;SE;59.8586;17.6389;;La quatrième ville de Suède, célèbre pour sa cathédrale historique et sa prestigieuse université fondée en 1477.;C'est la ville natale du célèbre réalisateur Ingmar Bergman et du physicien Anders Celsius.
-GÖTEBORG;city;SE;57.7089;11.9746;;Une grande ville portuaire située sur la côte ouest de la Suède, deuxième ville du pays.;Elle abrite le plus grand parc d'attractions de Scandinavie, Liseberg, ainsi que le constructeur automobile Volvo.
-OSLO;city;NO;59.9139;10.7522;;La capitale de la Norvège, située au fond du magnifique Oslofjord.;C'est à Oslo que le Prix Nobel de la Paix est remis chaque année au mois de décembre.
-BERGEN;city;NO;60.3913;5.3221;;Une ville côtière entourée de sept montagnes, réputée pour son quartier en bois historique de Bryggen.;C'est l'une des villes les plus pluvieuses d'Europe, avec environ 240 jours de pluie par an !
-TRONDHEIM;city;NO;63.4305;10.3951;;Une ville historique fondée par les Vikings en 997, abritant la cathédrale de Nidaros.;C'était la première capitale de la Norvège historique sous le nom de Nidaros.
-COPENHAGUE;city;DK;55.6761;12.5683;;La capitale du Danemark, célèbre pour son port coloré de Nyhavn et sa statue de la Petite Sirène.;C'est l'une des villes les plus adaptées au vélo au monde, avec plus de vélos que d'habitants !
-AARHUS;city;DK;56.1567;10.2108;;La deuxième ville du Danemark, située sur la côte est de la péninsule du Jutland.;Elle abrite le musée d'art ARoS avec sa célèbre passerelle arc-en-ciel circulaire ('Your rainbow panorama').
-ODENSE;city;DK;55.4038;10.4024;;Une charmante ville située sur l'île de Fionie, au cœur du Danemark.;C'est la ville natale du célèbre écrivain de contes de fées Hans Christian Andersen.
-HELSINKI;city;FI;60.1699;24.9384;;La capitale de la Finlande, située sur une presqu'île bordée par le golfe de Finlande.;La ville possède un réseau de plus de 10 000 saunas, dont un situé dans une grande roue !
-TAMPERE;city;FI;61.4978;23.7610;;Une ville finlandaise pittoresque construite entre deux grands lacs, Näsijärvi et Pyhäjärvi.;C'est la 'capitale mondiale du sauna' avec plus de 50 saunas publics dans la région.
-TURKU;city;FI;60.4518;22.2666;;La plus ancienne ville de Finlande et son ancienne capitale historique jusqu'au XIXe siècle.;Chaque année au mois de décembre, la ville proclame solennellement la 'Paix de Noël'.
-TROMSØ;city;NO;69.6492;18.9553;;Une ville dynamique située au-dessus du cercle polaire arctique, réputée pour ses aurores boréales.;Elle abrite la brasserie la plus septentrionale du monde et une cathédrale arctique au design unique.
-VISBY;city;SE;57.6348;18.2948;;Une superbe ville médiévale fortifiée sur l'île suédoise de Gotland, inscrite à l'UNESCO.;Ses remparts médiévaux de 3,4 kilomètres de long comportent encore 36 tours de guet.
-KIRUNA;city;SE;67.8558;20.2253;;La ville la plus septentrionale de Suède, célèbre pour sa mine de fer géante et son hôtel de glace.;La ville entière est actuellement déplacée de 3 kilomètres vers l'est pour éviter de s'effondrer dans la mine !
-STRÖMSTAD;both;SE;58.9372;11.1738;Une série de robinets et d'éviers de cuisine robustes.;Une ville côtière à la frontière avec la Norvège, très populaire pour la plaisance et le tourisme.;La ville est célèbre pour accueillir des milliers de Norvégiens venant faire leurs courses pas chères le jour de Pâques.
-BILLY;ikea;;;;La bibliothèque la plus vendue de l'histoire, conçue par Gillis Lundgren en 1979.;;Elle doit son nom à Billy Liljedahl, un employé d'IKEA qui avait exprimé le souhait d'avoir une bibliothèque simple.
-SÖDERHAMN;both;SE;61.3032;17.0592;Un système de canapé modulable ultra-moderne avec des sièges très profonds et un grand confort.;Une jolie commune de la côte est de la Suède, dans le comté de Gävleborg.;La ville possède une tour d'observation octogonale en bois blanc très instagrammable appelée Oscarsborg.
-FREDDE;ikea;;;;Le bureau de gaming d'IKEA avec des étagères et des supports de moniteur intégrés.;;Ce nom est un diminutif familier suédois du prénom Fredrik. Le bureau a été conçu spécifiquement pour les joueurs.
-TOFTBYN;both;SE;60.7410;15.7950;Une série de miroirs classiques avec moulures élégantes.;Un charmant village suédois situé dans la pittoresque région de Dalécarlie (Dalarna).;La Dalécarlie est considérée comme le cœur historique et culturel de la Suède (berceau des chevaux de Dala).
-ÄPPLARÖ;both;SE;59.4833;18.7167;Une série classique de mobilier d'extérieur en bois d'acacia traité contre les intempéries.;Une île idyllique de l'archipel de Stockholm contenant des maisons en bois rouge typiques.;L'archipel de Stockholm compte plus de 30 000 îles, îlots et récifs !
-RYDEBÄCK;both;SE;55.9739;12.7753;Un plateau de table en bois robuste souvent associé à des tréteaux ou des pieds métalliques.;Une localité côtière du sud-ouest de la Suède, réputée pour ses longues plages de sable.;Par temps clair, on peut apercevoir les côtes du Danemark juste en face de Rydebäck.
-STAVANGER;both;NO;58.9700;5.7331;Un sommier à ressorts haut de gamme offrant un excellent soutien pour les matelas.;La quatrième ville de Norvège, considérée comme la capitale de l'industrie pétrolière du pays.;Stavanger abrite le célèbre Preikestolen (la Chaire), une falaise impressionnante de 604 mètres surplombant le Lysefjord.
-FLISAT;ikea;;;;Une gamme de meubles et d'accessoires de rangement en bois de pin conçue spécifiquement pour les chambres d'enfants.;;En dialecte suédois, 'flisa' signifie un petit éclat de bois ou une écharde.
-SKÅDIS;ikea;;;;Le panneau perforé mural ultra-populaire avec divers crochets, paniers et pinces pour organiser son bureau.;;En argot suédois, 'Skådis' est un diminutif pour 'skådespelare', qui signifie un acteur de théâtre ou de cinéma.
-LILLÅSEN;both;SE;59.2144;18.1750;Un petit bureau élégant en bambou naturel avec des pieds métalliques et trois tiroirs pratiques.;Un espace forestier et une petite réserve naturelle situés dans la région métropolitaine de Stockholm.;Le bambou utilisé par IKEA grandit extrêmement vite et constitue une alternative écologique au bois dur traditionnel.
-NORDLI;both;NO;64.4644;13.5939;Un système de commodes modulables superposables et personnalisables à volonté.;Un village de montagne situé dans la municipalité de Lierne, près de la frontière suédoise.;Cette région de Norvège possède l'une des plus faibles densités de population d'Europe, idéale pour la faune sauvage (ours, loups).
-RÅSHULT;both;SE;56.6186;14.2008;Une desserte de cuisine en acier à trois niveaux, version plus compacte du célèbre chariot RÅSKOG.;Une ferme historique suédoise située dans la province de Småland.;Råshult est le lieu de naissance officiel du célèbre botaniste suédois Carl von Linné (le père de la classification moderne des espèces).
+name;type;country;lat;lng;cityDesc
+AALBORG;city;DK;57.05;9.9167;Aalborg ou Ålborg est une ville du Danemark située dans le Jutland.
+AARHUS;city;DK;56.1564;10.2097;Aarhus, officiellement orthographié Århus avant le 1er janvier 2011, est la deuxième ville du Danemark par le nombre d'habitants.
+ABSORB;ikea;;;;
+AGNARYD;ikea;;;;
+AKSDAL;both;NO;59.4219;5.4467;
+ALARM;ikea;;;;
+ALLAK;ikea;;;;
+ALSARP;both;SE;57.538;16.033;
+ALSEDA;both;SE;57.4206;15.2494;
+ALSVIK;both;SE;59.6047;18.8486;
+ALÄNG;ikea;;;;
+ANDRUP;both;DK;55.4986;8.5353;
+ANDY;ikea;;;;
+ANEBODA;both;SE;57.1207;14.5634;
+ANNAMOA;ikea;;;;
+ANRIK;ikea;;;;
+ANTILOP;ikea;;;;
+ARHOLMA;ikea;;;;
+ARILD;both;SE;56.2596;12.6079;Arild est un village rattaché à la commune de Höganäs en Scanie, Suède et compte 522 habitants en 2010.
+ASKER;both;NO;59.8353;10.435;Asker est une localité de la commune de Asker dans le comté d'Akershus, en Norvège.
+ASPELUND;both;NO;69.2356;18.1758;Aspelund est une localité du comté de Troms, en Norvège.
+ASPUDDEN;both;SE;59.3056;18.0008;Aspudden est un quartier du district Hägersten-Älvsjö à Stockholm en Suède.
+ASPVIK;both;SE;59.0972;16.9099;
+ASTER;ikea;;;;
+ATNA;both;NO;61.7308;10.8321;L'ahtna est une langue athapascane d'Alaska parlée par environ quatre-vingts personnes, les Ahtnas.
+AUKRA;both;NO;62.7908;6.9181;Aukra est une kommune (commune) de Norvège.
+BAGIS;ikea;;;;
+BAREN;ikea;;;;
+BATIST;ikea;;;;
+BEKVÄM;ikea;;;;
+BERGEN;city;NO;60.3925;5.3233;Bergen est une ville du Sud-Ouest de la Norvège, capitale du comté de Vestland.
+BERGSBO;ikea;;;;
+BERTIL;ikea;;;;
+BESTÅ;ikea;;;;
+BIBY;ikea;;;;
+BIGUM;both;DK;56.5421;9.657;
+BILLY;ikea;;;;
+BJÄRNUM;both;SE;56.2942;13.711;Bjärnum est une localité de Suède dans la commune de Hässleholm en Scanie.
+BJÖRKEFALL;ikea;;;;
+BJÖRNHOLMEN;both;FI;61.5817;21.4908;
+BLADET;ikea;;;;
+BLECKA;ikea;;;;
+BLOMMA;ikea;;;;
+BLUNDA;ikea;;;;
+BOALT;both;SE;56.3832;14.1655;Berkeley Law est la faculté de droit de l'université de Californie à Berkeley fondée en 1911.
+BOLIDEN;both;SE;64.8655;20.3822;Boliden est une localité de Suède, située dans la commune de Skellefteå, dans le comté de Västerbotten.
+BOLMEN;both;SE;56.8158;13.7012;Le Bolmen est un lac du Småland en Suède.
+BOMULL;ikea;;;;
+BORRBY;ikea;;;;
+BORÅS;city;SE;57.7171;12.9457;Borås est une ville de 66 273 habitants (2010) située dans le comté de Västra Götaland et dans la province historique de Västergötland, en Suède, à environ 60 km de Göteborg.
+BRALLIS;ikea;;;;
+BRANÄS;both;SE;60.6528;12.9472;Branäs est une station de sports d'hiver dans la commune de Torsby dans le comté de Värmland en Suède.
+BRARUP;both;DK;54.8801;11.8074;Braderup est une municipalité allemande située dans le land du Schleswig-Holstein et dans l'arrondissement de Frise-du-Nord.
+BRODER;ikea;;;;
+BROMMA;city;SE;59.3389;17.9389;Bromma est un district de l'ouest de la ville de Stockholm.
+BRYNE;ikea;;;;
+BURKEN;ikea;;;;
+BURS;both;SE;57.2451;18.5096;
+BYHOLMA;both;SE;56.7874;13.56;
+BÅGVIK;ikea;;;;
+BÄRBY;both;SE;59.8581;17.8173;
+BÖLSNÄS;ikea;;;;
+CECILIA;ikea;;;;
+CHARMÖR;ikea;;;;
+COMMUNAUTÉ URBAINE DE COPENHAGUE;city;DK;55.68;12.57;La communauté urbaine de Copenhague également dénommée Grand Copenhague est une aire métropolitaine qui regroupe 18 communes de l'agglomération de Copenhague au Danemark.
+COPENHAGUE;city;DK;55.6761;12.5689;Copenhague est la capitale et la plus grande ville du Danemark.
+DALFRED;ikea;;;;
+DAVE;ikea;;;;
+DEGERNES;both;NO;59.3542;11.4214;
+DESSERT;ikea;;;;
+DILLING;both;NO;59.4069;10.6965;Dillingen/Saar est une ville de l’Arrondissement de Sarrelouis en Sarre.
+DINERA;ikea;;;;
+DISKA;ikea;;;;
+DIVISION;ikea;;;;
+DOCKSTA;both;SE;63.056;18.3316;Docksta est une localité de la commune de Kramfors, dans le comté de Västernorrland, aux pieds de la montagne Skuleberget près de la côte de la mer Baltique dans le nord de la Suède.
+DOMSJÖ;both;SE;63.2667;18.7167;
+DRAGAN;ikea;;;;
+DRILL;ikea;;;;
+DRÖMMA;ikea;;;;
+DUTT;ikea;;;;
+DÅTID;ikea;;;;
+EDLAND;both;NO;59.7397;7.6006;
+EDSVIK;both;SE;58.7119;11.2353;
+EFFEKTIV;ikea;;;;
+EGBY;both;SE;56.8724;16.8202;
+EIDE;both;NO;62.9172;7.4467;Eide est une ancienne kommune de Norvège.
+EINA;both;NO;60.6286;10.5986;
+EKBY;both;SE;58.6128;13.8758;
+EKÅS;both;SE;57.7458;12.8889;
+ELDIG;ikea;;;;
+ELGÅ;both;NO;62.167;11.9427;
+ELSFJORD;both;NO;66.1031;13.5481;Elsfjord est une localité du comté de Nordland, en Norvège.
+ELVERDAM;ikea;;;;
+ENGAN;both;NO;67.5833;15.8167;Engan est une localité du comté de Nordland, en Norvège.
+ENGENES;both;NO;68.9241;17.1227;Engenes est une localité du comté de Troms, en Norvège.
+ENGER;ikea;;;;
+ENSKEDE-ÅRSTA-VANTÖR;city;SE;59.2819;18.0875;Enskede-Årsta-Vantör est l'un des districts de Stockholm, situé au sud de la capitale suédoise.
+EPISTEL;ikea;;;;
+ERFJORD;both;NO;59.3438;6.2154;
+ERIKSLUND;both;SE;62.5264;15.91;
+ERLING;ikea;;;;
+ERSLEV;both;DK;56.8294;8.7506;
+ESBJERG;city;DK;55.4708;8.4514;Esbjerg est une ville du Danemark.
+ESKILSTUNA;city;SE;59.3773;16.5127;Eskilstuna [˘ɛskilstʉːna] est une ville de Suède.
+ESPOO;city;FI;60.2056;24.6556;Espoo est la deuxième ville de Finlande.
+EXPEDIT;ikea;;;;
+FANAHOLM;ikea;;;;
+FARSTA;city;SE;59.2403;18.0972;Farsta est un district du sud de Stockholm en Suède..
+FARTYG;ikea;;;;
+FARUM;both;DK;55.8083;12.3581;Farum est une municipalité du département de Frederiksborg se trouvant au nord de l'île de Sjælland au Danemark.
+FEJKA;ikea;;;;
+FIALENA;ikea;;;;
+FIGGJO;both;NO;58.7833;5.8167;
+FIL;ikea;;;;
+FINNVIK;both;NO;70.8006;23.3161;
+FIRA;ikea;;;;
+FJORDGARD;both;NO;69.5078;17.6286;Fjordgård est une localité du comté de Troms, en Norvège.
+FJÄLLSTA;ikea;;;;
+FLATEN;both;SE;59.2583;18.1583;Flaten est un quartier du district de Skarpnäck à Stockholm en Suède.
+FLIT;ikea;;;;
+FLORVÅG;both;NO;60.4192;5.2378;Florvåg est un village de Norvège lié à la kommune insulaire d'Askøy et situé dans le comté de Vestland.
+FLORÖ;ikea;;;;
+FLYN;both;SE;64.1017;16.4039;
+FLÅREN;ikea;;;;
+FLÄRKE;both;SE;63.5741;19.0369;
+FLÖRT;ikea;;;;
+FONNES;both;NO;60.803;4.9798;Austrheim est une kommune de Norvège.
+FORSYTIA;ikea;;;;
+FRAMSTÅ;ikea;;;;
+FREDERIKSBERG;city;DK;55.6779;12.5327;Frederiksberg est une commune du Danemark totalement enclavée dans la ville de Copenhague, faisant partie du Grand Copenhague.
+FREDRIK;ikea;;;;
+FRÄCK;ikea;;;;
+FYLLEN;ikea;;;;
+FÅBORG;both;DK;55.095;10.2422;Fåborg ou Faaborg est une ville portuaire du Danemark dans la commune de Faaborg-Midtfyn, située sur la pointe sud de l'île de Fionie et bordée par la mer Baltique.
+FÅVANG;both;NO;61.4556;10.1944;
+FÄRM;ikea;;;;
+GABBEH;ikea;;;;
+GAMLE OSLO;city;NO;59.9129;10.7819;Gamle Oslo est l'un des 15 districts (bydeler) de la ville d'Oslo, en Norvège, dont le nom signifie « Vieil Oslo ».
+GATTEN;both;DK;56.8803;9.4007;
+GEDSER;both;DK;54.5747;11.9311;Gedser est un village Danois de la commune de Guldborgsund, dans la région de Sjælland, sur l'île de Falster.
+GIDEÅ;both;SE;63.4815;18.9723;Gideå est une localité de la commune d'Örnsköldsvik dans le comté de Västernorrland en Suède.
+GILBERT;ikea;;;;
+GLASHOLM;ikea;;;;
+GLIS;ikea;;;;
+GLÖDA;ikea;;;;
+GNARP;both;SE;62.0506;17.2413;Gnarp est une localité de Suède dans la commune de Nordanstig située dans le comté de Gävleborg.
+GOLIAT;ikea;;;;
+GRAND GÖTEBORG;city;SE;57.7044;11.9911;Le grand Göteborg, en suédois « Storgöteborg », est le nom de l'aire urbaine formée par la commune de Göteborg et ses communes environnantes.
+GRAND HELSINKI;city;FI;60.1708;24.9375;Le Grand Helsinki et la Région capitale font référence à deux régions de tailles différentes composant l'aire urbaine d'Helsinki, la capitale de la Finlande, dont elle constitue la ville centre.
+GRAND STOCKHOLM;city;SE;59.3333;18.1667;Le Grand Stockholm, Storstockholm en suédois, représente l'aire urbaine formée par la ville de Stockholm et les communes qui l'entourent.
+GRANEMO;ikea;;;;
+GRAVYR;ikea;;;;
+GREVBÄCK;both;SE;58.3446;14.349;
+GRILLER;ikea;;;;
+GRIMSTAD;both;NO;58.3405;8.5934;Grimstad est une kommune portuaire norvégienne située dans le comté d’Agder et la région du Sørlandet.
+GROGGY;ikea;;;;
+GRÄNUM;both;SE;56.2311;14.6103;Gränum est une localité de Suède située dans la commune d'Olofström du comté de Blekinge.
+GRÄS;ikea;;;;
+GULLHOLMEN;both;SE;58.1743;11.3984;Gullholmen est une île et une petite ville de la paroisse de Gullholmen (sv) dans la municipalité d'Orust, située à l'extrémité du littoral de Bohuslän, en Suède.
+GULLUNGE;ikea;;;;
+GYLLEN;ikea;;;;
+GÄSPA;ikea;;;;
+GÄVLE;city;SE;60.6748;17.1444;Gävle est une ville du centre de la Suède, située à l'embouchure de la rivière Dalälven, qui se jette dans la mer Baltique.
+GÖTEBORG;city;SE;57.7075;11.9675;Göteborg, ou Gothembourg, est la deuxième ville de Suède par l'importance de son poids démographique ainsi que par son industrie et ses activités économiques.
+HAGALUND;both;SE;59.3622;18.0117;
+HAGAVIK;both;NO;60.1808;5.4015;
+HALLARYD;both;SE;56.4837;13.8852;
+HALMSTAD;city;SE;56.674;12.8573;Halmstad est une ville de l'ouest de la Suède, chef-lieu de la commune du même nom.
+HALSTED;both;DK;54.8478;11.2245;Halsted peut faire référence à :
+HAMNVIK;both;NO;68.7781;17.1744;Hamnvik est une localité du comté de Troms, en Norvège.
+HAMPEN;both;DK;56.0183;9.3547;
+HANNES;ikea;;;;
+HARESTUA;both;NO;60.2022;10.7142;
+HAVBRO;both;DK;56.8;9.4175;
+HAVTORN;ikea;;;;
+HEIDAL;both;NO;61.7581;9.2844;
+HEIMDAL;both;NO;63.3514;10.3586;Heimdal est un des quatre arrondissements de la ville de Trondheim en Norvège, situé au sud du centre de la ville.
+HELLUM;both;DK;57.27;10.1653;Hellum est un village situé dans la commune néerlandaise de Midden-Groningue, dans la province de Groningue.
+HELMER;ikea;;;;
+HELSINGBORG;city;SE;56.0424;12.721;Helsingborg, anciennement appelée Helsimbourg en français, est une ville suédoise située sur la côte du détroit de l'Øresund, au niveau de son point le plus étroit, la ville danoise d'Elseneur n'étant qu'à 4 km.
+HELSINGÖR;both;DK;56.036;12.6106;Elseneur est une ville et une municipalité danoise située à la pointe nord-est de l'île de Seeland, au nord de Copenhague.
+HELSINKI;city;FI;60.1708;24.9375;Helsinki est la capitale de la Finlande.
+HEMNES;both;NO;59.7208;11.4552;Hemnes est une kommune de Norvège.
+HEMSJÖ;both;SE;57.8438;12.4753;
+HENRIKSDAL;both;FI;60.2667;25.0667;Heikinlaakso est une section du quartier de Suurmetsä d'Helsinki, la capitale de la Finlande.
+HENSVIK;ikea;;;;
+HERAND;both;NO;60.3439;6.3756;
+HERNING;city;DK;56.1361;8.9767;Herning est une commune du Danemark, située dans la région du Jutland central , c’est également le nom de son chef-lieu.
+HESSUM;both;DK;55.5099;10.4534;
+HJARTDAL;both;NO;59.6007;8.6532;Hjartdal est une kommune de Norvège.
+HJUVIK;both;SE;57.7;11.7167;Hjuvik est une localité de Suède située dans la commune de Göteborg du comté de Västra Götaland.
+HJÖRDIS;ikea;;;;
+HOPEN;ikea;;;;
+HORSENS;city;DK;55.8619;9.8519;Horsens est une ville du Danemark, chef-lieu de la commune homonyme dans la région du Jutland central.
+HOSLE;both;NO;59.935;10.5806;Haslum est une agglomération de la municipalité de Bærum, dans le comté d'Akershus, en Norvège.
+HOVEN;both;DK;55.8511;8.7623;Hoven est un nom propre
+HOVET;both;NO;60.6333;8.1667;Hovet, anciennement le Johanneshovs Isstadion, fut ouvert en 1955, complété en 1962 et reconstruit en 2002.
+HUGLO;both;NO;59.851;5.5824;Huglo est une île norvégienne du comté de Hordaland appartenant administrativement à Stord.
+HULDA;ikea;;;;
+HUSNES;both;NO;59.8606;5.7403;
+HUSVIK;both;NO;59.25;10.4667;Husvik est une localité de la municipalité de Tønsberg, dans le comté de Vestfold, en Norvège.
+HUSÅ;both;SE;63.491;13.1176;
+HUTTEN;ikea;;;;
+HÅBOL;both;SE;58.9729;12.0265;
+HÄGERSTEN-ÄLVSJÖ;city;SE;59.3065;17.9821;Hägersten-Älvsjö est un des 11 districts de la ville de Stockholm en Suède,
+HÄGG;ikea;;;;
+HÄMEENLINNA;city;FI;60.9944;24.4667;Hämeenlinna, ou Tavastehus en suédois, ville du sud de la Finlande, est la capitale de la province de Finlande méridionale et de la région du Kanta-Häme.
+HÄSSELBY-VÄLLINGBY;city;SE;59.3625;17.8722;Hässelby-Vällingby est un district de l'ouest de Stockholm en Suède.
+HÄSTVEDA;both;SE;56.2861;13.9357;Hästveda est une localité de Suède dans la commune de Hässleholm en Scanie.
+HÄSTÖ;both;FI;60.1373;23.0487;
+HÖLLVIKEN;both;SE;55.4084;12.9542;Höllviken est une localité suédoise située dans la commune de Vellinge en Scanie.
+HÖRBY;both;SE;55.8509;13.6636;La commune de Hörby est une commune suédoise du comté de Scanie.
+IBESTAD;both;NO;68.7878;17.1509;Ibestad est une kommune de Norvège.
+IDELIG;ikea;;;;
+ILSBO;both;SE;61.8566;17.0507;Ilsbo est une localité de Suède dans la commune de Nordanstig située dans le comté de Gävleborg.
+INDEX;ikea;;;;
+INGEMAR;ikea;;;;
+INLOPP;ikea;;;;
+IRJA;ikea;;;;
+IVAR;ikea;;;;
+IVETOFTA;both;SE;56.085;14.4696;
+JANSJÖ;both;SE;63.8572;16.3767;
+JANUARI;ikea;;;;
+JAREN;both;NO;60.3926;10.5618;
+JIGGA;ikea;;;;
+JOENSUU;city;FI;62.6;29.7639;Joensuu est une ville située dans l'est de la Finlande, dans la province de la Finlande orientale chef-lieu de la région de Carélie du Nord.
+JOKKMOKK;both;SE;66.6053;19.8279;Jokkmokk est une localité du nord de la Suède, chef-lieu de la commune de Jokkmokk, dans le comté de Norrbotten.
+JONDAL;both;NO;60.2758;6.2522;Jondal est une kommune de Norvège.
+JONISK;ikea;;;;
+JONSBERG;both;SE;58.5247;16.8278;
+JUBLA;ikea;;;;
+JYLLINGE;both;DK;55.7514;12.1039;Jyllinge est une ville et une commune située au Danemark, dans l'île de Sjælland.
+JYVÄSKYLÄ;city;FI;62.2403;25.7444;Jyväskylä est une ville du sud de la Finlande, capitale de la région de Finlande-Centrale, située à 235 km au nord d'Helsinki.
+JÄMSUNDA;ikea;;;;
+JÄRVA;city;SE;59.4014;17.9425;Järva est un des 11 districts de la ville de Stockholm en Suède,
+JÖNKÖPING;city;SE;57.7833;14.1667;Jönköping est la dixième plus grande ville de Suède et constitue un exemple de la « ville moyenne suédoise ».
+KAJSA;ikea;;;;
+KALLT;ikea;;;;
+KAPA;ikea;;;;
+KARLSKRONA;both;SE;56.1922;15.6308;Karlskrona est une ville située sur la côte sud de la Suède, dispersée sur plusieurs îles de l'archipel du Blekinge.
+KARLSTAD;both;SE;59.3875;13.51;Karlstad est une ville située dans l'ouest de la Suède, sur la rive nord du grand lac Vänern, sur le delta du fleuve Klarälven.
+KARSTEN;ikea;;;;
+KATTRUP;both;DK;55.9526;9.9194;
+KAUSTBY;both;FI;63.5486;23.6903;Kaustinen est une municipalité de l'ouest de la Finlande, dans la région d'Ostrobotnie centrale.
+KAVALKAD;ikea;;;;
+KILAN;ikea;;;;
+KLADD;ikea;;;;
+KLEMENS;ikea;;;;
+KLIPPAN;both;SE;56.1346;13.1474;La commune de Klippan est une commune suédoise du comté de Skåne.
+KLUBBO;ikea;;;;
+KLÄPPE;both;SE;63.2383;14.7653;
+KNIPSA;ikea;;;;
+KNUFF;ikea;;;;
+KOLDBY;both;DK;56.846;8.526;
+KOLDING;city;DK;55.4908;9.4722;Kolding est une ville portuaire du Danemark dans la région du Danemark du Sud.
+KOLON;ikea;;;;
+KONCIS;ikea;;;;
+KOPPANG;both;NO;61.5714;11.0467;
+KORREKT;ikea;;;;
+KOTKA;city;FI;60.4667;26.9458;Kotka est une ville de Finlande située au Sud-Est du pays, sur deux îles à l'embouchure du fleuve Kymi.
+KOTTE;ikea;;;;
+KOUVOLA;city;FI;60.8681;26.7042;Kouvola est une ville du sud-est de la Finlande, à 134 km de la capitale Helsinki.
+KRAMA;ikea;;;;
+KRAMFORS;both;SE;62.9248;17.7963;Kramfors est une ville de Suède, chef-lieu de la commune de Kramfors dans le comté de Västernorrland.
+KROBY;ikea;;;;
+KRYSSBO;ikea;;;;
+KULLEN;both;SE;57.6724;12.35;
+KUNGSHOLMEN;city;SE;59.3306;18.0417;Kungsholmen est un des districts du centre-ville de Stockholm en Suède.
+KUOPIO;city;FI;62.8925;27.6783;Kuopio est une ville du centre-est de la Finlande.
+KVARNSTEN;ikea;;;;
+KVIBY;ikea;;;;
+KVISSEL;both;DK;57.4708;10.4106;
+KÅRABODA;ikea;;;;
+LADE;ikea;;;;
+LAGAN;both;SE;56.9156;13.9916;Lagan est une localité de Suède dans la commune de Ljungby située dans le comté de Kronoberg.
+LAHTI;city;FI;60.9804;25.655;Lahti est une ville et capitale de la région Päijät-Häme en Finlande comptant 121 337 habitants située au bord du lac Vesijärvi.
+LANNI;ikea;;;;
+LAPPEENRANTA;city;FI;61.0583;28.1861;Lappeenranta est une ville située sur les rives du lac Saimaa dans le sud-est de la Finlande, à environ 20 km de la frontière avec la Russie.
+LAUKVIK;both;NO;68.3881;14.4177;Laukvika est une localité du comté de Nordland, en Norvège.
+LEGYM;ikea;;;;
+LEIRVIK;both;NO;61.1367;5.3472;Leirvik est une ville norvégienne située sur l’ile et la kommune de Stord, dans le Hordaland.
+LEKSVIK;both;NO;63.6727;10.6232;Leksvik est une ancienne commune norvégienne située dans le comté de Trøndelag.
+LEN;ikea;;;;
+LERBERG;both;NO;59.7764;9.9212;
+LERBÄCK;both;SE;58.9489;15.0444;
+LERSTA;ikea;;;;
+LEVANGER;both;NO;63.7464;11.2996;Levanger est une ville et une commune norvégienne située dans le comté de Trøndelag.
+LIATORP;both;SE;56.664;14.2699;Liatorp est une localité de Suède dans la commune d'Älmhult située dans le comté de Kronoberg.
+LILLABO;ikea;;;;
+LILLEBY;both;SE;57.74;11.796;
+LILLESAND;both;NO;58.2494;8.3773;Lillesand est une kommune portuaire norvégienne située dans le comté d’Agder et la région du Sørlandet.
+LILLÅNGEN;ikea;;;;
+LINDSDAL;both;SE;56.732;16.2963;Lindsdal est une ville du Comté de Kalmar en Suède.
+LINDVED;both;DK;55.7925;9.5797;
+LINKÖPING;city;SE;58.4094;15.6257;Linköping, est la cinquième ville de Suède avec 164 473 habitants.
+LINNARP;ikea;;;;
+LJUSDAL;both;SE;61.8306;16.0926;Ljusdal est la localité principale et le siège de la commune de Ljusdal dans le comté de Gävleborg, en Suède.
+LJUV;ikea;;;;
+LOKKA;both;FI;67.8182;27.7394;Le lac Lokka est un lac de barrage situé sur la Luiro dans la municipalité de Sodankylä, dans la région de Laponie, en Finlande.
+LONEVÅG;both;NO;60.5256;5.4956;
+LOSSNEN;ikea;;;;
+LUDVIG;ikea;;;;
+LUND;city;SE;55.7083;13.1992;Lund est une ville située au sud-ouest de la Scanie, à l'extrême sud de la Suède.
+LUNTA;ikea;;;;
+LUSY;ikea;;;;
+LYCKSELE;both;SE;64.5964;18.6753;La commune de Lycksele est une commune suédoise du comté de Västerbotten.
+LYKTA;ikea;;;;
+LÄTT;ikea;;;;
+LÖV;ikea;;;;
+MAGNIFIK;ikea;;;;
+MALMA;ikea;;;;
+MALMÖ;city;SE;55.5833;13;Malmö est une ville à l'extrême sud de la Suède.
+MANDAL;ikea;;;;
+MANGER;both;NO;60.6414;5.0414;Manger est un village de Norvège dans le Vestland, centre administratif de Radøy.
+MARIEBERG;both;SE;59.3283;18.0186;Marieberg est un quartier du district de Kungsholmen de Stockholm en Suède.
+MARIUS;ikea;;;;
+MATA;ikea;;;;
+MEDALJ;ikea;;;;
+MELBU;both;NO;68.5025;14.7996;Melbu est une localité de l'île d'Hadseløya dans le comté de Nordland, en Norvège.
+MELDAL;both;NO;63.0469;9.7133;Meldal est une ancienne commune norvégienne située dans le comté de Trøndelag.
+MELLTORP;both;SE;57.5625;12.5667;
+METRIK;ikea;;;;
+MIKKELI;city;FI;61.6875;27.2736;Mikkeli est une ville finlandaise, capitale de la région de Savonie du Sud et de la province de Finlande orientale.
+MINDE;both;NO;60.359;5.3441;Minde est une freguesia portugaise située dans le district de Santarém.
+MINNA;ikea;;;;
+MIXTUR;ikea;;;;
+MJÄLLBY;both;SE;56.0477;14.6838;Mjällby est une localité suédoise située dans la commune de Sölvesborg dans la province de Blekinge.
+MJÖNÄS;both;SE;56.2355;14.3155;Mjönäs est une localité de Suède dans la commune de Hagfors située dans le comté de Värmland.
+MOSES;ikea;;;;
+MOSJÖ;both;SE;63.3756;17.9066;
+MULA;ikea;;;;
+MYKEN;both;NO;66.75;12.4833;Myken est un village de pêcheurs de l'île Sjuløya sur l'archipel de Myken dans le comté de Nordland, en Norvège.
+MYS;ikea;;;;
+MÅNSTAD;both;SE;57.6077;13.3547;
+MÅSNAN;ikea;;;;
+MÖRKER;ikea;;;;
+MÖRRUM;both;SE;56.1917;14.7596;Mörrum est une localité de la commune de Karlshamn, dans le comté de Blekinge, en Suède.
+NEGLINGE;both;SE;59.2885;18.2921;
+NEKTARIN;ikea;;;;
+NJUTA;ikea;;;;
+NORBO;ikea;;;;
+NORDANÖ;both;SE;60.1481;16.2373;Nordanö est une localité de Suède dans la commune d'Avesta située dans le comté de Dalécarlie.
+NORNA;ikea;;;;
+NORRA INNERSTADEN;city;SE;59.3444;18.0778;Norra innerstaden est un des 11 districts de la ville de Stockholm en Suède,
+NORRESKOG;both;SE;56.1064;14.4696;
+NORRKÖPING;city;SE;58.5793;16.1493;Norrköping est une ville du comté d'Östergötland, en Suède, et le chef-lieu de la commune de Norrköping.
+NOSTALGISK;ikea;;;;
+NYSTED;both;DK;54.6627;11.7331;Nysted est une ville danoise dépendant de la municipalité de Guldborgsund, dans la région du Sjælland, au sud du Danemark.
+NYTTIG;ikea;;;;
+NÄSBY;ikea;;;;
+NÄSSJÖ;both;SE;57.6529;14.7048;Nässjö est une ville de Suède, chef-lieu de la commune de Nässjö dans le comté de Jönköping.
+NÄSUM;both;SE;56.174;14.5052;Näsum est une localité suédoise dans la commune de Bromölla en Scanie.
+OBSERVATÖR;ikea;;;;
+ODENSE;city;DK;55.4;10.3833;Odense, parfois francisée en Odensée, est une commune de la région du Danemark du Sud dont elle est la capitale.
+OLLE;ikea;;;;
+OPTIMAL;ikea;;;;
+ORE;both;DK;55.5061;10.0357;Ore est une commune française située dans le sud-ouest du département de la Haute-Garonne, en région Occitanie.
+ORRLÖT;both;SE;59.1603;17.5508;
+ORÖD;ikea;;;;
+OSLO;city;NO;59.9133;10.7389;Oslo est la capitale de la Norvège.
+OULU;city;FI;65.0142;25.4719;Oulu est une ville de Finlande située sur la côte nord-est du golfe de Botnie, en Ostrobotnie du Nord, dont elle est la capitale.
+PARK;ikea;;;;
+PAX;ikea;;;;
+PELLO;both;SE;66.8019;23.9742;Pello est une municipalité du nord-ouest de la Finlande, en Laponie.
+PINJE;ikea;;;;
+PJÄTTERYD;both;SE;56.6387;14.024;
+PLASTIS;ikea;;;;
+PLUTT;ikea;;;;
+PORI;city;FI;61.4867;21.7975;Pori une ville du Sud-Ouest de la Finlande, dans la province de Finlande occidentale et la région du Satakunta.
+PORVOO;city;FI;60.3931;25.6639;Porvoo est une ville sur la côte sud de la Finlande.
+POVEL;ikea;;;;
+PRESTERA;ikea;;;;
+PROPER;ikea;;;;
+PS;ikea;;;;
+PYSSLA;ikea;;;;
+RABALDER;ikea;;;;
+RAM;ikea;;;;
+RAMVIK;both;SE;62.8181;17.8578;Ramvik est une localité de la commune de Härnösand dans le comté de Västernorrland en Suède.
+RANDERS;city;DK;56.4569;10.0392;Randers est une ville portuaire du Danemark, chef-lieu de la commune homonyme, dans la région du Jutland-Central.
+RAST;ikea;;;;
+REDALEN;both;NO;60.892;10.667;
+REDD;ikea;;;;
+RÉGION DE L'ØRESUND;city;SE;55.5667;12.8167;La région de l'Øresund ou région de l'Öresund est une région transfrontalière de Scandinavie qui s'étend de part et d'autre du détroit de l'Øresund.
+RENS;both;DK;54.8958;9.0931;
+RESA;ikea;;;;
+RIBBA;ikea;;;;
+RIKTIG;ikea;;;;
+RIPE;ikea;;;;
+ROGER;ikea;;;;
+ROSKILDE;city;DK;55.6417;12.0808;Roskilde est une commune située au Danemark, dans l'île de Sjælland.
+ROVANIEMI;city;FI;66.5028;25.7285;Rovaniemi est une ville du nord de la Finlande.
+RUGGA;ikea;;;;
+RUSIG;ikea;;;;
+RUTGER;ikea;;;;
+RÄNTA;ikea;;;;
+RÄTTVIK;both;SE;60.8723;15.1157;Rättvik est une localité de Suède dans la commune de Rättvik, dont elle est le chef-lieu, située dans le comté de Dalécarlie.
+RÖRA;ikea;;;;
+SALMI;both;FI;62.8652;23.4182;Salmi peut signifier entre-autres :
+SALO;city;FI;60.3831;23.1331;Salo est une ville de Finlande située dans la région de Finlande du Sud-Ouest.
+SAMLA;ikea;;;;
+SANDNES;city;NO;58.845;5.8294;Sandnes est une ville, et une commune du comté norvégien du Rogaland.
+SANDVIKA;city;NO;59.89;10.5264;Sandvika est le centre administratif de la municipalité de Bærum située dans le comté d'Akershus en Norvège.
+SARALISA;ikea;;;;
+SEINÄJOKI;city;FI;62.7903;22.8403;Seinäjoki, ville de l'ouest de la Finlande, est la capitale de la région d'Ostrobotnie du Sud.
+SEKIN;ikea;;;;
+SIGNUM;ikea;;;;
+SILJAN;both;NO;59.2744;9.7078;Siljan est une commune de Norvège, située dans le comté (fylke) du Telemark.
+SILKEBORG;city;DK;56.1667;9.55;Silkeborg est une ville du Jutland-Central, chef-lieu de la commune de Silkeborg, qui regroupe depuis la réforme de 2007 les villes de Gjern, Kjellerup, Silkeborg et de Them.
+SINDAL;both;DK;57.4746;10.2023;
+SJÖVIK;both;SE;57.9136;12.3712;Sjövik est une localité de Suède située dans la commune de Lerum du comté de Västra Götaland.
+SKAFFA;ikea;;;;
+SKOJ;ikea;;;;
+SKRUVSTA;ikea;;;;
+SKYDD;ikea;;;;
+SKÖLDPADDA;ikea;;;;
+SLOM;ikea;;;;
+SLÅN;ikea;;;;
+SMASKA;ikea;;;;
+SMÅDAL;ikea;;;;
+SNARKA;ikea;;;;
+SNODD;ikea;;;;
+SNÄLL;ikea;;;;
+SNÖSTJÄRNA;ikea;;;;
+SOLIG;ikea;;;;
+SORLA;ikea;;;;
+SPALT;ikea;;;;
+SPONTAN;ikea;;;;
+STABIL;ikea;;;;
+STAVE;both;NO;69.2167;15.8667;Stave est une localité du comté de Nordland, en Norvège.
+STEN;ikea;;;;
+STENSTORP;both;SE;58.2727;13.7172;Stenstorp est une localité de la commune de Falköping, dans le comté de Västra Götaland, en Suède.
+STIBY;both;SE;56.0206;14.6792;
+STOCKHOLM;both;SE;59.3294;18.0686;Stockholm est la plus grande ville et la capitale de la Suède.
+STOLMEN;ikea;;;;
+STRATOSFÄR;ikea;;;;
+STRILA;ikea;;;;
+STYCKE;ikea;;;;
+SUNDSVALL;city;SE;62.3955;17.286;Sundsvall est une ville située dans le centre de la Suède, sur la côte de la mer Baltique, dans la province de Medelpad et le comté de Västernorrland.
+SUNNAN;ikea;;;;
+SVAJS;ikea;;;;
+SVINGA;ikea;;;;
+SYLLING;both;NO;59.8942;10.2868;
+SÄTER;both;SE;60.3431;15.7588;Säter est une ville de Suède, chef-lieu de la commune de Säter dans le comté de Dalarna.
+SÄVERN;ikea;;;;
+SÖDERMALM;city;SE;59.3136;18.0711;Södermalm est une île et un quartier de Stockholm en Suède.
+SÖDERTÄLJE;city;SE;59.1944;17.599;Södertälje est une ville de Suède, chef-lieu de la commune de Södertälje dans le comté de Stockholm.
+TAFJORD;both;NO;62.2311;7.4153;Le Tafjord est un fjord norvégien, branche terminale du Norddalsfjord, dans le comté de Møre et Romsdal.
+TAG;ikea;;;;
+TAMPERE;city;FI;61.4981;23.76;Tampere est une ville de Pirkanmaa, dans le Sud-Ouest de la Finlande.
+TASSA;ikea;;;;
+TERMOSFÄR;ikea;;;;
+THISTED;both;DK;56.9539;8.6903;Thisted est une commune du Danemark, dans la région du Jutland du Nord , c’est également le nom de son chef-lieu et ville principale.
+TILLAGA;ikea;;;;
+TJÖME;ikea;;;;
+TOBO;both;SE;60.2601;17.6539;Tobo est une localité de Suède dans la commune de Tierp située dans le comté d'Uppsala.
+TOLG;both;SE;57.0914;14.7913;
+TOLGA;both;NO;62.4098;10.9963;Tolga est un nom de lieu notamment porté par :Tolga, une commune algérienne de la wilaya de Biskra , Tolga, un village du Queensland, en Australie , Tolga, une kommune de Norvège.
+TORBJÖRN;ikea;;;;
+TORSBY;both;SE;60.1368;13.0072;Torsby est une localité de Suède dans la commune de Torsby, dont elle est le chef-lieu, située dans le comté de Värmland.
+TRAMPA;ikea;;;;
+TRANDAL;both;NO;62.262;6.5019;
+TRENSUM;both;SE;56.1908;14.9519;
+TRIVSAM;ikea;;;;
+TROLLFJORDEN;ikea;;;;
+TROLLHÄTTAN;city;SE;58.2828;12.2892;Trollhättan est une ville de Suède, située sur le cours du fleuve Göta älv, au niveau des chutes de Trollhättan, à moins de 100 km de Göteborg, deuxième plus grande ville du pays.
+TROLLSTA;both;SE;59.0431;17.8928;
+TRONDHEIM;both;NO;63.44;10.4;Trondheim /ˈtrɔ̂nː(h)æɪm/, autrefois Nidaros, est une ville et une commune norvégienne située dans le comté de Trøndelag.
+TRONES;both;NO;63.8175;11.4269;Trones est une localité du comté de Nordland, en Norvège.
+TROSS;ikea;;;;
+TULLERÖ;ikea;;;;
+TURKU;city;FI;60.4517;22.2669;Turku, dans le passé Aboen en français, est une ville de Finlande de 206 073 habitants située dans le Sud-Ouest du pays à l’embouchure du fleuve côtier Aura.
+TVEIT;both;NO;59.518;5.355;Tveit et une localité norvégienne et un quartier de la commune de Kristiansand dans le comté d'Agder.
+TVILLING;ikea;;;;
+TYLÖSAND;both;SE;56.65;12.7333;Tylösand est une localité du sud de la Suède, dans la commune de Halmstad.
+TÅRNBY;both;DK;55.6278;12.6025;Tårnby est une municipalité limitrophe au sud de Copenhague, dans la région de Hovedstaden, à l'est de l'île de Sjælland, au Danemark.
+TÅRSTA;ikea;;;;
+TÄBY;city;SE;59.4333;18.0833;Täby est une localité de Suède peuplée de 72 000 habitants.
+ULDUM;both;DK;55.8461;9.5897;
+ULSBERG;both;NO;62.7511;9.9844;
+UMEÅ;city;SE;63.8285;20.2706;Umeå est une ville située dans le Nord de la Suède, sur la côte du golfe de Botnie dans la province historique de Västerbotten, à 600 kilomètres au nord de Stockholm.
+UNITÉ URBAINE DE STOCKHOLM;city;SE;59.3101;18.0463;L’unité urbaine de Stockholm est une unité statistique comprenant l'essentiel de la commune de Stockholm et une partie de dix autres communes du comté de Stockholm.
+UNNI;ikea;;;;
+UPPSALA;city;SE;59.8498;17.6389;Uppsala, ou Upsal en français, est une ville de Suède située à 60 km au nord de Stockholm, en Uppland, célèbre pour son université, la plus ancienne de Scandinavie.
+USTA;ikea;;;;
+UTBY;both;SE;58.3331;11.7852;Utby est une localité de Suède située dans la commune d'Uddevalla du comté de Västra Götaland.
+VAASA;city;FI;63.0958;21.6153;Vaasa est une ville de l'ouest de la Finlande, située à 420 km de la capitale Helsinki, sur la côte du golfe de Botnie, dans la province de Finlande occidentale.
+VAKEN;ikea;;;;
+VALBY;both;DK;56.0567;12.2056;Valby est un des dix quartiers officiels de Copenhague au Danemark.
+VANTAA;city;FI;60.2944;25.0403;Vantaa est l'une des villes constituant l'agglomération d'Helsinki en Finlande, formant avec Espoo et Kauniainen, le Grand Helsinki.
+VASEN;ikea;;;;
+VEJLE;city;DK;55.7083;9.5333;Vejle est une ville du Danemark située dans le sud de la péninsule du Jutland , elle est le chef-lieu de la commune homonyme et de la région du Danemark-du-Sud, et compte 52 573 habitants.
+VEJMON;both;SE;63.2787;14.296;
+VESSLA;ikea;;;;
+VIKARE;ikea;;;;
+VILSHULT;both;SE;56.354;14.4825;Vilshult est une localité de Suède située dans la commune d'Olofström du comté de Blekinge.
+VINDE;ikea;;;;
+VINSTRA;both;NO;61.6;9.75;
+VIREN;ikea;;;;
+VIRUM;city;DK;55.7917;12.4597;Virum est une localité située dans la municipalité de Lyngby-Taarbæk, dans la région de Hovedstaden au Danemark, à environ 15 km au nord de Copenhague.
+VITAMIN;ikea;;;;
+VITSKÄR;both;SE;63.6612;20.3069;
+VRETA;ikea;;;;
+VRETEN;both;SE;58.2728;13.9133;Solna strand, est une station de la Ligne T10 du métro de Stockholm.
+VÅRLJUNG;ikea;;;;
+VÄNLIG;ikea;;;;
+VÄSTERÅS;city;SE;59.6173;16.5422;Västerås est une ville suédoise située sur le lac Mälar, dans une zone appelée Mälardalen qui regroupe plusieurs importantes villes suédoises, dont la capitale, Stockholm.
+VÄV;ikea;;;;
+VÄXJÖ;city;SE;56.889;14.8028;Växjö est une ville suédoise de la province méridionale du Småland.
+YNGSJÖ;both;SE;55.8811;14.2424;Yngsjö est un village de la commune de Kristianstad dans le Comté de Scanie en Suède.
+YSBY;both;SE;56.4923;13.1175;Ysby est une localité de Suède située dans la commune de Laholm du comté de Halland.
+ZONE URBAINE DE LAPPEENRANTA;city;FI;61.0588;28.1877;La conurbation de Lappeenranta est une zone urbaine située à Lappeenranta et Taipalsaari en Carélie du Sud.
+ÅDAL;both;DK;55.816;9.4603;Ådal est une vallée de la commune de Ringerike dans le comté de Buskerud.
+ÅNES;ikea;;;;
+ÅNN;both;SE;63.3233;12.5361;
+ÅSARP;both;SE;58.024;13.5651;Åsarp est une localité de Suède située dans la commune de Falköping du comté de Västra Götaland.
+ÅSELE;both;SE;64.1598;17.357;Åsele est une localité de Suède, chef-lieu de la commune d'Åsele, dans le comté de Västerbotten, au sud-est de la Laponie suédoise.
+ÄLMHULT;both;SE;56.5515;14.1351;Älmhult est une localité du Småland.
+ÄNGA;ikea;;;;
+ÄTRAN;both;SE;57.1227;12.9465;Ätran est un village suédois situé dans la commune de Falkenberg, comté de Halland.
+ÖNSKA;ikea;;;;
+ÖREBRO;city;SE;59.2669;15.1965;Örebro est une ville suédoise située sur le lac Hjälmaren.
+ÖSTERBYMO;both;SE;57.8255;15.2784;Österbymo est une localité de Suède dans la commune d'Ydre, dont elle est le chef-lieu, située dans le comté d'Östergötland.
+ÖSTERSUND;city;SE;63.1792;14.636;Östersund est une ville de Suède, chef-lieu de la commune d'Östersund dans le comté de Jämtland.
