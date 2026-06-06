@@ -1,0 +1,21 @@
+{
+	"name": "mobelhem-scraper",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"description": "Scraper reproductible qui génère words.csv (meubles IKEA + villes nordiques) à partir de sources gratuites.",
+	"scripts": {
+		"fetch": "node --disable-warning=ExperimentalWarning src/1-fetch-ikea.ts",
+		"parse": "node --disable-warning=ExperimentalWarning src/2-parse-ikea.ts",
+		"cities": "node --disable-warning=ExperimentalWarning src/3-fetch-cities.ts",
+		"geo": "node --disable-warning=ExperimentalWarning src/4-verify-ikea-geo.ts",
+		"build": "node --disable-warning=ExperimentalWarning src/5-build-csv.ts",
+		"verify": "node --disable-warning=ExperimentalWarning src/6-verify.ts"
+	},
+	"dependencies": {
+		"cheerio": "^1.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.0.0"
+	}
+}
