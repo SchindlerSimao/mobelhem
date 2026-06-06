@@ -76,8 +76,12 @@
 						]
 							.sort((a, b) => b.score - a.score)
 							.slice(0, 10);
+					} else if (result.type === 'failure') {
+						saveError =
+							(result.data as { error?: string })?.error ||
+							'Une erreur est survenue lors de la sauvegarde.';
 					} else {
-						saveError = 'Une erreur est survenue lors de la sauvegarde.';
+						saveError = 'Une erreur inattendue est survenue.';
 					}
 				};
 			}}
@@ -95,6 +99,7 @@
 					placeholder="Votre pseudonyme..."
 					maxlength="15"
 					required
+					aria-label="Votre pseudonyme"
 					class="flex-grow rounded-xl border border-slate-800 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 transition-colors focus:border-emerald-500 focus:outline-none"
 				/>
 				<button

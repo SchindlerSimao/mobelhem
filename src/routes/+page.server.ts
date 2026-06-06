@@ -1,6 +1,7 @@
 import { db } from '$lib/server/db';
 import { scores, words } from '$lib/server/db/schema';
 import { desc } from 'drizzle-orm';
+import { error, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { GAME_CONSTANTS } from '$lib/config/gameConstants';
 import { validators } from '$lib/utils/validators';
@@ -11,6 +12,10 @@ export const load: PageServerLoad = async () => {
 			db.select().from(scores).orderBy(desc(scores.score)).limit(GAME_CONSTANTS.LEADERBOARD_LIMIT),
 			db.select().from(words)
 		]);
+
+		if (!gameWords || gameWords.length === 0) {
+			error(500, 'La base de données de mots est vide.');
+		}
 
 		return {
 			highScores: highScores.map((s) => ({
@@ -33,10 +38,7 @@ export const load: PageServerLoad = async () => {
 		};
 	} catch (e) {
 		console.error('Failed to load data:', e);
-		return {
-			highScores: [],
-			gameWords: []
-		};
+		error(500, 'Impossible de charger les données de jeu.');
 	}
 };
 
@@ -51,11 +53,11 @@ export const actions: Actions = {
 			// Validate inputs
 			const usernameVal = validators.username(username);
 			if (!usernameVal.valid) {
-				return { success: false, error: usernameVal.error };
+				return fail(400, { error: usernameVal.error });
 			}
 
 			if (score < 0 || score > 10000) {
-				return { success: false, error: 'Invalid score' };
+				return fail(400, { error: 'Invalid score' });
 			}
 
 			await db.insert(scores).values({
@@ -67,7 +69,7 @@ export const actions: Actions = {
 			return { success: true };
 		} catch (e) {
 			console.error('Failed to save score:', e);
-			return { success: false, error: 'Erreur lors de la sauvegarde.' };
+			return fail(500, { error: 'Erreur lors de la sauvegarde.' });
 		}
 	}
 };

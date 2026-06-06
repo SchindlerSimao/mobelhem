@@ -35,6 +35,7 @@
 			placeholder="Votre pseudonyme..."
 			maxlength="12"
 			required
+			aria-label="Votre pseudonyme"
 			class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 transition-colors focus:border-sky-500 focus:outline-none"
 		/>
 		<button

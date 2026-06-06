@@ -26,8 +26,15 @@
 		</h3>
 
 		<!-- Leaderboard Tab Toggles -->
-		<div class="flex rounded-xl border border-slate-800/60 bg-slate-950/60 p-1 text-xs">
+		<div
+			class="flex rounded-xl border border-slate-800/60 bg-slate-950/60 p-1 text-xs"
+			role="tablist"
+			aria-label="Filtres du classement"
+		>
 			<button
+				role="tab"
+				aria-selected={activeTab === 'time_attack'}
+				aria-controls="leaderboard-panel"
 				onclick={() => (activeTab = 'time_attack')}
 				class="rounded-lg px-3 py-1.5 font-medium transition-colors {activeTab === 'time_attack'
 					? 'border border-emerald-500/30 bg-emerald-500/20 text-emerald-400'
@@ -36,6 +43,9 @@
 				Chrono
 			</button>
 			<button
+				role="tab"
+				aria-selected={activeTab === 'multiplayer'}
+				aria-controls="leaderboard-panel"
 				onclick={() => (activeTab = 'multiplayer')}
 				class="rounded-lg px-3 py-1.5 font-medium transition-colors {activeTab === 'multiplayer'
 					? 'border border-sky-500/30 bg-sky-500/20 text-sky-400'
@@ -47,7 +57,7 @@
 	</div>
 
 	<!-- Leaderboard List -->
-	<div class="max-h-[300px] space-y-2 overflow-y-auto pr-1">
+	<div id="leaderboard-panel" role="tabpanel" class="max-h-[300px] space-y-2 overflow-y-auto pr-1">
 		{#if filteredScores.length === 0}
 			<div class="py-10 text-center text-sm text-slate-500">
 				Aucun score enregistré pour le moment.<br />Soyez le premier à inscrire le vôtre !

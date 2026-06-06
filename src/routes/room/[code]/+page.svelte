@@ -184,6 +184,14 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Salon {roomCode || 'Multijoueur'} - Möbelhem</title>
+	<meta
+		name="description"
+		content="Rejoignez le salon de jeu en ligne Möbelhem pour deviner si les mots scandinaves sont des meubles IKEA ou des villes !"
+	/>
+</svelte:head>
+
 <div class="mx-auto flex min-h-[90vh] max-w-6xl flex-col justify-between px-4 py-8">
 	<!-- Header / Navbar -->
 	<header class="mb-6 flex items-center justify-between border-b border-slate-800/80 pb-6">
@@ -191,7 +199,6 @@
 			onclick={leaveRoom}
 			class="group flex cursor-pointer items-center gap-3 border-none bg-transparent focus:outline-none"
 		>
-			<span class="text-3xl">🇸🇨</span>
 			<h1
 				class="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400 bg-clip-text font-display text-2xl font-bold tracking-wider text-transparent transition-opacity group-hover:opacity-80"
 			>

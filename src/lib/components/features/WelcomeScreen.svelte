@@ -57,8 +57,16 @@
 		</div>
 
 		<!-- Game Type Tabs Toggle -->
-		<div class="flex w-fit rounded-2xl border border-slate-800/80 bg-slate-900/40 p-1">
+		<div
+			class="flex w-fit rounded-2xl border border-slate-800/80 bg-slate-900/40 p-1"
+			role="tablist"
+			aria-label="Modes de jeu"
+		>
 			<button
+				id="tab-solo"
+				role="tab"
+				aria-selected={activeTab === 'solo'}
+				aria-controls="tabpanel-solo"
 				onclick={() => (activeTab = 'solo')}
 				class="cursor-pointer rounded-xl px-6 py-2.5 text-sm font-bold transition-all {activeTab ===
 				'solo'
@@ -68,6 +76,10 @@
 				👤 Solo
 			</button>
 			<button
+				id="tab-multi"
+				role="tab"
+				aria-selected={activeTab === 'multi'}
+				aria-controls="tabpanel-multi"
 				onclick={() => (activeTab = 'multi')}
 				class="cursor-pointer rounded-xl px-6 py-2.5 text-sm font-bold transition-all {activeTab ===
 				'multi'
@@ -80,7 +92,13 @@
 
 		<!-- Game Modes content switcher -->
 		{#if activeTab === 'solo'}
-			<div class="space-y-4 pt-2" in:fade={{ duration: 150 }}>
+			<div
+				id="tabpanel-solo"
+				role="tabpanel"
+				aria-labelledby="tab-solo"
+				class="space-y-4 pt-2"
+				in:fade={{ duration: 150 }}
+			>
 				<h3 class="text-xs font-bold tracking-widest text-slate-500 uppercase">Mode de Jeu Solo</h3>
 				<div class="max-w-md">
 					<!-- Time Attack Card (Solo against the clock) -->
@@ -103,6 +121,9 @@
 			</div>
 		{:else}
 			<div
+				id="tabpanel-multi"
+				role="tabpanel"
+				aria-labelledby="tab-multi"
 				class="max-w-xl space-y-6 rounded-3xl border border-slate-800/60 bg-slate-900/30 p-6"
 				in:fade={{ duration: 150 }}
 			>
@@ -133,8 +154,9 @@
 					</div>
 
 					<div class="grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2">
-						<!-- Create game box -->
-						<div
+						<!-- Create game form -->
+						<form
+							onsubmit={handleCreateRoom}
 							class="border-slate-850 flex flex-col justify-between space-y-4 rounded-2xl border bg-slate-950/40 p-4"
 						>
 							<div>
@@ -144,37 +166,44 @@
 								</p>
 							</div>
 							<button
-								onclick={handleCreateRoom}
+								type="submit"
 								disabled={!username.trim()}
 								class="w-full cursor-pointer rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 py-2.5 text-xs font-extrabold tracking-wider text-slate-950 transition-colors hover:from-sky-400 hover:to-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
 							>
 								Créer un Salon
 							</button>
-						</div>
+						</form>
 
-						<!-- Join game box -->
-						<div
+						<!-- Join game form -->
+						<form
+							onsubmit={handleJoinRoom}
 							class="border-slate-850 flex flex-col justify-between space-y-4 rounded-2xl border bg-slate-950/40 p-4"
 						>
-							<div class="space-y-2">
-								<h4 class="text-sm font-bold text-slate-200">Rejoindre par code</h4>
+							<div class="flex flex-col space-y-2">
+								<label
+									for="multi-roomcode"
+									class="text-slate-450 mb-1 text-xs font-bold tracking-wider uppercase"
+									>Rejoindre par code</label
+								>
 								<input
+									id="multi-roomcode"
 									type="text"
 									bind:value={roomCode}
 									placeholder="Code (ex: AB1234)..."
 									maxlength={GAME_CONSTANTS.ROOM_CODE_LENGTH}
+									aria-label="Code du salon"
 									class="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-1.5 text-center font-bold tracking-widest text-slate-200 uppercase transition-colors focus:border-sky-500 focus:outline-none"
 								/>
 							</div>
 							<button
-								onclick={handleJoinRoom}
+								type="submit"
 								disabled={!username.trim() ||
 									roomCode.trim().length !== GAME_CONSTANTS.ROOM_CODE_LENGTH}
 								class="bg-slate-850 w-full cursor-pointer rounded-xl border border-slate-800 py-2.5 text-xs font-bold tracking-wider text-slate-200 transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
 							>
 								Rejoindre
 							</button>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>

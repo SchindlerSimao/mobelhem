@@ -111,6 +111,14 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Möbelhem - Ville Scandinave ou Meuble IKEA ?</title>
+	<meta
+		name="description"
+		content="Möbelhem : Le jeu de devinettes linguistique nordique ultime. Saurez-vous démasquer les pièges de la nomenclature d'IKEA ?"
+	/>
+</svelte:head>
+
 <div class="mx-auto flex min-h-[90vh] max-w-6xl flex-col justify-between px-4 py-8">
 	<!-- Header / Navbar -->
 	<header class="mb-6 flex items-center justify-between border-b border-slate-800/80 pb-6">
