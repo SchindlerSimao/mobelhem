@@ -87,18 +87,25 @@ export class RoomManager {
 		const room = this.rooms.get(code);
 		if (!room) return;
 
-		// Clear timer
-		if (room.timer) clearInterval(room.timer);
+		console.log(
+			`[RoomManager] Deleting room ${code} (status: ${room.status}, players: ${room.players.length})`
+		);
 
-		// Clear timeout
+		if (room.timer) {
+			clearInterval(room.timer);
+			room.timer = null;
+			console.log(`[RoomManager] Cleared timer for room ${code}`);
+		}
+
 		const timeout = this.roomTimeouts.get(code);
-		if (timeout) clearTimeout(timeout);
+		if (timeout) {
+			clearTimeout(timeout);
+			this.roomTimeouts.delete(code);
+		}
 
-		// Remove from maps
 		this.rooms.delete(code);
-		this.roomTimeouts.delete(code);
 
-		console.log(`[RoomManager] Room ${code} deleted (players: ${room.players.length})`);
+		console.log(`[RoomManager] Room ${code} deleted`);
 	}
 
 	/**

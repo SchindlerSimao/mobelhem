@@ -16,16 +16,55 @@ import { GAME_CONSTANTS } from '../config/gameConstants';
 
 let roomManager: RoomManager;
 
+const RATE_LIMITS = new Map<string, { count: number; resetAt: number }>();
+
+function checkRateLimit(
+	socketId: string,
+	maxRequests: number = 5,
+	windowMs: number = 60000
+): boolean {
+	const now = Date.now();
+	const record = RATE_LIMITS.get(socketId);
+
+	if (!record || now > record.resetAt) {
+		RATE_LIMITS.set(socketId, { count: 1, resetAt: now + windowMs });
+		return true;
+	}
+
+	if (record.count >= maxRequests) {
+		return false;
+	}
+
+	record.count++;
+	return true;
+}
+
 export function setupSockets(io: Server) {
 	roomManager = new RoomManager(io);
 
 	io.on('connection', (socket: Socket) => {
 		console.log(`Socket connected: ${socket.id}`);
 
-		// Create Room
 		socket.on('create_room', () => {
 			try {
-				const code = generateRoomCode();
+				if (!checkRateLimit(socket.id)) {
+					socket.emit('error_message', 'Too many requests. Please wait a moment.');
+					return;
+				}
+
+				let code: string;
+				let attempts = 0;
+				const maxAttempts = 10;
+
+				do {
+					code = generateRoomCode();
+					attempts++;
+				} while (roomManager.getRoom(code) && attempts < maxAttempts);
+
+				if (attempts >= maxAttempts) {
+					throw new ValidationError('Failed to generate unique room code. Please try again.');
+				}
+
 				roomManager.createRoom(code);
 				socket.emit('room_created', code);
 				console.log(`[socket] Room created: ${code}`);
@@ -35,13 +74,21 @@ export function setupSockets(io: Server) {
 			}
 		});
 
-		// Join Room
 		socket.on('join_room', ({ code, username }: { code: string; username: string }) => {
 			try {
-				// Validate inputs
+				if (!checkRateLimit(socket.id, 10, 60000)) {
+					socket.emit('error_message', 'Too many requests. Please wait a moment.');
+					return;
+				}
+
 				const usernameValidation = validators.username(username);
 				if (!usernameValidation.valid) {
 					throw new ValidationError(usernameValidation.error || 'Invalid username');
+				}
+
+				const sanitizedUsername = username.trim().replace(/[^a-zA-Z0-9_-]/g, '');
+				if (!sanitizedUsername) {
+					throw new ValidationError('Username contains only invalid characters');
 				}
 
 				const room = roomManager.getRoom(code);
@@ -53,12 +100,11 @@ export function setupSockets(io: Server) {
 					throw new GameAlreadyStartedError();
 				}
 
-				// Add player
 				const isHost = room.players.length === 0;
 				const player = {
 					id: socket.id,
 					socketId: socket.id,
-					username: username.trim(),
+					username: sanitizedUsername,
 					score: 0,
 					voted: false,
 					vote: null as 'ikea' | 'city' | null,
@@ -81,16 +127,20 @@ export function setupSockets(io: Server) {
 					code: room.code
 				});
 
-				console.log(`[socket] Player joined: ${username} in room ${code}`);
+				console.log(`[socket] Player joined: ${sanitizedUsername} in room ${code}`);
 			} catch (error) {
 				const err = handleError(error, 'join_room');
 				socket.emit('error_message', err.message);
 			}
 		});
 
-		// Start Game
 		socket.on('start_game', async ({ code }: { code: string }) => {
 			try {
+				if (!checkRateLimit(socket.id, 3, 60000)) {
+					socket.emit('error_message', 'Too many requests. Please wait a moment.');
+					return;
+				}
+
 				const room = roomManager.getRoom(code);
 				if (!room) {
 					throw new RoomNotFoundError();
@@ -102,6 +152,9 @@ export function setupSockets(io: Server) {
 				}
 
 				const gameWords = await loadGameWords();
+				if (gameWords.length === 0) {
+					throw new ValidationError('No words available for the game');
+				}
 
 				room.status = 'playing';
 				room.selectedWords = gameWords;
@@ -123,20 +176,18 @@ export function setupSockets(io: Server) {
 			}
 		});
 
-		// Submit vote
 		socket.on(
 			'submit_vote',
 			({ code, vote, voteTime }: { code: string; vote: string; voteTime: number }) => {
 				try {
-					// Validate vote
+					if (!checkRateLimit(socket.id, 20, 60000)) {
+						socket.emit('error_message', 'Too many requests. Please wait a moment.');
+						return;
+					}
+
 					const voteValidation = validators.vote(vote);
 					if (!voteValidation.valid) {
 						throw new ValidationError(voteValidation.error || 'Invalid vote');
-					}
-
-					const timeValidation = validators.voteTime(voteTime);
-					if (!timeValidation.valid) {
-						throw new ValidationError(timeValidation.error || 'Invalid vote time');
 					}
 
 					const room = roomManager.getRoom(code);
@@ -147,6 +198,11 @@ export function setupSockets(io: Server) {
 					const player = room.players.find((p) => p.socketId === socket.id);
 					if (!player) {
 						throw new RoomNotFoundError();
+					}
+
+					const maxVoteTime = GAME_CONSTANTS.MULTIPLAYER_ROUND_TIME_SECONDS * 1000;
+					if (typeof voteTime !== 'number' || voteTime < 0 || voteTime > maxVoteTime + 1000) {
+						throw new ValidationError(`Invalid vote time (must be 0-${maxVoteTime}ms)`);
 					}
 
 					if (player.voted) {
@@ -172,10 +228,11 @@ export function setupSockets(io: Server) {
 			}
 		);
 
-		// Disconnect
 		socket.on('disconnect', () => {
 			try {
-				roomManager.getAllRooms().forEach((room) => {
+				const rooms = roomManager.getAllRooms();
+
+				for (const room of rooms) {
 					const playerIdx = room.players.findIndex((p) => p.socketId === socket.id);
 					if (playerIdx !== -1) {
 						const player = room.players[playerIdx];
@@ -184,24 +241,34 @@ export function setupSockets(io: Server) {
 						if (room.players.length === 0) {
 							roomManager.deleteRoom(room.code);
 						} else {
-							if (player.isHost && room.players.length > 0) {
-								room.players[0].isHost = true;
-							}
+							if (player.isHost) {
+								let newHostIndex = 0;
+								const nonHostPlayers = room.players.findIndex((p) => !p.isHost);
+								if (nonHostPlayers !== -1) {
+									newHostIndex = nonHostPlayers;
+								}
+								room.players[newHostIndex].isHost = true;
 
-							roomManager.updateActivity(room.code);
-							io.to(room.code).emit('room_updated', {
-								players: room.players.map((p) => ({
-									id: p.id,
-									username: p.username,
-									isHost: p.isHost,
-									score: p.score
-								})),
-								status: room.status,
-								code: room.code
-							});
+								roomManager.updateActivity(room.code);
+								io.to(room.code).emit('room_updated', {
+									players: room.players.map((p) => ({
+										id: p.id,
+										username: p.username,
+										isHost: p.isHost,
+										score: p.score
+									})),
+									status: room.status,
+									code: room.code
+								});
+
+								if (room.status === 'playing') {
+									io.to(room.code).emit('host_changed', room.players[newHostIndex].username);
+								}
+							}
 						}
+						break;
 					}
-				});
+				}
 			} catch (error) {
 				handleError(error, 'disconnect');
 			}

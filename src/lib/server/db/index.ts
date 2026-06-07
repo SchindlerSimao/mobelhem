@@ -9,5 +9,6 @@ const client = new Database(databaseUrl);
 
 export const db = drizzle(client, { schema });
 
-// Populate database from words.csv asynchronously
-seedDatabase();
+export async function initializeDatabase(): Promise<void> {
+	await seedDatabase();
+}
