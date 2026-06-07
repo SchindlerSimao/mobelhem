@@ -29,7 +29,7 @@ export async function seedDatabase() {
 		const valuesToInsert = wordLines
 			.map((line) => {
 				const parts = line.split(';');
-				const [name, type, country, lat, lng, ikeaDesc, cityDesc, funFact] = parts;
+				const [name, type, country, lat, lng, cityDesc] = parts;
 
 				return {
 					name: name?.trim() || '',
@@ -37,9 +37,7 @@ export async function seedDatabase() {
 					country: country?.trim() || null,
 					lat: lat?.trim() || null,
 					lng: lng?.trim() || null,
-					ikeaDesc: ikeaDesc?.trim() || null,
-					cityDesc: cityDesc?.trim() || null,
-					funFact: funFact?.trim() || ''
+					cityDesc: cityDesc?.trim() || null
 				};
 			})
 			.filter((item) => item.name.length > 0);

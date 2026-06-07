@@ -11,9 +11,7 @@ export const words = sqliteTable(
 		country: text('country'),
 		lat: text('lat'),
 		lng: text('lng'),
-		ikeaDesc: text('ikea_desc'),
-		cityDesc: text('city_desc'),
-		funFact: text('fun_fact').notNull()
+		cityDesc: text('city_desc')
 	},
 	(table) => [
 		// Index for type filtering (used in game selection)
