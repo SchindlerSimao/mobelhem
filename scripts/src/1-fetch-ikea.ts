@@ -1,5 +1,5 @@
-//téléchargement de la page Ikea Dictionary de lar5.com
-//c'est la source pour la liste des noms de produits IKEA
+//download of the Ikea Dictionary page from lar5.com
+//it's the source for the list of IKEA product names
 
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -11,4 +11,4 @@ const OUTPUT = join('data', 'raw', 'lar5.html');
 const html = await fetchText(LAR5_URL);
 writeFileSync(OUTPUT, html, 'utf-8');
 
-console.log(`[1/5] Page lar5 téléchargée : ${html.length} caractères -> ${OUTPUT}`);
+console.log(`[1/5] lar5 page downloaded : ${html.length} characters -> ${OUTPUT}`);

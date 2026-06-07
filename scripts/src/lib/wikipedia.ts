@@ -1,22 +1,22 @@
-//petit client pour l'API "summary" de Wikipedia FR
+//small client for the "summary" API of Wikipedia FR
 
 import { fetchJson } from './http.ts';
 
-//ce que l'on garde d'un article Wikipédia
+//what we keep from a Wikipedia article
 export interface WikiSummary {
-	extract: string; //résumé en français (1 à 2 phrases)
-	lat: number | null; //latitude si l'article en a
-	lng: number | null; //longitude si l'article en a
+	extract: string; //summary in french (1 to 2 sentences)
+	lat: number | null; //latitude if the article has one
+	lng: number | null; //longitude if the article has one
 }
 
-//interroge Wikipédia FR pour un titre d'article donné
-//renvoie null si l'article n'existe pas ou n'a pas de résumé exploitable
+//queries Wikipedia FR for a given article title
+//returns null if the article doesn't exist or doesn't have a usable summary
 export async function frWikipediaSummary(title: string): Promise<WikiSummary | null> {
-	//le titre doit être encodé pour l'URL (espaces, accents, etc.)
+	//the title must be encoded for the URL (spaces, accents, etc.)
 	const url = `https://fr.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
 
 	try {
-		//fetchJson lève une erreur si la page n'existe pas (HTTP 404)
+		//fetchJson throws an error if the page doesn't exist (HTTP 404)
 		const data = await fetchJson<{
 			type?: string;
 			extract?: string;
@@ -24,7 +24,7 @@ export async function frWikipediaSummary(title: string): Promise<WikiSummary | n
 		}>(url);
 
 		const extract = (data.extract ?? '').trim();
-		if (!extract) return null; //article vide -> inutile
+		if (!extract) return null; //empty article -> useless
 
 		return {
 			extract,
@@ -32,7 +32,7 @@ export async function frWikipediaSummary(title: string): Promise<WikiSummary | n
 			lng: data.coordinates?.lon ?? null
 		};
 	} catch {
-		//404 ou JSON invalide -> on considère qu'il n'y a pas d'article
+		//404 or invalid JSON -> we consider there is no article
 		return null;
 	}
 }

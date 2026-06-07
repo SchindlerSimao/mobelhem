@@ -1,6 +1,4 @@
 {
-	// Ce tsconfig sert surtout à l'éditeur (autocomplétion / vérification de
-	// types). Node 24 exécute le TypeScript directement, sans compilation.
 	"compilerOptions": {
 		"target": "ES2023",
 		"module": "nodenext",
