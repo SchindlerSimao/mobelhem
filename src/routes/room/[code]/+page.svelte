@@ -38,9 +38,7 @@
 		country?: 'SE' | 'NO' | 'DK' | 'FI' | null;
 		lat?: string | number | null;
 		lng?: string | number | null;
-		ikeaDesc?: string | null;
 		cityDesc?: string | null;
-		funFact?: string;
 	}
 
 	interface RoundPlayerResult {

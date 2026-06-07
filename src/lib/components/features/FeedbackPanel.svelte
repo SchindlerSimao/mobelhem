@@ -121,24 +121,6 @@
 						<p class="mt-1 text-xs leading-relaxed text-slate-400">{item.cityDesc}</p>
 					</div>
 				{/if}
-
-				<!-- IKEA Info (if applicable) -->
-				{#if item.type === 'ikea' || item.type === 'both'}
-					<div class="rounded-2xl border border-slate-800/40 bg-slate-950/40 p-4">
-						<h5 class="mb-1 text-xs font-bold tracking-wider text-amber-400 uppercase">
-							🛋️ Design IKEA
-						</h5>
-						<p class="text-xs leading-relaxed text-slate-400">{item.ikeaDesc}</p>
-					</div>
-				{/if}
-			</div>
-
-			<!-- Fun Fact block -->
-			<div
-				class="rounded-2xl border border-indigo-500/10 bg-indigo-500/5 p-4 text-xs leading-relaxed text-indigo-300"
-			>
-				💡 <b>Le saviez-vous ?</b>
-				{item.funFact}
 			</div>
 		</div>
 

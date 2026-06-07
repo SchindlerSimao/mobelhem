@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "9e5558d8-04d1-4544-9eb7-fd0ed662bdb6",
+  "id": "52eae408-6dbe-4bfd-af46-b97f877a5341",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "scores": {
@@ -43,7 +43,30 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "scores_mode_score_idx": {
+          "name": "scores_mode_score_idx",
+          "columns": [
+            "mode",
+            "score"
+          ],
+          "isUnique": false
+        },
+        "scores_created_at_idx": {
+          "name": "scores_created_at_idx",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "scores_username_idx": {
+          "name": "scores_username_idx",
+          "columns": [
+            "username"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
@@ -94,29 +117,44 @@
           "notNull": false,
           "autoincrement": false
         },
-        "ikea_desc": {
-          "name": "ikea_desc",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "city_desc": {
           "name": "city_desc",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
-        },
-        "fun_fact": {
-          "name": "fun_fact",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "words_name_unique": {
+          "name": "words_name_unique",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        },
+        "words_type_idx": {
+          "name": "words_type_idx",
+          "columns": [
+            "type"
+          ],
+          "isUnique": false
+        },
+        "words_country_idx": {
+          "name": "words_country_idx",
+          "columns": [
+            "country"
+          ],
+          "isUnique": false
+        },
+        "words_name_idx": {
+          "name": "words_name_idx",
+          "columns": [
+            "name"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
