@@ -1,4 +1,4 @@
-//confirmer les villages IKEA pour les types "both"
+//confirm the IKEA villages for the "both" types
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -8,23 +8,23 @@ import { frWikipediaSummary } from './lib/wikipedia.ts';
 import type { IkeaName } from './2-parse-ikea.ts';
 import type { City } from './3-fetch-cities.ts';
 
-//un village IKEA confirmé
+//a confirmed IKEA village
 export interface IkeaPlace {
-	name: string; //nom IKEA en maj
+	name: string; //IKEA name in upper
 	country: 'SE' | 'NO' | 'DK' | 'FI';
 	lat: number;
 	lng: number;
 	cityDesc: string;
 }
 
-//construit la requête SPARQL de vérification pour un libellé donné
-//renvoie tous les candidats car un même nom peut désigner
-//plusieurs lieux (genre il existe plusieurs "Hemnes" en Norvège ce qui m'a fait arraché mes cheveux) On choisira
-//ensuite le bon en JS.
+//builds the SPARQL verification query for a given label
+//returns all the candidates because the same name can designate
+//several places (like there are several "Hemnes" in Norway which made me tear out my hair) We will then choose
+//the right one in JS.
 function verifyQuery(label: string): string {
-	//on échappe les éventuels guillemets/antislashs du libellé
+	//we escape the possible quotes/backslashes of the label
 	const safe = label.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-	//on teste le libellé dans les langues nordiques + anglais/allemand.
+	//we test the label in the nordic languages + english/german.
 	const langs = ['sv', 'nb', 'nn', 'no', 'fi', 'da', 'en', 'de'];
 	const values = langs.map((l) => `"${safe}"@${l}`).join(' ');
 	return `
@@ -40,7 +40,7 @@ SELECT ?city ?countryItem ?coord ?article WHERE {
 LIMIT 20`;
 }
 
-//type minimal d'une réponse SPARQL.
+//minimal type of a SPARQL response.
 interface SparqlResponse {
 	results: {
 		bindings: Array<{
@@ -52,7 +52,7 @@ interface SparqlResponse {
 	};
 }
 
-//un candidat "lieu" renvoyé par Wikidata.
+//a "place" candidate returned by Wikidata.
 interface Candidate {
 	country: 'SE' | 'NO' | 'DK' | 'FI';
 	lat: number;
@@ -60,7 +60,7 @@ interface Candidate {
 	article: string | null;
 }
 
-//extrait le titre d'article depuis une URL Wikipédia.
+//extracts the article title from a Wikipedia URL.
 function titleFromUrl(url: string): string {
 	const segment = url.split('/wiki/')[1] ?? '';
 	return decodeURIComponent(segment).replace(/_/g, ' ');
@@ -68,11 +68,11 @@ function titleFromUrl(url: string): string {
 
 const ikeaNames: IkeaName[] = JSON.parse(readFileSync(join('data', 'ikea-names.json'), 'utf-8'));
 const cities: City[] = JSON.parse(readFileSync(join('data', 'cities.json'), 'utf-8'));
-const cityNames = new Set(cities.map((c) => c.name)); //déjà traitées à l'étape 3
+const cityNames = new Set(cities.map((c) => c.name)); //already handled at step 3
 
-//on garde que les noms géographiques pas déjà couverts par les villes
+//we only keep the geographic names not already covered by the cities
 const candidates = ikeaNames.filter((n) => n.isGeo && !cityNames.has(n.name));
-console.log(`[4/5] ${candidates.length} noms géographiques IKEA à vérifier...`);
+console.log(`[4/5] ${candidates.length} IKEA geographic names to verify...`);
 
 const places: IkeaPlace[] = [];
 let done = 0;
@@ -81,8 +81,8 @@ for (const candidate of candidates) {
 	done++;
 	if (done % 50 === 0) console.log(`[4/5]   ... ${done}/${candidates.length}`);
 
-	//libellé à chercher = le nom en casse propre tiré du lien Maps de lar5
-	//sinon une approximation (1re lettre majuscule)
+	//label to search = the name in proper case taken from the lar5 Maps link
+	//otherwise an approximation (1st letter uppercase)
 	const label =
 		candidate.placeName ??
 		candidate.name.charAt(0) + candidate.name.slice(1).toLowerCase();
@@ -95,10 +95,10 @@ for (const candidate of candidates) {
 	try {
 		data = await fetchJson<SparqlResponse>(url);
 	} catch {
-		continue; //erreur réseau ponctuelle -> on passe ce nom
+		continue; //occasional network error -> we skip this name
 	}
 
-	//on transforme chaque ligne en candidat exploitable
+	//we transform each row into a usable candidate
 	const found: Candidate[] = [];
 	for (const row of data.results.bindings) {
 		const qid = (row.countryItem?.value ?? '').split('/').pop() ?? '';
@@ -112,10 +112,10 @@ for (const candidate of candidates) {
 			article: row.article ? row.article.value : null
 		});
 	}
-	if (found.length === 0) continue; //pas une localité nordique -> écarté (genre lac, îles)
+	if (found.length === 0) continue; //not a nordic locality -> discarded (like lake, islands)
 
-	//un nom peut avoir plusieurs lieux on cherche donc les points geo les plus proches
-	const ref = candidate; //coords de référence venant de lar5
+	//a name can have several places so we look for the closest geo points
+	const ref = candidate; //reference coords coming from lar5
 	const best =
 		ref.lat !== null && ref.lng !== null
 			? found.reduce((a, b) => {
@@ -125,8 +125,8 @@ for (const candidate of candidates) {
 				})
 			: found[0];
 
-	//description française : via l'article Wikipédia s'il existe, sinon on
-	//tente directement avec le libellé
+	//french description : via the Wikipedia article if it exists, otherwise we
+	//try directly with the label
 	const title = best.article ? titleFromUrl(best.article) : label;
 	const summary = await frWikipediaSummary(title);
 	const cityDesc = summary?.extract ?? '';
@@ -136,4 +136,4 @@ for (const candidate of candidates) {
 
 const output = join('data', 'ikea-places.json');
 writeFileSync(output, JSON.stringify(places, null, 2), 'utf-8');
-console.log(`[4/5] ${places.length} villages IKEA confirmés comme localités (type=both) -> ${output}`);
+console.log(`[4/5] ${places.length} IKEA villages confirmed as localities (type=both) -> ${output}`);

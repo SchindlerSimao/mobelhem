@@ -1,22 +1,22 @@
-//config centrale du scraper
+//central config of the scraper
 
-//nombre d'habitant minimum
+//minimum number of inhabitants
 export const POP_MIN = 50000;
 
-//nombre maximum de meubles IKEA
+//maximum number of IKEA furnitures
 export const MAX_IKEA = 250;
 
-//les pays nordiques du jeu, clé = identifiant de l'entitié "pays" dans Wikidata, valeur = code à 2 lettre utilisé dans words.csv
+//the nordic countries of the game, key = identifier of the "country" entity in Wikidata, value = letter code used in words.csv
 export const COUNTRY_BY_QID: Record<string, 'SE' | 'NO' | 'DK' | 'FI'> = {
-	Q34: 'SE', //Suède
-	Q20: 'NO', //Norvège
-	Q35: 'DK', //Danemark
-	Q33: 'FI' //Finlande
+	Q34: 'SE', //Sweden
+	Q20: 'NO', //Norway
+	Q35: 'DK', //Denmark
+	Q33: 'FI' //Finland
 };
 
-//les API publiques demandent qu'on s'identifie donc on identique un sorte de nom de projet
+//the public APIs ask that we identify ourselves so we put a sort of project name
 export const USER_AGENT =
 	'MobelhemScraper/1.0 (projet etudiant HEIG-VD WEB)';
 
-//pause minimale entre deux vraies requêtes réseau (en millisecondes), pour ne pas marteler les serveurs gratuits que l'on utilise
+//minimal pause between two real network requests (in milliseconds), to not hammer the free servers that we use
 export const REQUEST_DELAY_MS = 1100;

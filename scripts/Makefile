@@ -1,38 +1,38 @@
-# Usage typique :
-#     make install - installe les dépendances (une seule fois)
-#     make all - lance tout le pipeline et génère ../words.csv
+# Typical usage:
+#     make install - installs the dependencies (only once)
+#     make all - runs the whole pipeline and generates ../words.csv
 
 NODE = node --disable-warning=ExperimentalWarning
 
 .PHONY: all install fetch parse cities geo build clean
 
-#pipeline complet dans l'ordre
+#complete pipeline in order
 all: fetch parse cities geo build
 
-#install les deps (Cheerio)
+#install the deps (Cheerio)
 install:
 	npm install
 
-#1) télécharger la page lar5 (liste des noms IKEA).
+#1) download the lar5 page (list of IKEA names).
 fetch:
 	$(NODE) src/1-fetch-ikea.ts
 
-#2) : extraire les noms IKEA de la page.
+#2) : extract the IKEA names from the page.
 parse:
 	$(NODE) src/2-parse-ikea.ts
 
-#3) : scraper les villes nordiques (Wikidata + Wikipédia).
+#3) : scrape the nordic cities (Wikidata + Wikipedia).
 cities:
 	$(NODE) src/3-fetch-cities.ts
 
-#4) : confirmer les villages IKEA (type=both).
+#4) : confirm the IKEA villages (type=both).
 geo:
 	$(NODE) src/4-verify-ikea-geo.ts
 
-#5) : assembler le words.csv final (écrase ../words.csv, backup .bak).
+#5) : assemble the final words.csv (overwrites ../words.csv, backup .bak).
 build:
 	$(NODE) src/5-build-csv.ts
 
-#nettoyage = on vide le cache des réponses réseau (force un re-téléchargement)
+#cleanup = we empty the cache of network responses (forces a re-download)
 clean:
 	rm -rf data/raw

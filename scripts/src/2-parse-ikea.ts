@@ -1,16 +1,16 @@
-//analyser la page lar5 et en extraire la liste des noms IKEA
+//analyse the lar5 page and extract the list of IKEA names from it
 
 import { load } from 'cheerio';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-//forme d'une entrée extraite de lar5.
+//shape of an entry extracted from lar5.
 export interface IkeaName {
-	name: string; //exemple : "KALLAX"
-	isGeo: boolean; //true si la catégorie est "geographic"
-	placeName: string | null; //nom du lieu en casse propre afin de l'utiliser après avec Wikidata
-	meaning: string; //courte explication
-	lat: number | null; //latitude lue sur le lien Google Maps, seulement pour lieux
+	name: string; //example : "KALLAX"
+	isGeo: boolean; //true if the category is "geographic"
+	placeName: string | null; //name of the place in proper case so we can use it later with Wikidata
+	meaning: string; //short explanation
+	lat: number | null; //latitude read on the Google Maps link, only for places
 	lng: number | null; //longitude idem
 }
 
@@ -18,30 +18,30 @@ const html = readFileSync(join('data', 'raw', 'lar5.html'), 'utf-8');
 const $ = load(html);
 
 const names: IkeaName[] = [];
-const seen = new Set<string>(); //pour éviter les doublons
+const seen = new Set<string>(); //to avoid duplicates
 
-//chaque entrée est une div contenant un lien vers la recherche IKEA
-//on parcourt tous les divs et on ne garde que ceux-là.
+//each entry is a div containing a link to the IKEA search
+//we go through all the divs and we only keep those.
 $('div').each((_, element) => {
 	const div = $(element);
 	const link = div.find('a').first();
 	const href = link.attr('href') ?? '';
 
-	//ignore les divs qui sont pas une entrée produit
+	//ignore the divs that are not a product entry
 	if (!href.includes('query=')) return;
 
 	const name = link.text().trim();
 	if (!name || seen.has(name)) return;
 	seen.add(name);
 
-	//la catégorie est portée par la classe CSS du premier span.
-	//"gr" = geographic => lieu réel.
+	//the category is carried by the CSS class of the first span.
+	//"gr" = geographic => real place.
 	const categoryClass = div.find('span').first().attr('class') ?? '';
 	const isGeo = categoryClass === 'gr';
 
-	//pour les lieux, lar5 ajoute un lien Google Maps de la forme
-	//maps?q=Nom@LAT,LNG&
-	//on récupp deux choses : les coordonnées lat/lng et le nom du lien en casse propre, pour interroger Wikidata
+	//for places, lar5 adds a Google Maps link of the form
+	//maps?q=Name@LAT,LNG&
+	//we grab two things : the lat/lng coordinates and the name from the link in proper case, to query Wikidata
 	let lat: number | null = null;
 	let lng: number | null = null;
 	let placeName: string | null = null;
@@ -53,17 +53,17 @@ $('div').each((_, element) => {
 		lng = parseFloat(mapMatch[3]);
 	}
 
-	//tout le texte de la div sans le nom
+	//all the text of the div without the name
 	const meaning = div.text().replace(name, '').trim();
 
 	names.push({ name, isGeo, placeName, meaning, lat, lng });
 });
 
-//sauvegarde du résultat pour l'étape suivante.
+//save of the result for the next step.
 const output = join('data', 'ikea-names.json');
 writeFileSync(output, JSON.stringify(names, null, 2), 'utf-8');
 
 const geoCount = names.filter((n) => n.isGeo).length;
 console.log(
-	`[2/5] ${names.length} noms IKEA extraits (dont ${geoCount} géographiques) -> ${output}`
+	`[2/5] ${names.length} IKEA names extracted (of which ${geoCount} geographic) -> ${output}`
 );

@@ -1,4 +1,4 @@
-//assembler le fichier final words.csv
+//assemble the final words.csv file
 
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -7,47 +7,47 @@ import type { IkeaName } from './2-parse-ikea.ts';
 import type { City } from './3-fetch-cities.ts';
 import type { IkeaPlace } from './4-verify-ikea-geo.ts';
 
-//une ligne du CSV final
+//a row of the final CSV
 interface Row {
 	name: string;
 	type: 'ikea' | 'city' | 'both';
-	country: string; //'' si inconnu
+	country: string; //'' if unknown
 	lat: number | null;
 	lng: number | null;
 	cityDesc: string;
 }
 
-//charge un JSON intermédiaire.
+//loads an intermediate JSON.
 function readJson<T>(file: string): T {
 	return JSON.parse(readFileSync(join('data', file), 'utf-8')) as T;
 }
 
-//nettoyage du texte pour tenir sur une ligne csv
+//cleanup of the text to fit on one csv line
 function cleanDesc(text: string): string {
 	let t = text.replace(/\s+/g, ' ').replace(/;/g, ',').trim();
-	//on coupe à la fin de la première phrase qui est relativement longue
+	//we cut at the end of the first sentence that is relatively long
 	const end = t.indexOf('. ', 30);
 	if (end !== -1) t = t.slice(0, end + 1);
-	//longueur maximale raisonnable
+	//reasonable maximum length
 	if (t.length > 240) t = t.slice(0, 239).trimEnd() + '…';
 	return t;
 }
 
-//arrondit une coordonnée à 4 décimales pour lisibilité
+//rounds a coordinate to 4 decimals for readability
 function round(n: number | null): number | null {
 	return n === null ? null : Number(n.toFixed(4));
 }
 
-//chargement des ressources
+//loading of the resources
 
 const ikeaNames = readJson<IkeaName[]>('ikea-names.json');
 const cities = readJson<City[]>('cities.json');
 const ikeaPlaces = readJson<IkeaPlace[]>('ikea-places.json');
 
-const ikeaNameSet = new Set(ikeaNames.map((n) => n.name)); //tous les produits IKEA
-const rows = new Map<string, Row>(); //clé = name, évite les doublons
+const ikeaNameSet = new Set(ikeaNames.map((n) => n.name)); //all the IKEA products
+const rows = new Map<string, Row>(); //key = name, avoids duplicates
 
-//les grandes villes (étape 3) si le nom est aussi un produit IKEA -> both.
+//the big cities (step 3) if the name is also an IKEA product -> both.
 for (const c of cities) {
 	rows.set(c.name, {
 		name: c.name,
@@ -59,9 +59,9 @@ for (const c of cities) {
 	});
 }
 
-//les villages IKEA confirmés (étape 4) -> toujours both.
+//the confirmed IKEA villages (step 4) -> always both.
 for (const p of ikeaPlaces) {
-	if (rows.has(p.name)) continue; //déjà couvert par une ville
+	if (rows.has(p.name)) continue; //already covered by a city
 	rows.set(p.name, {
 		name: p.name,
 		type: 'both',
@@ -72,13 +72,13 @@ for (const p of ikeaPlaces) {
 	});
 }
 
-//tous les autres noms IKEA (pas de lieu associé) -> ikea.
+//all the other IKEA names (no associated place) -> ikea.
 for (const name of ikeaNameSet) {
 	if (rows.has(name)) continue;
 	rows.set(name, { name, type: 'ikea', country: '', lat: null, lng: null, cityDesc: '' });
 }
 
-//on sépare les lieux des meubles pour garder tous les lieux mais ajuster le nb de meumbles pour l'équilibrage
+//we separate the places from the furnitures to keep all the places but adjust the nb of furnitures for the balancing
 const all = [...rows.values()];
 const places = all.filter((r) => r.type !== 'ikea');
 let ikeaOnly = all
@@ -92,9 +92,9 @@ if (ikeaOnly.length > MAX_IKEA) {
 	ikeaOnly = sample;
 }
 
-//écriture du csv (yippie)
+//writing of the csv (yippie)
 
-//tri alphabétique
+//alphabetical sort
 const sorted = [...places, ...ikeaOnly].sort((a, b) => a.name.localeCompare(b.name, 'sv'));
 
 const header = 'name;type;country;lat;lng;cityDesc';
@@ -103,7 +103,7 @@ const lines = sorted.map((r) =>
 );
 const csv = header + '\n' + lines.join('\n') + '\n';
 
-//save de l'ancien fichier une fois au cas ou
+//save of the old file once just in case
 const target = join('..', 'words.csv');
 const backup = join('..', 'words.csv.bak');
 if (existsSync(target) && !existsSync(backup)) {
@@ -111,10 +111,10 @@ if (existsSync(target) && !existsSync(backup)) {
 }
 writeFileSync(target, csv, 'utf-8');
 
-//petit bilan affiché à l'utilisateur
+//small summary displayed to the user
 const count = (t: string) => sorted.filter((r) => r.type === t).length;
 console.log(
-	`[5/5] ${sorted.length} mots écrits -> ${target} ` +
+	`[5/5] ${sorted.length} words written -> ${target} ` +
 		`(ikea: ${count('ikea')}, city: ${count('city')}, both: ${count('both')}) ` +
-		`| ancien fichier sauvegardé dans words.csv.bak`
+		`| old file saved in words.csv.bak`
 );
