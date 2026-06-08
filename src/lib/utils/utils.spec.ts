@@ -57,6 +57,28 @@ describe('selectRandomItems', () => {
 });
 
 describe('Validators', () => {
+	describe('roomCode validator', () => {
+		it('accepts valid room codes', () => {
+			expect(validators.roomCode('NGKWLF').valid).toBe(true);
+			expect(validators.roomCode('ngkwlf').valid).toBe(true); // Should normalize case
+		});
+
+		it('rejects empty room codes', () => {
+			expect(validators.roomCode('').valid).toBe(false);
+			expect(validators.roomCode(undefined as any).valid).toBe(false);
+		});
+
+		it('rejects incorrect lengths', () => {
+			expect(validators.roomCode('NGKWL').valid).toBe(false);
+			expect(validators.roomCode('NGKWLFF').valid).toBe(false);
+		});
+
+		it('rejects invalid characters', () => {
+			expect(validators.roomCode('NGK-LF').valid).toBe(false);
+			expect(validators.roomCode('NGK LF').valid).toBe(false);
+		});
+	});
+
 	describe('username validator', () => {
 		it('accepts valid usernames', () => {
 			expect(validators.username('John').valid).toBe(true);
