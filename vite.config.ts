@@ -21,7 +21,6 @@ export default defineConfig({
 		expect: { requireAssertions: true },
 		coverage: {
 			provider: 'v8',
-			all: true,
 			include: [
 				'src/lib/components/ui/**/*',
 				'src/lib/server/game/**/*',
