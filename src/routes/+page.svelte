@@ -22,7 +22,12 @@
 	let answered = $state(false);
 	let isCorrect = $state<boolean | null>(null);
 
-	let highScores = $state<ScoreEntry[]>(data.highScores);
+	// eslint-disable-next-line svelte/prefer-writable-derived
+	let highScores = $state<ScoreEntry[]>([]);
+
+	$effect(() => {
+		highScores = data.highScores;
+	});
 
 	$effect(() => {
 		if (gameStatus === 'playing' && !answered) {

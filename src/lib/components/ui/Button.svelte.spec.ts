@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from 'vitest';
 import { mount } from 'svelte';
 import Button from './Button.svelte';
@@ -11,10 +12,10 @@ describe('Button Component', () => {
 			target,
 			props: {
 				variant: 'primary',
-				children: (anchor) => {
+				children: ((anchor: any) => {
 					const el = document.createTextNode('Primary Action');
 					anchor.parentNode?.insertBefore(el, anchor);
-				}
+				}) as any
 			}
 		});
 

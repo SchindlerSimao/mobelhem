@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from 'vitest';
 import { mount } from 'svelte';
 import Card from './Card.svelte';
@@ -11,10 +12,10 @@ describe('Card Component', () => {
 			target,
 			props: {
 				padding: true,
-				children: (anchor) => {
+				children: ((anchor: any) => {
 					const el = document.createTextNode('Card content');
 					anchor.parentNode?.insertBefore(el, anchor);
-				}
+				}) as any
 			}
 		});
 
