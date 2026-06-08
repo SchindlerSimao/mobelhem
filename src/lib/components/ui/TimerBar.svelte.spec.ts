@@ -52,7 +52,8 @@ describe('TimerBar Component', () => {
 		});
 
 		const progress = target.querySelector('.h-full');
-		expect(progress?.className).toContain('bg-danger animate-pulse'); // critical state
+		expect(progress?.className).toContain('bg-danger');
+		expect(progress?.className).toContain('animate-pulse');
 		target.remove();
 	});
 });
