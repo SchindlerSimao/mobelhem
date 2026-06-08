@@ -31,19 +31,19 @@
 
 <div class="mx-auto w-full max-w-sm space-y-6">
 	<Card class="space-y-4 text-center">
-		<p class="text-xs tracking-widest text-subtle uppercase">code du salon</p>
+		<p class="text-xs uppercase tracking-widest text-subtle">code du salon</p>
 		<p class="text-4xl font-bold tracking-widest uppercase select-all">{code}</p>
 		<button
 			onclick={copyUrl}
 			class="cursor-pointer border-none bg-transparent text-xs text-muted transition-colors hover:text-fg"
 		>
-			{copied ? 'copie' : 'copier le lien'}
+			{copied ? 'copie' : "copier le lien"}
 		</button>
 	</Card>
 
 	<div class="space-y-2">
 		<div class="flex items-center justify-between">
-			<p class="text-xs tracking-widest text-subtle uppercase">
+			<p class="text-xs uppercase tracking-widest text-subtle">
 				joueurs ({players.length})
 			</p>
 			<span class="animate-pulse text-[10px] text-muted">en attente...</span>
@@ -57,7 +57,9 @@
 				Commencer
 			</Button>
 		{:else}
-			<p class="text-center text-xs text-muted italic">L'hote lancera la partie.</p>
+			<p class="text-center text-xs text-muted italic">
+				L'hote lancera la partie.
+			</p>
 		{/if}
 		<Button variant="ghost" onclick={onLeave} class="w-full">Accueil</Button>
 	</div>

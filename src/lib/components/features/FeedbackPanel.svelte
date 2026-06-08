@@ -3,11 +3,7 @@
 	import ItemDetails from './ItemDetails.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 
-	let {
-		item,
-		isCorrect,
-		onNext
-	}: {
+	let { item, isCorrect, onNext }: {
 		item: GameItem;
 		isCorrect: boolean | null;
 		onNext: () => void;
@@ -34,6 +30,8 @@
 	<ItemDetails {item} />
 
 	<div class="flex justify-end">
-		<Button variant="primary" onclick={onNext}>Question suivante</Button>
+		<Button variant="primary" onclick={onNext}>
+			Question suivante
+		</Button>
 	</div>
 </div>

@@ -1,10 +1,7 @@
 <script lang="ts">
-	let {
-		lat,
-		lng,
-		name,
-		desc
-	}: {
+	import type { GameItem } from '$lib/types';
+
+	let { lat, lng, name, desc }: {
 		lat: number;
 		lng: number;
 		name: string;

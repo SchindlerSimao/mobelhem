@@ -41,7 +41,9 @@
 <div class="grid gap-8 lg:grid-cols-2">
 	<div class="space-y-6">
 		<div class="space-y-2">
-			<h2 class="text-2xl font-bold tracking-tight">Ville nordique ou meuble IKEA ?</h2>
+			<h2 class="text-2xl font-bold tracking-tight">
+				Ville nordique ou meuble IKEA ?
+			</h2>
 			<p class="text-sm leading-relaxed text-muted">
 				Devinez si un mot scandinave est une ville ou un produit du catalogue IKEA.
 			</p>
@@ -52,15 +54,17 @@
 		{#if activeTab === 'solo'}
 			<Card>
 				<div class="space-y-3">
-					<p class="text-xs tracking-widest text-subtle uppercase">contre la montre</p>
-					<p class="text-xs text-muted">60 secondes. +2s par bonne reponse, -5s par erreur.</p>
+					<p class="text-xs uppercase tracking-widest text-subtle">contre la montre</p>
+					<p class="text-xs text-muted">
+						60 secondes. +2s par bonne reponse, -5s par erreur.
+					</p>
 					<Button variant="primary" onclick={onStartGame}>Commencer</Button>
 				</div>
 			</Card>
 		{:else}
 			<Card class="space-y-4">
 				<div class="space-y-2">
-					<label for="multi-pseudo" class="block text-xs tracking-widest text-subtle uppercase">
+					<label for="multi-pseudo" class="block text-xs uppercase tracking-widest text-subtle">
 						pseudonyme
 					</label>
 					<Input id="multi-pseudo" bind:value={username} placeholder="pseudo..." maxlength={12} />
@@ -79,13 +83,12 @@
 							bind:value={roomCode}
 							placeholder="Code (ex: AB1234)..."
 							maxlength={GAME_CONSTANTS.ROOM_CODE_LENGTH}
-							class="text-center tracking-widest uppercase"
+							class="text-center uppercase tracking-widest"
 						/>
 						<Button
 							variant="default"
 							type="submit"
-							disabled={!username.trim() ||
-								roomCode.trim().length !== GAME_CONSTANTS.ROOM_CODE_LENGTH}
+							disabled={!username.trim() || roomCode.trim().length !== GAME_CONSTANTS.ROOM_CODE_LENGTH}
 							class="w-full"
 						>
 							Rejoindre
@@ -97,7 +100,7 @@
 	</div>
 
 	<div class="space-y-3">
-		<h3 class="text-xs tracking-widest text-subtle uppercase">tableau des scores</h3>
+		<h3 class="text-xs uppercase tracking-widest text-subtle">tableau des scores</h3>
 		<LeaderboardList scores={highScores} />
 	</div>
 </div>

@@ -2,11 +2,7 @@
 	import ThemeToggle from '$lib/components/ui/ThemeToggle.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 
-	let {
-		onHome,
-		showLeave = false,
-		leaveLabel = 'Quitter'
-	}: {
+	let { onHome, showLeave = false, leaveLabel = 'Quitter' }: {
 		onHome: () => void;
 		showLeave?: boolean;
 		leaveLabel?: string;

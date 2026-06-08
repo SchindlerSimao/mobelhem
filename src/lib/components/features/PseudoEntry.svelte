@@ -3,10 +3,7 @@
 	import Input from '$lib/components/ui/Input.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 
-	let {
-		roomCode,
-		onSubmit
-	}: {
+	let { roomCode, onSubmit }: {
 		roomCode: string;
 		onSubmit: (pseudo: string) => void;
 	} = $props();

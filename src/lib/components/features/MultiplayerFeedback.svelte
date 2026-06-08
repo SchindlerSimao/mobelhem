@@ -3,10 +3,7 @@
 	import Card from '$lib/components/ui/Card.svelte';
 	import ItemDetails from './ItemDetails.svelte';
 
-	let {
-		item,
-		playersResult = []
-	}: {
+	let { item, playersResult = [] }: {
 		item: GameItem;
 		playersResult: RoundPlayerResult[];
 	} = $props();
@@ -28,12 +25,10 @@
 	</div>
 
 	<Card>
-		<p class="mb-3 text-xs tracking-widest text-subtle uppercase">classement manche</p>
+		<p class="mb-3 text-xs uppercase tracking-widest text-subtle">classement manche</p>
 		<div class="max-h-[280px] space-y-1 overflow-y-auto">
 			{#each playersResult as player, i (player.id)}
-				<div
-					class="flex items-center justify-between rounded-md border border-border bg-bg px-3 py-2 text-sm"
-				>
+				<div class="flex items-center justify-between rounded-md border border-border bg-bg px-3 py-2 text-sm">
 					<div class="flex items-center gap-2">
 						<span class="text-xs text-subtle">#{i + 1}</span>
 						<span class="font-medium">{player.username}</span>
@@ -50,7 +45,7 @@
 						{:else}
 							<span class="text-[10px] text-subtle">-</span>
 						{/if}
-						<span class="font-semibold tabular-nums">{player.score}</span>
+						<span class="tabular-nums font-semibold">{player.score}</span>
 					</div>
 				</div>
 			{/each}

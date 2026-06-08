@@ -2,12 +2,7 @@
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
 
-	let {
-		onHome,
-		showLeave = false,
-		leaveLabel = 'Quitter',
-		children
-	}: {
+	let { onHome, showLeave = false, leaveLabel = 'Quitter', children }: {
 		onHome: () => void;
 		showLeave?: boolean;
 		leaveLabel?: string;

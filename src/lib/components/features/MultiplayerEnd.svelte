@@ -1,12 +1,10 @@
 <script lang="ts">
 	import type { Player } from '$lib/types';
+	import Card from '$lib/components/ui/Card.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import PlayerList from '$lib/components/ui/PlayerList.svelte';
 
-	let {
-		players = [],
-		onLeave
-	}: {
+	let { players = [], onLeave }: {
 		players: Player[];
 		onLeave: () => void;
 	} = $props();

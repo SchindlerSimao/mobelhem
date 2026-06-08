@@ -1,12 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	let {
-		class: className = '',
-		padding = true,
-		children,
-		...rest
-	}: {
+	let { class: className = '', padding = true, children, ...rest }: {
 		class?: string;
 		padding?: boolean;
 		children?: Snippet;
