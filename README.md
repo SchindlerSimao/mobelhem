@@ -29,7 +29,7 @@ A multiplayer geography trivia game about IKEA furniture and Scandinavian cities
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone git@github.com:SchindlerSimao/mobelhem.git
 cd mobelhem
 
 # Install dependencies
@@ -71,12 +71,14 @@ pnpm preview
 ## Game Rules
 
 ### Solo Mode
+
 - You have 60 seconds to answer as many questions as possible
 - Correct answers give you +2 seconds and 100 points
 - "Both" type words (IKEA + City) give +150 points
 - Wrong answers cost you 5 seconds
 
 ### Multiplayer Mode
+
 - Create or join a room with a 6-character code
 - 10 rounds per game, 8 seconds per question
 - First to answer correctly gets the most points
@@ -120,6 +122,7 @@ mobelhem/
 ## Game Data
 
 The game uses a CSV file (`words.csv`) containing:
+
 - **IKEA**: Famous furniture series (BILLY, POANG, MALM, etc.)
 - **Cities**: Major Scandinavian cities (Stockholm, Oslo, Copenhagen, etc.)
 - **Both**: Names that are both IKEA products and real places
@@ -147,7 +150,6 @@ Each entry includes descriptions, geographic coordinates, and fun facts.
 3. Make your changes
 4. Run tests and linting
 5. Submit a pull request
-
 
 ## Acknowledgments
 
