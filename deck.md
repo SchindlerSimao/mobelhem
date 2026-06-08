@@ -27,9 +27,9 @@ theme:
 
 <!-- speaker_note: |
     Regardons d'abord la vue d'ensemble. Möbelhem repose sur une architecture client-serveur monolithique classique mais avec une claire séparation des responsabilités :
-  - Côté client : L'interface est gérée par Svelte 5, qui communique avec le serveur via HTTP pour les pages classiques et les requêtes initiales, et via WebSockets (Socket.io) pour les sessions multijoueurs. Colin reviendra plus en détails sur le frontend.
-  - Côté serveur : Nous utilisons un serveur Node.js personnalisé (défini dans server.ts). Ce serveur enveloppe le "handler" généré par SvelteKit (via l'adaptateur Node) et instancie un serveur Socket.io sur le même port HTTP. Quentin vous parlera un peu plus du backend.
-  - Côté base de données : Un fichier SQLite local géré via l'ORM Drizzle. Pour les besoins de ce projet il nous semblait suffisant d'utiliser une DB SQLite afin de ne pas perdre de temps là-dessus. Louis vous expliquera comment nous avons peuplé cette DB.
+  - Côté client : L'interface est gérée par Svelte 5. Colin reviendra plus en détails sur le frontend.
+  - Côté serveur : Nous utilisons un serveur Node.js (défini dans server.ts) que Quentin vous présentera.
+  - Côté base de données : Un fichier SQLite local géré via l'ORM Drizzle. Louis vous expliquera pourquoi nous avons opté pour ces technologies et comment nous nous sommes procuré les données.
 -->
 
 <!-- end_slide -->
