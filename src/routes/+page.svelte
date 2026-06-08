@@ -22,10 +22,7 @@
 	let answered = $state(false);
 	let isCorrect = $state<boolean | null>(null);
 
-	let highScores = $state<ScoreEntry[]>([]);
-	$effect(() => {
-		highScores = data.highScores;
-	});
+	let highScores = $state<ScoreEntry[]>(data.highScores);
 
 	$effect(() => {
 		if (gameStatus === 'playing' && !answered) {
