@@ -80,22 +80,6 @@ theme:
 
 <!-- end_slide -->
 
-# Tailwind CSS v4
-
-<!-- jump_to_middle -->
-<!-- column_layout: [1, 2, 1] -->
-<!-- column: 1 -->
-
-- **Rust compiler (Oxide)**
-<!-- new_line -->
-- **CSS-first configuration**
-<!-- new_line -->
-- **Intégration Vite native**
-
-<!-- reset_layout -->
-
-<!-- end_slide -->
-
 # Playwright & Vitest
 
 <!-- jump_to_middle -->
