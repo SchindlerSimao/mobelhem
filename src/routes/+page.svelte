@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { GameItem } from '$lib/dataset';
-	import type { ScoreEntry } from '$lib/types';
 	import { shuffle } from '$lib/utils/shuffle';
 	import { GAME_CONSTANTS } from '$lib/config/gameConstants';
 	import PageShell from '$lib/components/layout/PageShell.svelte';
@@ -22,10 +21,7 @@
 	let answered = $state(false);
 	let isCorrect = $state<boolean | null>(null);
 
-	let highScores = $state<ScoreEntry[]>([]);
-	$effect(() => {
-		highScores = data.highScores;
-	});
+	let highScores = $derived(data.highScores);
 
 	$effect(() => {
 		if (gameStatus === 'playing' && !answered) {

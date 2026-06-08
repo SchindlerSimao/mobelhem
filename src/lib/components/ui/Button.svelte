@@ -1,7 +1,13 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	let { variant = 'default', class: className = '', disabled = false, children, ...rest }: {
+	let {
+		variant = 'default',
+		class: className = '',
+		disabled = false,
+		children,
+		...rest
+	}: {
 		variant?: 'default' | 'primary' | 'ghost' | 'danger';
 		class?: string;
 		disabled?: boolean;

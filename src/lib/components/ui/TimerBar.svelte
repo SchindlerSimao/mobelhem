@@ -1,5 +1,9 @@
 <script lang="ts">
-	let { timeLeft, max = 60, class: className = '' }: {
+	let {
+		timeLeft,
+		max = 60,
+		class: className = ''
+	}: {
 		timeLeft: number;
 		max?: number;
 		class?: string;
@@ -14,7 +18,7 @@
 	<div class="relative h-1.5 flex-1 overflow-hidden rounded-full bg-border">
 		<div
 			class="h-full rounded-full transition-all duration-1000 {critical
-				? 'bg-danger animate-pulse'
+				? 'animate-pulse bg-danger'
 				: urgent
 					? 'bg-muted'
 					: 'bg-fg'}"
@@ -22,9 +26,7 @@
 		></div>
 	</div>
 	<span
-		class="w-8 text-right text-sm tabular-nums font-semibold {critical
-			? 'text-danger'
-			: 'text-fg'}"
+		class="w-8 text-right text-sm font-semibold tabular-nums {critical ? 'text-danger' : 'text-fg'}"
 	>
 		{timeLeft}
 	</span>

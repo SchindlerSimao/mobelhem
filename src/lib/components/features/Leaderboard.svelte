@@ -6,7 +6,9 @@
 
 	type GameMode = 'time_attack' | 'multiplayer';
 
-	let { highScores = [] }: {
+	let {
+		highScores = []
+	}: {
 		highScores: ScoreEntry[];
 	} = $props();
 

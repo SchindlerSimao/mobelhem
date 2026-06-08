@@ -1,7 +1,10 @@
 <script lang="ts">
 	import type { GameItem } from '$lib/dataset';
 
-	let { item, onGuess }: {
+	let {
+		item,
+		onGuess
+	}: {
 		item: GameItem;
 		onGuess: (guess: 'ikea' | 'city' | 'both') => void;
 	} = $props();
@@ -9,7 +12,7 @@
 
 <div class="flex flex-1 flex-col justify-center gap-8">
 	<div class="space-y-3 text-center">
-		<p class="text-xs uppercase tracking-widest text-subtle">le nom scandinave est...</p>
+		<p class="text-xs tracking-widest text-subtle uppercase">le nom scandinave est...</p>
 		<h2 class="text-4xl font-bold tracking-widest uppercase sm:text-5xl">
 			{item.name}
 		</h2>

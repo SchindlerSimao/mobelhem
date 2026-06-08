@@ -15,8 +15,7 @@ export const COUNTRY_BY_QID: Record<string, 'SE' | 'NO' | 'DK' | 'FI'> = {
 };
 
 //the public APIs ask that we identify ourselves so we put a sort of project name
-export const USER_AGENT =
-	'MobelhemScraper/1.0 (projet etudiant HEIG-VD WEB)';
+export const USER_AGENT = 'MobelhemScraper/1.0 (projet etudiant HEIG-VD WEB)';
 
 //minimal pause between two real network requests (in milliseconds), to not hammer the free servers that we use
 export const REQUEST_DELAY_MS = 1100;
