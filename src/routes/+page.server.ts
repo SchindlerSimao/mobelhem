@@ -31,9 +31,7 @@ export const load: PageServerLoad = async () => {
 				country: (w.country as 'SE' | 'NO' | 'DK' | 'FI' | null) || null,
 				lat: w.lat ? parseFloat(w.lat) : undefined,
 				lng: w.lng ? parseFloat(w.lng) : undefined,
-				ikeaDesc: w.ikeaDesc || undefined,
-				cityDesc: w.cityDesc || undefined,
-				funFact: w.funFact
+				cityDesc: w.cityDesc || undefined
 			}))
 		};
 	} catch (e) {

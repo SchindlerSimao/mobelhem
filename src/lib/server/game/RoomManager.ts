@@ -22,9 +22,7 @@ export type DbWord = {
 	country: string | null;
 	lat: string | null;
 	lng: string | null;
-	ikeaDesc: string | null;
 	cityDesc: string | null;
-	funFact: string;
 };
 
 export interface Room {
