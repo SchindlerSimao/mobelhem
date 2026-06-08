@@ -54,15 +54,13 @@ function titleFromUrl(url: string): string {
 	return decodeURIComponent(segment).replace(/_/g, ' ');
 }
 
-
 const cities: City[] = [];
 const seen = new Set<string>(); //anti-duplicate by name
 
 for (const [qid, countryCode] of Object.entries(COUNTRY_BY_QID)) {
 	//SPARQL query for this country, we cache the response.
 	const url =
-		'https://query.wikidata.org/sparql?format=json&query=' +
-		encodeURIComponent(sparqlQuery(qid));
+		'https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(sparqlQuery(qid));
 	const data = await fetchJson<SparqlResponse>(url);
 	const rows = data.results.bindings;
 	console.log(`[3/5] ${countryCode} : ${rows.length} cities found (pop > ${POP_MIN})`);

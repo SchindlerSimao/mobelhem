@@ -84,12 +84,10 @@ for (const candidate of candidates) {
 	//label to search = the name in proper case taken from the lar5 Maps link
 	//otherwise an approximation (1st letter uppercase)
 	const label =
-		candidate.placeName ??
-		candidate.name.charAt(0) + candidate.name.slice(1).toLowerCase();
+		candidate.placeName ?? candidate.name.charAt(0) + candidate.name.slice(1).toLowerCase();
 
 	const url =
-		'https://query.wikidata.org/sparql?format=json&query=' +
-		encodeURIComponent(verifyQuery(label));
+		'https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(verifyQuery(label));
 
 	let data: SparqlResponse;
 	try {
@@ -119,8 +117,7 @@ for (const candidate of candidates) {
 	const best =
 		ref.lat !== null && ref.lng !== null
 			? found.reduce((a, b) => {
-					const dist = (c: Candidate) =>
-						(c.lat - ref.lat!) ** 2 + (c.lng - ref.lng!) ** 2;
+					const dist = (c: Candidate) => (c.lat - ref.lat!) ** 2 + (c.lng - ref.lng!) ** 2;
 					return dist(b) < dist(a) ? b : a;
 				})
 			: found[0];
@@ -131,9 +128,17 @@ for (const candidate of candidates) {
 	const summary = await frWikipediaSummary(title);
 	const cityDesc = summary?.extract ?? '';
 
-	places.push({ name: candidate.name, country: best.country, lat: best.lat, lng: best.lng, cityDesc });
+	places.push({
+		name: candidate.name,
+		country: best.country,
+		lat: best.lat,
+		lng: best.lng,
+		cityDesc
+	});
 }
 
 const output = join('data', 'ikea-places.json');
 writeFileSync(output, JSON.stringify(places, null, 2), 'utf-8');
-console.log(`[4/5] ${places.length} IKEA villages confirmed as localities (type=both) -> ${output}`);
+console.log(
+	`[4/5] ${places.length} IKEA villages confirmed as localities (type=both) -> ${output}`
+);
