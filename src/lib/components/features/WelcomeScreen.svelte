@@ -1,16 +1,12 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { GAME_CONSTANTS } from '$lib/config/gameConstants';
-	import Leaderboard from './Leaderboard.svelte';
-
-	interface ScoreEntry {
-		id: string;
-		username: string;
-		score: number;
-		mode: string;
-		createdAt: string;
-	}
+	import type { ScoreEntry } from '$lib/types';
+	import Button from '$lib/components/ui/Button.svelte';
+	import Card from '$lib/components/ui/Card.svelte';
+	import Input from '$lib/components/ui/Input.svelte';
+	import TabGroup from '$lib/components/ui/TabGroup.svelte';
+	import LeaderboardList from '$lib/components/ui/LeaderboardList.svelte';
 
 	let {
 		highScores = [],
@@ -20,12 +16,14 @@
 		onStartGame: () => void;
 	} = $props();
 
-	// Tabs selector
 	let activeTab = $state<'solo' | 'multi'>('solo');
-
-	// Multiplayer form inputs
 	let username = $state('');
 	let roomCode = $state('');
+
+	const tabs = [
+		{ id: 'solo', label: 'Solo' },
+		{ id: 'multi', label: 'Multijoueur' }
+	];
 
 	function handleCreateRoom(e: Event) {
 		e.preventDefault();
@@ -40,178 +38,69 @@
 	}
 </script>
 
-<div in:fade={{ duration: 300 }} class="my-auto grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
-	<!-- Left Column: Presentation & Mode Selection -->
-	<div class="space-y-6 lg:col-span-7">
-		<div class="space-y-3">
-			<h2
-				class="animate-fade-in font-display text-4xl leading-tight font-extrabold tracking-tight lg:text-5xl"
-			>
-				Est-ce une <span class="text-sky-400">ville nordique</span> ou un
-				<span class="text-amber-400">meuble IKEA</span> ?
+<div class="grid gap-8 lg:grid-cols-2">
+	<div class="space-y-6">
+		<div class="space-y-2">
+			<h2 class="text-2xl font-bold tracking-tight">
+				Ville nordique ou meuble IKEA ?
 			</h2>
-			<p class="max-w-xl text-base leading-relaxed text-slate-400">
-				Bienvenue dans <b>Möbelhem</b>, le défi linguistique scandinave ultime. Saurez-vous
-				démasquer les pièges de la nomenclature d'IKEA ?
+			<p class="text-sm leading-relaxed text-muted">
+				Devinez si un mot scandinave est une ville ou un produit du catalogue IKEA.
 			</p>
 		</div>
 
-		<!-- Game Type Tabs Toggle -->
-		<div
-			class="flex w-fit rounded-2xl border border-slate-800/80 bg-slate-900/40 p-1"
-			role="tablist"
-			aria-label="Modes de jeu"
-		>
-			<button
-				id="tab-solo"
-				role="tab"
-				aria-selected={activeTab === 'solo'}
-				aria-controls="tabpanel-solo"
-				onclick={() => (activeTab = 'solo')}
-				class="cursor-pointer rounded-xl px-6 py-2.5 text-sm font-bold transition-all {activeTab ===
-				'solo'
-					? 'border border-emerald-500/30 bg-gradient-to-r from-emerald-500/20 to-teal-600/20 text-emerald-400'
-					: 'border border-transparent text-slate-400'}"
-			>
-				👤 Solo
-			</button>
-			<button
-				id="tab-multi"
-				role="tab"
-				aria-selected={activeTab === 'multi'}
-				aria-controls="tabpanel-multi"
-				onclick={() => (activeTab = 'multi')}
-				class="cursor-pointer rounded-xl px-6 py-2.5 text-sm font-bold transition-all {activeTab ===
-				'multi'
-					? 'border border-sky-500/30 bg-gradient-to-r from-sky-500/20 to-blue-600/20 text-sky-400'
-					: 'border border-transparent text-slate-400'}"
-			>
-				👥 Multijoueur
-			</button>
-		</div>
+		<TabGroup {tabs} active={activeTab} onChange={(id) => (activeTab = id as 'solo' | 'multi')} />
 
-		<!-- Game Modes content switcher -->
 		{#if activeTab === 'solo'}
-			<div
-				id="tabpanel-solo"
-				role="tabpanel"
-				aria-labelledby="tab-solo"
-				class="space-y-4 pt-2"
-				in:fade={{ duration: 150 }}
-			>
-				<h3 class="text-xs font-bold tracking-widest text-slate-500 uppercase">Mode de Jeu Solo</h3>
-				<div class="max-w-md">
-					<!-- Time Attack Card (Solo against the clock) -->
-					<button
-						id="mode-time-attack"
-						onclick={() => onStartGame()}
-						class="group flex w-full cursor-pointer flex-col rounded-2xl border border-slate-800/80 bg-slate-900/40 p-5 text-left shadow-xl transition-all hover:-translate-y-1 hover:border-sky-500/50"
-					>
-						<span class="mb-3 text-3xl">⚡</span>
-						<span
-							class="text-base font-bold text-slate-200 transition-colors group-hover:text-sky-400"
-							>Contre la Montre</span
-						>
-						<span class="mt-2 text-xs leading-relaxed text-slate-400">
-							60 secondes. +2s par bonne réponse, -5s par erreur. Essayez de réaliser le meilleur
-							score possible avant la fin du chrono !
-						</span>
-					</button>
-				</div>
-			</div>
-		{:else}
-			<div
-				id="tabpanel-multi"
-				role="tabpanel"
-				aria-labelledby="tab-multi"
-				class="max-w-xl space-y-6 rounded-3xl border border-slate-800/60 bg-slate-900/30 p-6"
-				in:fade={{ duration: 150 }}
-			>
-				<div class="space-y-2">
-					<h3 class="text-lg font-bold text-slate-200">Salon en Ligne en Temps Réel</h3>
-					<p class="text-xs leading-relaxed text-slate-400">
-						Jouez à plusieurs en simultané. À chaque manche, devinez le plus vite possible si le mot
-						est un meuble IKEA ou une Ville scandinave !
+			<Card>
+				<div class="space-y-3">
+					<p class="text-xs uppercase tracking-widest text-subtle">contre la montre</p>
+					<p class="text-xs text-muted">
+						60 secondes. +2s par bonne reponse, -5s par erreur.
 					</p>
+					<Button variant="primary" onclick={onStartGame}>Commencer</Button>
+				</div>
+			</Card>
+		{:else}
+			<Card class="space-y-4">
+				<div class="space-y-2">
+					<label for="multi-pseudo" class="block text-xs uppercase tracking-widest text-subtle">
+						pseudonyme
+					</label>
+					<Input id="multi-pseudo" bind:value={username} placeholder="pseudo..." maxlength={12} />
 				</div>
 
-				<div class="space-y-4">
-					<!-- Pseudo field -->
-					<div class="space-y-2">
-						<label
-							for="multi-pseudo"
-							class="block font-display text-xs font-bold tracking-wider text-slate-400 uppercase"
-							>1. Saisir votre pseudonyme</label
-						>
-						<input
-							id="multi-pseudo"
-							type="text"
-							bind:value={username}
-							placeholder="Pseudo..."
-							maxlength="12"
-							class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 transition-colors focus:border-sky-500 focus:outline-none"
+				<div class="grid gap-3 sm:grid-cols-2">
+					<form onsubmit={handleCreateRoom} class="space-y-3">
+						<p class="text-xs text-muted">Creer une partie et inviter par code.</p>
+						<Button variant="primary" type="submit" disabled={!username.trim()} class="w-full">
+							Creer
+						</Button>
+					</form>
+
+					<form onsubmit={handleJoinRoom} class="space-y-3">
+						<Input
+							bind:value={roomCode}
+							placeholder="Code (ex: AB1234)..."
+							maxlength={GAME_CONSTANTS.ROOM_CODE_LENGTH}
+							class="text-center uppercase tracking-widest"
 						/>
-					</div>
-
-					<div class="grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2">
-						<!-- Create game form -->
-						<form
-							onsubmit={handleCreateRoom}
-							class="border-slate-850 flex flex-col justify-between space-y-4 rounded-2xl border bg-slate-950/40 p-4"
+						<Button
+							variant="default"
+							type="submit"
+							disabled={!username.trim() || roomCode.trim().length !== GAME_CONSTANTS.ROOM_CODE_LENGTH}
+							class="w-full"
 						>
-							<div>
-								<h4 class="text-sm font-bold text-slate-200">Nouveau salon</h4>
-								<p class="mt-1 text-[11px] text-slate-500">
-									Créez une partie et invitez vos amis par code ou URL.
-								</p>
-							</div>
-							<button
-								type="submit"
-								disabled={!username.trim()}
-								class="w-full cursor-pointer rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 py-2.5 text-xs font-extrabold tracking-wider text-slate-950 transition-colors hover:from-sky-400 hover:to-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
-							>
-								Créer un Salon
-							</button>
-						</form>
-
-						<!-- Join game form -->
-						<form
-							onsubmit={handleJoinRoom}
-							class="border-slate-850 flex flex-col justify-between space-y-4 rounded-2xl border bg-slate-950/40 p-4"
-						>
-							<div class="flex flex-col space-y-2">
-								<label
-									for="multi-roomcode"
-									class="text-slate-450 mb-1 text-xs font-bold tracking-wider uppercase"
-									>Rejoindre par code</label
-								>
-								<input
-									id="multi-roomcode"
-									type="text"
-									bind:value={roomCode}
-									placeholder="Code (ex: AB1234)..."
-									maxlength={GAME_CONSTANTS.ROOM_CODE_LENGTH}
-									aria-label="Code du salon"
-									class="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-1.5 text-center font-bold tracking-widest text-slate-200 uppercase transition-colors focus:border-sky-500 focus:outline-none"
-								/>
-							</div>
-							<button
-								type="submit"
-								disabled={!username.trim() ||
-									roomCode.trim().length !== GAME_CONSTANTS.ROOM_CODE_LENGTH}
-								class="bg-slate-850 w-full cursor-pointer rounded-xl border border-slate-800 py-2.5 text-xs font-bold tracking-wider text-slate-200 transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
-							>
-								Rejoindre
-							</button>
-						</form>
-					</div>
+							Rejoindre
+						</Button>
+					</form>
 				</div>
-			</div>
+			</Card>
 		{/if}
 	</div>
 
-	<!-- Right Column: Leaderboards -->
-	<div class="lg:col-span-5">
-		<Leaderboard {highScores} />
+	<div class="space-y-3">
+		<h3 class="text-xs uppercase tracking-widest text-subtle">tableau des scores</h3>
+		<LeaderboardList scores={highScores} />
 	</div>
 </div>

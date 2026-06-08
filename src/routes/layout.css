@@ -1,6 +1,76 @@
 @import 'tailwindcss';
 
 @theme {
-	--font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
-	--font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+	--color-bg: var(--scheme-bg);
+	--color-fg: var(--scheme-fg);
+	--color-muted: var(--scheme-muted);
+	--color-subtle: var(--scheme-subtle);
+	--color-border: var(--scheme-border);
+	--color-surface: var(--scheme-surface);
+	--color-accent: var(--scheme-accent);
+	--color-accent-fg: var(--scheme-accent-fg);
+	--color-success: var(--scheme-success);
+	--color-danger: var(--scheme-danger);
+}
+
+/* ── Dark (default) ── */
+:root {
+	--scheme-bg: #0a0a0a;
+	--scheme-fg: #e5e5e5;
+	--scheme-muted: #a3a3a3;
+	--scheme-subtle: #737373;
+	--scheme-border: #262626;
+	--scheme-surface: #141414;
+	--scheme-accent: #e5e5e5;
+	--scheme-accent-fg: #0a0a0a;
+	--scheme-success: #4ade80;
+	--scheme-danger: #f87171;
+}
+
+/* ── Light ── */
+:root[data-theme='light'] {
+	--scheme-bg: #fafafa;
+	--scheme-fg: #171717;
+	--scheme-muted: #525252;
+	--scheme-subtle: #a3a3a3;
+	--scheme-border: #e5e5e5;
+	--scheme-surface: #ffffff;
+	--scheme-accent: #171717;
+	--scheme-accent-fg: #fafafa;
+	--scheme-success: #16a34a;
+	--scheme-danger: #dc2626;
+}
+
+/* ── Base ── */
+html {
+	color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+	color-scheme: light;
+}
+
+body {
+	font-family: var(--font-mono);
+	background-color: var(--scheme-bg);
+	color: var(--scheme-fg);
+}
+
+/* ── Leaflet dark tiles (invert for light mode) ── */
+:root[data-theme='light'] .leaflet-container {
+	filter: invert(1) hue-rotate(180deg);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+	width: 6px;
+}
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+::-webkit-scrollbar-thumb {
+	background: var(--scheme-border);
+	border-radius: 3px;
 }

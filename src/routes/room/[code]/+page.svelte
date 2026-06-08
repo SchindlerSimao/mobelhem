@@ -2,35 +2,18 @@
 	import { untrack } from 'svelte';
 	import { io, type Socket } from 'socket.io-client';
 	import { goto } from '$app/navigation';
-	import { fade } from 'svelte/transition';
 	import { GAME_CONSTANTS } from '$lib/config/gameConstants';
+	import type { Player, RoundPlayerResult, RoomStatus } from '$lib/types';
+	import type { GameItem } from '$lib/dataset';
 
+	import PageShell from '$lib/components/layout/PageShell.svelte';
 	import PseudoEntry from '$lib/components/features/PseudoEntry.svelte';
 	import MultiplayerLobby from '$lib/components/features/MultiplayerLobby.svelte';
 	import MultiplayerGame from '$lib/components/features/MultiplayerGame.svelte';
 	import MultiplayerFeedback from '$lib/components/features/MultiplayerFeedback.svelte';
 	import MultiplayerEnd from '$lib/components/features/MultiplayerEnd.svelte';
 
-	// Props from +page.ts
 	let { data } = $props();
-
-	// Room status types
-	type RoomStatus = 'lobby' | 'playing' | 'ended';
-
-	// Game States
-	let socket = $state<Socket | null>(null);
-	let currentUsername = $state('');
-	let roomCode = $state('');
-	$effect(() => {
-		currentUsername = data.username;
-		roomCode = data.code;
-	});
-	interface Player {
-		id: string;
-		username: string;
-		isHost: boolean;
-		score: number;
-	}
 
 	interface RoundWord {
 		name: string;
@@ -41,19 +24,16 @@
 		cityDesc?: string | null;
 	}
 
-	interface RoundPlayerResult {
-		id: string;
-		username: string;
-		score: number;
-		lastVoteCorrect: boolean;
-		lastVote: 'ikea' | 'city' | null;
-		lastVoteTime: number;
-	}
+	let socket = $state<Socket | null>(null);
+	let currentUsername = $state('');
+	let roomCode = $state('');
+	$effect(() => {
+		currentUsername = data.username;
+		roomCode = data.code;
+	});
 
 	let lobbyPlayers = $state<Player[]>([]);
 	let gameStatus = $state<RoomStatus>('lobby');
-
-	// Active round states
 	let showFeedback = $state(false);
 	let activeWord = $state<RoundWord | null>(null);
 	let roundIndex = $state(0);
@@ -62,21 +42,16 @@
 	let voted = $state(false);
 	let votedPlayers = $state<string[]>([]);
 	let roundStartTimestamp = $state(0);
-
-	// Results states
 	let roundResults = $state<RoundPlayerResult[]>([]);
 	let finalLeaderboard = $state<Player[]>([]);
 	let errorMessage = $state<string | null>(null);
 
-	// Check if this player is the host
 	let isHost = $derived(lobbyPlayers.find((p) => p.id === socket?.id)?.isHost ?? false);
 
-	// Connect socket when pseudo is filled
 	$effect(() => {
 		const hasSocket = untrack(() => socket);
 		if (!currentUsername || hasSocket) return;
 
-		// Connect to the socket server (same host and port)
 		const s = io();
 		socket = s;
 
@@ -101,11 +76,11 @@
 			s.emit('join_room', { code: newCode, username: activeUsername });
 		});
 
-		s.on('room_updated', (data: { players: Player[]; status: RoomStatus; code: string }) => {
-			lobbyPlayers = data.players;
-			gameStatus = data.status;
+		s.on('room_updated', (d: { players: Player[]; status: RoomStatus; code: string }) => {
+			lobbyPlayers = d.players;
+			gameStatus = d.status;
 			untrack(() => {
-				roomCode = data.code;
+				roomCode = d.code;
 			});
 		});
 
@@ -116,12 +91,12 @@
 
 		s.on(
 			'round_started',
-			(data: { wordName: string; roundIndex: number; totalRounds: number; timeLeft: number }) => {
+			(d: { wordName: string; roundIndex: number; totalRounds: number; timeLeft: number }) => {
 				showFeedback = false;
-				activeWord = { name: data.wordName };
-				roundIndex = data.roundIndex;
-				totalRounds = data.totalRounds;
-				timeLeft = data.timeLeft;
+				activeWord = { name: d.wordName };
+				roundIndex = d.roundIndex;
+				totalRounds = d.totalRounds;
+				timeLeft = d.timeLeft;
 				voted = false;
 				votedPlayers = [];
 				roundStartTimestamp = Date.now();
@@ -136,22 +111,20 @@
 			votedPlayers = [...votedPlayers, player];
 		});
 
-		s.on('round_ended', (data: { word: RoundWord; players: RoundPlayerResult[] }) => {
+		s.on('round_ended', (d: { word: RoundWord; players: RoundPlayerResult[] }) => {
 			showFeedback = true;
-			activeWord = data.word;
-			roundResults = data.players;
+			activeWord = d.word;
+			roundResults = d.players;
 		});
 
-		s.on('game_ended', (data: { players: Player[] }) => {
+		s.on('game_ended', (d: { players: Player[] }) => {
 			gameStatus = 'ended';
-			finalLeaderboard = data.players;
+			finalLeaderboard = d.players;
 		});
 
 		s.on('error_message', (msg: string) => {
 			errorMessage = msg;
-			setTimeout(() => {
-				goto('/');
-			}, 3000);
+			setTimeout(() => goto('/'), 3000);
 		});
 
 		return () => {
@@ -184,86 +157,43 @@
 
 <svelte:head>
 	<title>Salon {roomCode || 'Multijoueur'} - Möbelhem</title>
-	<meta
-		name="description"
-		content="Rejoignez le salon de jeu en ligne Möbelhem pour deviner si les mots scandinaves sont des meubles IKEA ou des villes !"
-	/>
 </svelte:head>
 
-<div class="mx-auto flex min-h-[90vh] max-w-6xl flex-col justify-between px-4 py-8">
-	<!-- Header / Navbar -->
-	<header class="mb-6 flex items-center justify-between border-b border-slate-800/80 pb-6">
-		<button
-			onclick={leaveRoom}
-			class="group flex cursor-pointer items-center gap-3 border-none bg-transparent focus:outline-none"
-		>
-			<h1
-				class="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400 bg-clip-text font-display text-2xl font-bold tracking-wider text-transparent transition-opacity group-hover:opacity-80"
-			>
-				MÖBELHEM
-			</h1>
-		</button>
-
-		{#if socket && gameStatus !== 'ended'}
-			<button
-				onclick={leaveRoom}
-				class="cursor-pointer rounded-xl border border-red-800/40 bg-red-950/40 px-4 py-2 text-sm font-medium text-red-300 shadow-md transition-all hover:bg-red-900/60"
-			>
-				Quitter le salon
-			</button>
-		{/if}
-	</header>
-
-	<main class="flex flex-grow flex-col justify-center">
-		<!-- Error banner -->
-		{#if errorMessage}
-			<div
-				in:fade
-				class="mx-auto max-w-md rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-center text-sm font-semibold text-red-400"
-			>
-				⚠️ {errorMessage}<br /><span class="text-xs font-normal text-slate-500"
-					>Redirection vers l'accueil...</span
-				>
-			</div>
-			<!-- Input Username screen (if missing) -->
-		{:else if !currentUsername}
-			<PseudoEntry {roomCode} onSubmit={joinWithPseudo} />
-			<!-- Lobby view -->
-		{:else if gameStatus === 'lobby'}
-			<MultiplayerLobby
-				code={roomCode}
-				players={lobbyPlayers}
-				{isHost}
-				onStart={triggerStart}
-				onLeave={leaveRoom}
+<PageShell onHome={leaveRoom} showLeave={socket != null && gameStatus !== 'ended'} leaveLabel="Quitter le salon">
+	{#if errorMessage}
+		<div class="mx-auto max-w-sm rounded-md border border-danger/30 bg-danger/10 p-4 text-center text-sm text-danger">
+			{errorMessage}
+			<p class="mt-1 text-xs text-muted">Redirection...</p>
+		</div>
+	{:else if !currentUsername}
+		<PseudoEntry {roomCode} onSubmit={joinWithPseudo} />
+	{:else if gameStatus === 'lobby'}
+		<MultiplayerLobby
+			code={roomCode}
+			players={lobbyPlayers}
+			{isHost}
+			onStart={triggerStart}
+			onLeave={leaveRoom}
+		/>
+	{:else if gameStatus === 'playing' && activeWord}
+		{#if !showFeedback}
+			<MultiplayerGame
+				wordName={activeWord.name}
+				{roundIndex}
+				{totalRounds}
+				{timeLeft}
+				{voted}
+				{votedPlayers}
+				playersCount={lobbyPlayers.length}
+				onVote={handleVote}
 			/>
-			<!-- In-game view -->
-		{:else if gameStatus === 'playing' && activeWord}
-			{#if !showFeedback}
-				<MultiplayerGame
-					wordName={activeWord.name}
-					{roundIndex}
-					{totalRounds}
-					{timeLeft}
-					{voted}
-					{votedPlayers}
-					playersCount={lobbyPlayers.length}
-					onVote={handleVote}
-				/>
-			{:else}
-				<MultiplayerFeedback
-					item={activeWord as unknown as import('$lib/dataset').GameItem}
-					playersResult={roundResults}
-				/>
-			{/if}
-			<!-- Game over ranking view -->
-		{:else if gameStatus === 'ended'}
-			<MultiplayerEnd players={finalLeaderboard} onLeave={leaveRoom} />
+		{:else}
+			<MultiplayerFeedback
+				item={activeWord as unknown as GameItem}
+				playersResult={roundResults}
+			/>
 		{/if}
-	</main>
-
-	<!-- Footer -->
-	<footer class="text-slate-650 mt-6 border-t border-slate-900 pt-6 text-center text-xs">
-		<p>© 2026 Möbelhem - Salon multijoueur en temps réel.</p>
-	</footer>
-</div>
+	{:else if gameStatus === 'ended'}
+		<MultiplayerEnd players={finalLeaderboard} onLeave={leaveRoom} />
+	{/if}
+</PageShell>
