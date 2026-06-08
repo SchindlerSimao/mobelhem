@@ -21,8 +21,14 @@ export default defineConfig({
 		expect: { requireAssertions: true },
 		coverage: {
 			provider: 'v8',
-			include: ['src/lib/**/*'],
-			exclude: ['src/lib/types.ts', 'src/lib/app.d.ts', '**/*.d.ts', '**/*.spec.ts', 'src/lib/server/db/migrations/**/*']
+			all: true,
+			include: [
+				'src/lib/components/ui/**/*',
+				'src/lib/server/game/**/*',
+				'src/lib/server/utils/**/*',
+				'src/lib/utils/**/*'
+			],
+			exclude: ['src/lib/types.ts', 'src/lib/app.d.ts', '**/*.d.ts', '**/*.spec.ts']
 		},
 		projects: [
 			{

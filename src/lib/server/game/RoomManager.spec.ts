@@ -93,4 +93,20 @@ describe('RoomManager', () => {
 		expect(rooms.map((r) => r.code)).toContain('R1');
 		expect(rooms.map((r) => r.code)).toContain('R2');
 	});
+
+	it('should clean up stuck rooms via the periodic interval', () => {
+		const code = 'STUCK';
+		roomManager.createRoom(code);
+
+		// Keep room active from normal setRoomTimeout by updating activity every 20 minutes (timeout is 30 mins)
+		for (let i = 0; i < 4; i++) {
+			vi.advanceTimersByTime(20 * 60 * 1000);
+			roomManager.updateActivity(code);
+		}
+		// Total elapsed time: 80 minutes (> 60 minutes stuck limit)
+		// Advance by another 5 minutes to trigger the interval (runs every 5 minutes)
+		vi.advanceTimersByTime(5 * 60 * 1000);
+
+		expect(roomManager.getRoom(code)).toBeUndefined();
+	});
 });

@@ -32,7 +32,7 @@
 
 	<Card class="flex min-h-[320px] flex-col justify-center gap-8">
 		<div class="space-y-3 text-center">
-			<p class="text-xs uppercase tracking-widest text-subtle">ville ou meuble ?</p>
+			<p class="text-xs tracking-widest text-subtle uppercase">ville ou meuble ?</p>
 			<h2 class="text-4xl font-bold tracking-widest uppercase sm:text-5xl">{wordName}</h2>
 		</div>
 

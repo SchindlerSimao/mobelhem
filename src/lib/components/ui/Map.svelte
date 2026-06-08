@@ -1,7 +1,11 @@
 <script lang="ts">
-	import type { GameItem } from '$lib/types';
 
-	let { lat, lng, name, desc }: {
+	let {
+		lat,
+		lng,
+		name,
+		desc
+	}: {
 		lat: number;
 		lng: number;
 		name: string;

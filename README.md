@@ -131,17 +131,17 @@ Each entry includes descriptions, geographic coordinates, and fun facts.
 
 ## Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Build for production |
-| `pnpm preview` | Preview production build |
-| `pnpm check` | Run TypeScript and Svelte checks |
-| `pnpm lint` | Run ESLint and Prettier |
-| `pnpm format` | Format code with Prettier |
-| `pnpm test` | Run all tests |
-| `pnpm db:studio` | Open Drizzle Studio |
-| `pnpm db:generate` | Generate new migration |
+| Command            | Description                      |
+| ------------------ | -------------------------------- |
+| `pnpm dev`         | Start development server         |
+| `pnpm build`       | Build for production             |
+| `pnpm preview`     | Preview production build         |
+| `pnpm check`       | Run TypeScript and Svelte checks |
+| `pnpm lint`        | Run ESLint and Prettier          |
+| `pnpm format`      | Format code with Prettier        |
+| `pnpm test`        | Run all tests                    |
+| `pnpm db:studio`   | Open Drizzle Studio              |
+| `pnpm db:generate` | Generate new migration           |
 
 ## Contributing
 

@@ -13,7 +13,7 @@
 	<div class="space-y-3">
 		{#if isCity}
 			<div class="rounded-md border border-border bg-surface p-4">
-				<p class="mb-1 text-xs uppercase tracking-wider text-subtle">geographie</p>
+				<p class="mb-1 text-xs tracking-wider text-subtle uppercase">geographie</p>
 				<p class="text-sm font-medium">
 					{item.name} ({COUNTRY_NAMES[item.country ?? ''] ?? ''})
 				</p>
@@ -27,7 +27,9 @@
 	{#if hasCoords}
 		<Map lat={item.lat!} lng={item.lng!} name={item.name} desc={item.cityDesc} />
 	{:else}
-		<div class="flex h-[200px] items-center justify-center rounded-md border border-border bg-surface">
+		<div
+			class="flex h-[200px] items-center justify-center rounded-md border border-border bg-surface"
+		>
 			<p class="text-xs text-subtle">pas de coordonnees geographiques</p>
 		</div>
 	{/if}

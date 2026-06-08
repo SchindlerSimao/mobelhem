@@ -65,7 +65,7 @@ describe('Validators', () => {
 
 		it('rejects empty room codes', () => {
 			expect(validators.roomCode('').valid).toBe(false);
-			expect(validators.roomCode(undefined as any).valid).toBe(false);
+			expect(validators.roomCode(undefined as unknown as string).valid).toBe(false);
 		});
 
 		it('rejects incorrect lengths', () => {

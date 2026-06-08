@@ -23,6 +23,10 @@ describe('Game Scoring', () => {
 			expect(isAnswerCorrect(null, 'both')).toBe(false);
 			expect(isAnswerCorrect(null, 'ikea')).toBe(false);
 		});
+
+		it('handles invalid votes', () => {
+			expect(isAnswerCorrect('invalid' as unknown as 'ikea', 'both')).toBe(false);
+		});
 	});
 
 	describe('calculateRoundScore', () => {

@@ -159,9 +159,15 @@
 	<title>Salon {roomCode || 'Multijoueur'} - Möbelhem</title>
 </svelte:head>
 
-<PageShell onHome={leaveRoom} showLeave={socket != null && gameStatus !== 'ended'} leaveLabel="Quitter le salon">
+<PageShell
+	onHome={leaveRoom}
+	showLeave={socket != null && gameStatus !== 'ended'}
+	leaveLabel="Quitter le salon"
+>
 	{#if errorMessage}
-		<div class="mx-auto max-w-sm rounded-md border border-danger/30 bg-danger/10 p-4 text-center text-sm text-danger">
+		<div
+			class="mx-auto max-w-sm rounded-md border border-danger/30 bg-danger/10 p-4 text-center text-sm text-danger"
+		>
 			{errorMessage}
 			<p class="mt-1 text-xs text-muted">Redirection...</p>
 		</div>
@@ -188,10 +194,7 @@
 				onVote={handleVote}
 			/>
 		{:else}
-			<MultiplayerFeedback
-				item={activeWord as unknown as GameItem}
-				playersResult={roundResults}
-			/>
+			<MultiplayerFeedback item={activeWord as unknown as GameItem} playersResult={roundResults} />
 		{/if}
 	{:else if gameStatus === 'ended'}
 		<MultiplayerEnd players={finalLeaderboard} onLeave={leaveRoom} />

@@ -2,7 +2,6 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Card from '$lib/components/ui/Card.svelte';
-	import Input from '$lib/components/ui/Input.svelte';
 
 	let {
 		score,
@@ -25,7 +24,7 @@
 <div class="mx-auto w-full max-w-sm space-y-6">
 	<Card class="text-center">
 		<div class="space-y-4">
-			<p class="text-xs uppercase tracking-widest text-subtle">score final</p>
+			<p class="text-xs tracking-widest text-subtle uppercase">score final</p>
 			<p class="text-5xl font-bold tabular-nums">{score}</p>
 		</div>
 	</Card>
@@ -54,8 +53,7 @@
 							.sort((a, b) => b.score - a.score)
 							.slice(0, 10);
 					} else if (result.type === 'failure') {
-						saveError =
-							(result.data as { error?: string })?.error || 'Erreur de sauvegarde.';
+						saveError = (result.data as { error?: string })?.error || 'Erreur de sauvegarde.';
 					} else {
 						saveError = 'Erreur inattendue.';
 					}
@@ -66,7 +64,15 @@
 			<input type="hidden" name="score" value={score} />
 			<input type="hidden" name="mode" value="time_attack" />
 			<div class="flex gap-2">
-				<input type="text" name="username" bind:value={username} placeholder="pseudo..." maxlength="15" required class="flex-1 rounded-md border border-border bg-bg px-3 py-2 text-sm text-fg placeholder:text-subtle focus:border-accent focus:outline-none" />
+				<input
+					type="text"
+					name="username"
+					bind:value={username}
+					placeholder="pseudo..."
+					maxlength="15"
+					required
+					class="flex-1 rounded-md border border-border bg-bg px-3 py-2 text-sm text-fg placeholder:text-subtle focus:border-accent focus:outline-none"
+				/>
 				<Button variant="primary" type="submit" disabled={saving}>
 					{saving ? '...' : 'Sauver'}
 				</Button>

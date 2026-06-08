@@ -50,12 +50,8 @@ test('multiplayer room creation and joining', async ({ page, context }) => {
 
 	// Check player lists on both pages
 	const hostPlayers = await page.locator('div.border-border >> text=HostPlayer').isVisible();
-	const hostGuestVisible = await page
-		.locator('div.border-border >> text=GuestPlayer')
-		.isVisible();
-	const guestPlayers = await guestPage
-		.locator('div.border-border >> text=GuestPlayer')
-		.isVisible();
+	const hostGuestVisible = await page.locator('div.border-border >> text=GuestPlayer').isVisible();
+	const guestPlayers = await guestPage.locator('div.border-border >> text=GuestPlayer').isVisible();
 
 	console.log('Host sees HostPlayer:', hostPlayers);
 	console.log('Host sees GuestPlayer:', hostGuestVisible);
@@ -155,7 +151,7 @@ test('multiplayer full game loop', async ({ page, context }) => {
 		// Wait for the word / question text to be visible on both pages
 		const hostWordLocator = page.locator('h2');
 		await expect(hostWordLocator).toBeVisible({ timeout: 10000 });
-		
+
 		// Vote on both pages
 		await page.click('button:has-text("Meuble IKEA")');
 		await guestPage.click('button:has-text("Ville Scandinave")');
