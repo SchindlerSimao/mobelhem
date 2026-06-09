@@ -78,6 +78,50 @@ theme:
 
 <!-- reset_layout -->
 
+<!-- speaker_note: |
+  Pour la persistance, c'est-à-dire stocker les mots du jeu et les scores des joueurs, nous avons choisi SQLite avec l'ORM Drizzle.
+
+  Drizzle est un ORM "TypeScript-first" : on définit nos tables directement en TypeScript, et les requêtes s'écrivent presque comme du SQL pur (par exemple db.select().from(words)), tout en garantissant un typage strict de bout en bout, de la base de données jusqu'au client. C'est sa grande différence avec un ORM comme Prisma, qui utilise son propre langage de schéma et masque davantage le SQL.
+
+  Côté base de données, SQLite stocke tout dans un simple fichier local (local.db), sans aucun serveur à configurer. Et le driver better-sqlite3 est synchrone : il s'exécute dans le même processus que notre serveur Node, donc sans latence réseau, ce qui le rend très rapide et le code beaucoup plus simple à écrire pour notre volume de données.
+
+  Mais une base de données, aussi rapide soit-elle, reste vide au départ. Il nous fallait un vrai catalogue de mots fiable. Et c'est là que ça devient intéressant : comment se procurer ces données ? C'est ce que je vais vous montrer maintenant.
+-->
+
+<!-- end_slide -->
+
+# Le scraping des données
+
+<!-- jump_to_middle -->
+<!-- column_layout: [1, 2, 1] -->
+<!-- column: 1 -->
+
+- **Web scraping (lar5 + cheerio)**
+<!-- new_line -->
+- **Wikidata — requêtes SPARQL**
+<!-- new_line -->
+- **API REST Wikipédia (FR)**
+<!-- new_line -->
+- **Pipeline reproductible (Makefile + cache)**
+
+<!-- reset_layout -->
+
+<!-- speaker_note: |
+  Pour chaque mot du jeu, il nous fallait savoir : est-ce un meuble IKEA, une ville, ou les deux ? Et pour les lieux : leur pays, leurs coordonnées et une petite description. Notre contrainte : générer ce catalogue de façon reproductible, gratuitement, sans clé d'API et sans intelligence artificielle. Pour ça, on combine trois sources publiques.
+
+  Première source : un site appelé lar5.com, "The IKEA Dictionary", qui recense environ 1300 noms de produits IKEA. On télécharge la page et on l'analyse avec cheerio, une librairie qui permet de naviguer dans le HTML côté serveur exactement comme on le ferait avec jQuery dans le navigateur (on sélectionne les éléments, on lit leur texte). Ça nous donne la liste des noms IKEA.
+
+  Deuxième source, et la plus intéressante techniquement : Wikidata, qu'on interroge en SPARQL. SPARQL, c'est le langage de requête du web sémantique. Le concept à retenir : dans Wikidata, tout est codé par des identifiants indépendants de la langue. Les "Q" désignent des choses (Q34 = la Suède, Q486972 = la notion d'établissement humain) et les "P" désignent des relations (P31 = "est une instance de", P279 = "est une sous-classe de", P17 = "pays", P625 = "coordonnées"). Notre requête vérifie qu'un nom est bien une vraie localité nordique et récupère son pays et ses coordonnées officielles. Le petit bout magique, c'est le filtre P31/P279* : il remonte toute la hiérarchie des catégories pour ne garder que ce qui est, même indirectement, une ville, et écarter ainsi les régions et les comtés.
+
+  Troisième source : l'API REST de Wikipédia en français. Son endpoint "summary" renvoie un résumé d'article en français plus des coordonnées : c'est ce qui nous sert de description pour chaque ville.
+
+  Tout ça est orchestré par un simple Makefile, étape par étape : on télécharge, on parse, on récupère les villes, on vérifie les lieux, on assemble le CSV final. Chaque réponse réseau est mise en cache sur le disque : relancer le scraper est donc instantané et 100% reproductible, et on reste polis envers ces serveurs gratuits avec un User-Agent identifiable et une pause entre chaque requête.
+
+  Ce qu'on a appris : les bases de SPARQL et du modèle de données de Wikidata, qui sont assez déroutants au début ; gérer l'ambiguïté des noms — par exemple il existe plusieurs "Hemnes" en Norvège, donc on garde celui dont les coordonnées sont les plus proches de celles données par notre première source ; et au passage, que Node version 24 sait exécuter du TypeScript nativement, sans étape de compilation.
+
+  Les avantages : c'est gratuit, sans clé d'API, sans IA, entièrement reproductible grâce au cache, et vérifiable puisqu'on s'appuie sur les vraies coordonnées de Wikidata. Les inconvénients : la couverture des sources n'est pas parfaite (lar5 ne liste pas les produits IKEA les plus récents) ; la modélisation de Wikidata varie d'un pays à l'autre (parfois la population est rattachée à la commune et pas à la ville) ; c'est rate-limité, donc lent au premier lancement ; et surtout, le contenu purement rédactionnel — descriptions marketing, anecdotes — n'est tout simplement pas "scrapable" sans IA, ce qui nous a amenés à simplifier le format de nos données.
+-->
+
 <!-- end_slide -->
 
 # Playwright & Vitest
