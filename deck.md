@@ -14,8 +14,9 @@ theme:
   L'objectif de cette présentation est de vous faire découvrir notre stack technique, pourquoi nous avons choisi chaque outil et ce que nous avons appris en chemin.
 
   Je vais commencer par vous présenter brièvement l'architecture globale de notre projet,
-
-
+    ?
+    ...
+    ?
   nous terminerons par une démo et vous pourrez nous poser toutes vos questions à la fin.
 -->
 
@@ -26,10 +27,17 @@ theme:
 ![Architecture](architecture.png)
 
 <!-- speaker_note: |
-    Regardons d'abord la vue d'ensemble. Möbelhem repose sur une architecture client-serveur monolithique classique mais avec une claire séparation des responsabilités :
-  - Côté client : L'interface est gérée par Svelte 5. Colin reviendra plus en détails sur le frontend.
-  - Côté serveur : Nous utilisons un serveur Node.js (défini dans server.ts) que Quentin vous présentera.
-  - Côté base de données : Un fichier SQLite local géré via l'ORM Drizzle. Louis vous expliquera pourquoi nous avons opté pour ces technologies et comment nous nous sommes procuré les données.
+    Regardons d'abord la vue d'ensemble. Möbelhem repose sur une architecture que l'on peut qualifier de monolithique moderne, et c'est précisément là que SvelteKit entre en jeu.
+
+    Au lieu d'avoir un projet frontend et une API backend complètement séparés, SvelteKit nous offre un cadre unifié. Il regroupe au sein de la même base de code le routage, le rendu de l'interface (géré par Svelte 5) et la logique applicative. Cela simplifie énormément le développement et le déploiement.
+
+    Cependant, comme nous avions besoin d'une communication temps réel bidirectionnelle pour le jeu, nous avons dû adapter ce monolithe. Nous utilisons un serveur Node.js personnalisé (défini dans notre server.ts) :
+
+    Côté serveur : Ce fichier server.ts agit comme point d'entrée. Il sert l'application SvelteKit tout en attachant notre serveur WebSocket (Socket.io) pour gérer la réactivité du multijoueur. Quentin vous détaillera cette mécanique.
+
+    Côté client : L'interface profite des toutes dernières nouveautés de Svelte 5 pour offrir une expérience fluide, et Colin reviendra dessus juste après.
+
+    Côté base de données : Enfin, la persistance est gérée au sein de ce même écosystème avec un fichier SQLite local et l'ORM Drizzle. Louis vous expliquera pourquoi nous avons opté pour cette approche légère et comment nous avons récolté nos données.
 -->
 
 <!-- end_slide -->
@@ -167,16 +175,10 @@ theme:
 
 <!-- end_slide -->
 
-# Place à la démo !
-
 <!-- alignment: center -->
 <!-- jump_to_middle -->
 
-## 🎮 Démo en direct
-
-<!-- new_line -->
-
-Lancement d'une partie de Möbelhem.
+# 🎮 Démo en direct
 
 <!-- speaker_note: |
   Maintenant que nous avons fait le tour de l'architecture et de la théorie, passons à la pratique.
@@ -206,11 +208,18 @@ Lancement d'une partie de Möbelhem.
   Certaines expérimentations ont été de francs succès :
   - L'intégration de Svelte 5 et de son nouveau modèle de Runes réactives.
   - La conception du backend temps réel résilient avec Socket.io.
-  - L'implémentation de la persistance ultra-légère avec Drizzle ORM et SQLite.
+  - L'implémentation de la persistance avec Drizzle ORM et SQLite.
 
   D'autres essais ont été moins fructueux, mais tout aussi riches d'enseignements. Par exemple, avoir tenté d'utiliser Radicle à la place de GitHub. Après pas mal de temps perdu à essayer de configurer les nœuds et de stabiliser le workflow de synchronisation collaboratif, nous avons dû admettre que ce n'était pas encore mûr pour notre usage et nous sommes revenus sur GitHub.
 
-  C'est le propre d'un projet académique libre : tester de nouvelles choses, commettre des erreurs, apprendre à mesurer les coûts/bénéfices et savoir pivoter rapidement quand c'est nécessaire.
+  C'est le propre d'un projet académique libre : tester de nouvelles choses, commettre des erreurs, apprendre à mesurer les coûts/bénéfices et savoir pivoter rapidement quand c'est nécessaire, et ce projet a été une excellente expérience sur ces aspects.
 
   Merci pour votre attention, et nous sommes désormais ouverts à toutes vos questions !
 -->
+
+<!-- end_slide -->
+
+<!-- alignment: center -->
+<!-- jump_to_middle -->
+
+# Questions
