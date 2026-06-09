@@ -7,17 +7,9 @@ theme:
 ---
 
 <!-- speaker_note: |
-  Bonjour à tous. Aujourd'hui, nous allons vous présenter les coulisses techniques de notre projet libre de cette fin de semestre, un jeu de quiz multijoueur en temps réel où le but est de deviner si un nom désigne un meuble IKEA, une ville ou région scandinave, ou les deux à la fois.
+Bonjour à tous. Aujourd'hui, nous allons vous présenter l'architecture technique de notre projet libre de fin de semestre : Möbelhem. Il s'agit d'un quiz multijoueur en temps réel où l'objectif est de deviner si un nom désigne un meuble IKEA, une ville scandinave, ou les deux.
 
-  Pour ce projet, nous avons fait des choix technologiques bien précis pour allier réactivité de l'interface client, communication temps réel bidirectionnelle et persistance efficace des données. C'était surtout pour nous l'opportunité de sortir des sentiers battus et de tester des technologies modernes et assez originales, qui nous changent des frameworks plus traditionnels que nous utilisons habituellement dans notre cadre professionnel, comme Angular ou React.
-
-  L'objectif de cette présentation est de vous faire découvrir notre stack technique, pourquoi nous avons choisi chaque outil et ce que nous avons appris en chemin.
-
-  Je vais commencer par vous présenter brièvement l'architecture globale de notre projet,
-    ?
-    ...
-    ?
-  nous terminerons par une démo et vous pourrez nous poser toutes vos questions à la fin.
+Ce projet était l'occasion d'explorer une stack technologique différente des frameworks que nous utilisons habituellement dans un cadre professionnel, comme Angular ou React. L'objectif de cette présentation est de détailler nos choix d'outils pour répondre à trois besoins centraux : la réactivité du frontend, la gestion du temps réel et la persistance des données, ainsi que les enseignements que nous en avons tirés.
 -->
 
 # L'architecture globale
@@ -27,17 +19,13 @@ theme:
 ![Architecture](architecture.png)
 
 <!-- speaker_note: |
-    Regardons d'abord la vue d'ensemble. Möbelhem repose sur une architecture que l'on peut qualifier de monolithique moderne, et c'est précisément là que SvelteKit entre en jeu.
+Pour l'architecture globale, nous avons opté pour une approche unifiée avec SvelteKit. Au lieu de maintenir un frontend et une API séparés, SvelteKit regroupe le routage, le rendu de l'interface via Svelte 5 et la logique applicative au sein de la même base de code, ce qui a grandement simplifié le développement.
 
-    Au lieu d'avoir un projet frontend et une API backend complètement séparés, SvelteKit nous offre un cadre unifié. Il regroupe au sein de la même base de code le routage, le rendu de l'interface (géré par Svelte 5) et la logique applicative. Cela simplifie énormément le développement et le déploiement.
+Cependant, le besoin d'une communication bidirectionnelle performante pour le quiz nous a poussés à adapter ce modèle. Nous avons mis en place un serveur Node.js sur mesure, géré par notre fichier server.ts :
 
-    Cependant, comme nous avions besoin d'une communication temps réel bidirectionnelle pour le jeu, nous avons dû adapter ce monolithe. Nous utilisons un serveur Node.js personnalisé (défini dans notre server.ts) :
-
-    Côté serveur : Ce fichier server.ts agit comme point d'entrée. Il sert l'application SvelteKit tout en attachant notre serveur WebSocket (Socket.io) pour gérer la réactivité du multijoueur. Quentin vous détaillera cette mécanique.
-
-    Côté client : L'interface profite des toutes dernières nouveautés de Svelte 5 pour offrir une expérience fluide, et Colin reviendra dessus juste après.
-
-    Côté base de données : Enfin, la persistance est gérée au sein de ce même écosystème avec un fichier SQLite local et l'ORM Drizzle. Louis vous expliquera pourquoi nous avons opté pour cette approche légère et comment nous avons récolté nos données.
+- Côté serveur : Ce fichier sert de point d'entrée. Il héberge l'application SvelteKit tout en y attachant notre serveur WebSocket via Socket.io pour gérer la logique multijoueur. Quentin détaillera cette mécanique.
+- Côté client : L'interface s'appuie sur les récentes évolutions de Svelte 5, que Colin vous présentera juste après.
+- Côté base de données : La persistance s'intègre directement dans cet écosystème via une base SQLite locale et l'ORM Drizzle. Louis expliquera ce choix d'architecture légère et notre méthode de collecte des données.
 -->
 
 <!-- end_slide -->
@@ -181,9 +169,7 @@ theme:
 # 🎮 Démo en direct
 
 <!-- speaker_note: |
-  Maintenant que nous avons fait le tour de l'architecture et de la théorie, passons à la pratique.
-
-  Je vous propose de lancer une démo en direct de Möbelhem pour voir comment tout cela fonctionne. Nous allons créer une partie multijoueurs, faire rejoindre un deuxième joueur, et lancer le quiz.
+Pour illustrer comment ces différentes briques interagissent, nous allons passer à une courte démonstration. Nous allons instancier une partie, connecter un second joueur et lancer une manche de quiz en direct.
 -->
 
 <!-- end_slide -->
@@ -203,18 +189,19 @@ theme:
 <!-- reset_layout -->
 
 <!-- speaker_note: |
-  En conclusion, ce projet libre de fin de semestre a surtout été pour notre équipe un formidable terrain d'expérimentation et d'apprentissage, l'occasion idéale de sortir de notre zone de confort technique.
+En conclusion, la réalisation de ce projet nous a permis d'évaluer concrètement la maturité d'outils récents.
 
-  Certaines expérimentations ont été de francs succès :
-  - L'intégration de Svelte 5 et de son nouveau modèle de Runes réactives.
-  - La conception du backend temps réel résilient avec Socket.io.
-  - L'implémentation de la persistance avec Drizzle ORM et SQLite.
+Certains de nos choix techniques se sont révélés très pertinents :
 
-  D'autres essais ont été moins fructueux, mais tout aussi riches d'enseignements. Par exemple, avoir tenté d'utiliser Radicle à la place de GitHub. Après pas mal de temps perdu à essayer de configurer les nœuds et de stabiliser le workflow de synchronisation collaboratif, nous avons dû admettre que ce n'était pas encore mûr pour notre usage et nous sommes revenus sur GitHub.
+- La prise en main de Svelte 5 et de sa nouvelle gestion de la réactivité avec les Runes.
+- La stabilité du backend temps réel implémenté avec Socket.io.
+- La simplicité de la persistance avec le couple Drizzle ORM et SQLite.
 
-  C'est le propre d'un projet académique libre : tester de nouvelles choses, commettre des erreurs, apprendre à mesurer les coûts/bénéfices et savoir pivoter rapidement quand c'est nécessaire, et ce projet a été une excellente expérience sur ces aspects.
+D'autres choix ont été moins concluants, mais tout aussi instructifs. Par exemple, nous avions initialement opté pour Radicle à la place de GitHub pour la gestion de version. Après avoir investi un temps conséquent dans la configuration des nœuds et la stabilisation de la synchronisation, nous avons dû constater que l'outil n'était pas adapté à notre rythme de développement collaboratif, ce qui nous a obligés à migrer vers GitHub.
 
-  Merci pour votre attention, et nous sommes désormais ouverts à toutes vos questions !
+Ce travail d'exploration technique nous a poussés à justifier nos choix d'architecture, et surtout à savoir abandonner une technologie lorsqu'elle devenait un frein.
+
+Merci pour votre attention, nous sommes à votre disposition pour répondre à vos questions.
 -->
 
 <!-- end_slide -->
