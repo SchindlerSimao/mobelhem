@@ -41,9 +41,12 @@ export const validators = {
 		return { valid: true };
 	},
 
-	voteTime: (time: unknown): ValidationResult => {
-		if (typeof time !== 'number' || time < 0 || time > 10000) {
-			return { valid: false, error: 'Invalid vote time' };
+	voteTime: (
+		time: unknown,
+		maxTimeMs: number = GAME_CONSTANTS.MULTIPLAYER_ROUND_TIME_SECONDS * 1000
+	): ValidationResult => {
+		if (typeof time !== 'number' || time < 0 || time > maxTimeMs + 1000) {
+			return { valid: false, error: `Invalid vote time (must be 0-${maxTimeMs}ms)` };
 		}
 		return { valid: true };
 	}

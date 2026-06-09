@@ -48,18 +48,21 @@ export const actions: Actions = {
 			const score = parseInt(data.get('score')?.toString() || '0', 10);
 			const mode = data.get('mode')?.toString() || 'classic';
 
-			// Validate inputs
 			const usernameVal = validators.username(username);
 			if (!usernameVal.valid) {
 				return fail(400, { error: usernameVal.error });
 			}
 
-			if (score < 0 || score > 10000) {
+			if (isNaN(score) || score < 0 || score > 10000) {
 				return fail(400, { error: 'Invalid score' });
 			}
 
+			if (!['classic', 'multiplayer', 'solo'].includes(mode)) {
+				return fail(400, { error: 'Invalid game mode' });
+			}
+
 			await db.insert(scores).values({
-				username: username.trim(),
+				username: username.trim().replace(/[^a-zA-Z0-9_-]/g, ''),
 				score,
 				mode
 			});
