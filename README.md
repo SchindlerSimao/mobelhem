@@ -45,8 +45,8 @@ cp .env.example .env
 # Run database migrations
 pnpm db:migrate
 
-# Seed the database with words (optional, auto-runs on first start)
-pnpm db:push
+# Seed the database with words (optional)
+pnpm db:seed
 ```
 
 ### Development
@@ -106,6 +106,7 @@ mobelhem/
 │   ├── lib/
 │   │   ├── components/      # Reusable UI components
 │   │   │   ├── features/    # Feature-specific components
+│   │   │   ├── layout/      # Layout components
 │   │   │   └── ui/          # Base UI components
 │   │   ├── config/          # Game configuration constants
 │   │   ├── server/          # Backend logic
@@ -140,8 +141,12 @@ Each entry includes descriptions, geographic coordinates, and fun facts.
 | `pnpm lint`        | Run ESLint and Prettier          |
 | `pnpm format`      | Format code with Prettier        |
 | `pnpm test`        | Run all tests                    |
+| `pnpm test:unit`   | Run unit tests                   |
+| `pnpm test:e2e`    | Run E2E tests                    |
 | `pnpm db:studio`   | Open Drizzle Studio              |
 | `pnpm db:generate` | Generate new migration           |
+| `pnpm db:migrate`  | Run database migrations          |
+| `pnpm db:seed`     | Seed database with game data     |
 
 ## Contributing
 
