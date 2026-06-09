@@ -145,7 +145,7 @@ export function setupSockets(io: Server) {
 					code: room.code
 				});
 
-				console.log(`[socket] Player joined: ${sanitizedUsername} in room ${code}`);
+				console.log(`[socket] Player joined: ${username.trim()} in room ${code}`);
 			} catch (error) {
 				const err = handleError(error, 'join_room');
 				socket.emit('error_message', err.message);
