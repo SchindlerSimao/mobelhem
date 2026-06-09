@@ -68,6 +68,23 @@ pnpm build
 pnpm preview
 ```
 
+### Docker
+
+```bash
+# Build the image
+docker build -t mobelhem .
+
+# Run with a fresh database (auto-migrates and seeds)
+docker run -p 3000:3000 mobelhem
+
+# Run with a persistent database
+docker run -p 3000:3000 -v ./data:/app/data -e DATABASE_URL=data/local.db mobelhem
+
+# Run with an existing database file
+# Add :z on SELinux systems (Fedora/RHEL)
+docker run -p 3000:3000 -v ./database.sqlite:/app/local.db:z mobelhem
+```
+
 ## Game Rules
 
 ### Solo Mode
