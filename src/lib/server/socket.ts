@@ -45,10 +45,9 @@ export function setupSockets(io: Server) {
 	io.on('connection', (socket: Socket) => {
 		console.log(`Socket connected: ${socket.id}`);
 
-
-		socket.onAny((event, ...args) => {
-			let maxRequests :number;
-			let windowMs :number;
+		socket.onAny((event) => {
+			let maxRequests: number;
+			let windowMs: number;
 			switch (event) {
 				case 'create_room':
 					maxRequests = 5;
@@ -71,14 +70,13 @@ export function setupSockets(io: Server) {
 					windowMs = 60000;
 			}
 			if (!checkRateLimit(socket.id, maxRequests, windowMs)) {
-					socket.emit('error_message', 'Too many requests. Please wait a moment.');
-					return;
+				socket.emit('error_message', 'Too many requests. Please wait a moment.');
+				return;
 			}
 		});
 
 		socket.on('create_room', () => {
 			try {
-
 				let code: string;
 				let attempts = 0;
 				const maxAttempts = 10;
@@ -103,7 +101,6 @@ export function setupSockets(io: Server) {
 
 		socket.on('join_room', ({ code, username }: { code: string; username: string }) => {
 			try {
-
 				const usernameValidation = validators.username(username);
 				if (!usernameValidation.valid) {
 					throw new ValidationError(usernameValidation.error || 'Invalid username');
@@ -154,7 +151,6 @@ export function setupSockets(io: Server) {
 
 		socket.on('start_game', async ({ code }: { code: string }) => {
 			try {
-
 				const room = roomManager.getRoom(code);
 				if (!room) {
 					throw new RoomNotFoundError();
@@ -194,7 +190,6 @@ export function setupSockets(io: Server) {
 			'submit_vote',
 			({ code, vote, voteTime }: { code: string; vote: string; voteTime: number }) => {
 				try {
-
 					const voteValidation = validators.vote(vote);
 					if (!voteValidation.valid) {
 						throw new ValidationError(voteValidation.error || 'Invalid vote');
