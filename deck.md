@@ -94,7 +94,7 @@ Cependant, le besoin d'une communication bidirectionnelle performante pour le qu
 
 - **Web scraping (lar5 + cheerio)**
 <!-- new_line -->
-- **Wikidata — requêtes SPARQL**
+- **Wikidata (requêtes SPARQL)**
 <!-- new_line -->
 - **API REST Wikipédia (FR)**
 <!-- new_line -->
@@ -113,9 +113,9 @@ Cependant, le besoin d'une communication bidirectionnelle performante pour le qu
 
   Tout ça est orchestré par un simple Makefile, étape par étape : on télécharge, on parse, on récupère les villes, on vérifie les lieux, on assemble le CSV final. Chaque réponse réseau est mise en cache sur le disque : relancer le scraper est donc instantané et 100% reproductible, et on reste polis envers ces serveurs gratuits avec un User-Agent identifiable et une pause entre chaque requête.
 
-  Ce qu'on a appris : les bases de SPARQL et du modèle de données de Wikidata, qui sont assez déroutants au début ; gérer l'ambiguïté des noms — par exemple il existe plusieurs "Hemnes" en Norvège, donc on garde celui dont les coordonnées sont les plus proches de celles données par notre première source ; et au passage, que Node version 24 sait exécuter du TypeScript nativement, sans étape de compilation.
+  Ce qu'on a appris : les bases de SPARQL et du modèle de données de Wikidata, qui sont assez déroutants au début ; gérer l'ambiguïté des noms, par exemple il existe plusieurs "Hemnes" en Norvège, donc on garde celui dont les coordonnées sont les plus proches de celles données par notre première source ; et au passage, que Node version 24 sait exécuter du TypeScript nativement, sans étape de compilation.
 
-  Les avantages : c'est gratuit, sans clé d'API, sans IA, entièrement reproductible grâce au cache, et vérifiable puisqu'on s'appuie sur les vraies coordonnées de Wikidata. Les inconvénients : la couverture des sources n'est pas parfaite (lar5 ne liste pas les produits IKEA les plus récents) ; la modélisation de Wikidata varie d'un pays à l'autre (parfois la population est rattachée à la commune et pas à la ville) ; c'est rate-limité, donc lent au premier lancement ; et surtout, le contenu purement rédactionnel — descriptions marketing, anecdotes — n'est tout simplement pas "scrapable" sans IA, ce qui nous a amenés à simplifier le format de nos données.
+  Les avantages : c'est gratuit, sans clé d'API, sans IA, entièrement reproductible grâce au cache, et vérifiable puisqu'on s'appuie sur les vraies coordonnées de Wikidata. Les inconvénients : la couverture des sources n'est pas parfaite (lar5 ne liste pas les produits IKEA les plus récents) ; la modélisation de Wikidata varie d'un pays à l'autre (parfois la population est rattachée à la commune et pas à la ville) ; c'est rate-limité, donc lent au premier lancement ; et surtout, le contenu purement rédactionnel (descriptions marketing, anecdotes) n'est tout simplement pas "scrapable" sans IA, ce qui nous a amenés à simplifier le format de nos données.
 -->
 
 <!-- end_slide -->
