@@ -6,11 +6,16 @@ theme:
   name: 'light'
 ---
 
+<!-- alignment: center -->
+<!-- jump_to_middle -->
+# Introduction 
+
 <!-- speaker_note: |
   Bonjour à tous. Aujourd'hui, nous allons vous présenter l'architecture technique de notre projet libre de fin de semestre : Möbelhem. Il s'agit d'un quiz multijoueur en temps réel où l'objectif est de deviner si un nom désigne un meuble IKEA, une ville scandinave, ou les deux.
 
   Ce projet était l'occasion d'explorer une stack technologique différente des frameworks que nous utilisons habituellement dans un cadre professionnel, comme Angular ou React. L'objectif de cette présentation est de détailler nos choix d'outils pour répondre à trois besoins centraux : la réactivité du frontend, la gestion du temps réel et la persistance des données, ainsi que les enseignements que nous en avons tirés.
 -->
+<!-- end_slide -->
 
 # L'architecture globale
 
@@ -177,8 +182,6 @@ theme:
 
   Première source : un site appelé lar5.com, "The IKEA Dictionary", qui recense environ 1300 noms de produits IKEA. On télécharge la page et on l'analyse avec cheerio, une librairie qui permet de naviguer dans le HTML côté serveur exactement comme on le ferait avec jQuery dans le navigateur (on sélectionne les éléments, on lit leur texte). Ça nous donne la liste des noms IKEA.
 
-  Deuxième source, et la plus intéressante techniquement : Wikidata, qu'on interroge en SPARQL. SPARQL, c'est le langage de requête du web sémantique. Le concept à retenir : dans Wikidata, tout est codé par des identifiants indépendants de la langue. Les "Q" désignent des choses (Q34 = la Suède, Q486972 = la notion d'établissement humain) et les "P" désignent des relations (P31 = "est une instance de", P279 = "est une sous-classe de", P17 = "pays", P625 = "coordonnées"). Notre requête vérifie qu'un nom est bien une vraie localité nordique et récupère son pays et ses coordonnées officielles. Le petit bout magique, c'est le filtre P31/P279* : il remonte toute la hiérarchie des catégories pour ne garder que ce qui est, même indirectement, une ville, et écarter ainsi les régions et les comtés.
-
   Troisième source : l'API REST de Wikipédia en français. Son endpoint "summary" renvoie un résumé d'article en français plus des coordonnées : c'est ce qui nous sert de description pour chaque ville.
 
   Tout ça est orchestré par un simple Makefile, étape par étape : on télécharge, on parse, on récupère les villes, on vérifie les lieux, on assemble le CSV final. Chaque réponse réseau est mise en cache sur le disque : relancer le scraper est donc instantané et 100% reproductible, et on reste polis envers ces serveurs gratuits avec un User-Agent identifiable et une pause entre chaque requête.
@@ -202,35 +205,35 @@ theme:
 ```
 
 <!-- speaker_note: |
-SPARQL, c'est le langage de requête du web sémantique, utilisé par Wikidata. Le concept clé : tout est codé par des identifiants indépendants de la langue.
-
-Les "Q" désignent des entités (des "choses") :
-- Q34 = la Suède
-- Q486972 = la notion d'établissement humain
-- Q515 = ville
-
-Les "P" désignent des relations (des "propriétés") :
-- P31 = "est une instance de"
-- P279 = "est une sous-classe de"
-- P17 = "pays"
-- P625 = "coordonnées géographiques"
-- P1082 = "population"
-
-Notre requête fait trois choses :
-
-1. **Filtre par pays** : `wdt:P17 wd:Q34` = l'entité a pour pays la Suède
-2. **Récupère les données** : population et coordonnées
-3. **Vérifie que c'est une ville** : c'est là que la magie opère avec `P31/P279*`
-
-Le `P279*` (avec l'astérisque) remonte toute la hiérarchie des sous-classes. Par exemple :
-- Stockholm (Q31121) → P31 → ville (Q515)
-- ville (Q515) → P279 → établissement humain (Q486972)
-
-Donc Stockholm est bien un établissement humain, même indirectement. Ce filtre nous permet d'exclure les régions (Q10686), les comtés (Q166050), et autres divisions administratives qui ne sont pas des villes.
-
-Sans ce filtre, on récupérerait n'importe quoi : des provinces, des municipalités, des diocèses... Avec, on est sûrs d'avoir de vrais lieux habités.
-
-Exemple de résultat pour la Suède : Stockholm, Göteborg, Malmö, Uppsala... Pour chaque ville, on récupère ses coordonnées exactes et l'URL de son article Wikipédia en français, qui nous sert ensuite à récupérer la description.
+  SPARQL, c'est le langage de requête du web sémantique, utilisé par Wikidata. Le concept clé : tout est codé par des identifiants indépendants de la langue.
+  
+  Les "Q" désignent des entités (des "choses") :
+  - Q34 = la Suède
+  - Q486972 = la notion d'établissement humain
+  - Q515 = ville
+  
+  Les "P" désignent des relations (des "propriétés") :
+  - P31 = "est une instance de"
+  - P279 = "est une sous-classe de"
+  - P17 = "pays"
+  - P625 = "coordonnées géographiques"
+  - P1082 = "population"
+  
+  Notre requête fait trois choses :
+  
+  1. **Filtre par pays** : `wdt:P17 wd:Q34` = l'entité a pour pays la Suède
+  2. **Récupère les données** : population et coordonnées
+  3. **Vérifie que c'est une ville** : c'est là que la magie opère avec `P31/P279*`
+  
+  Le `P279*` (avec l'astérisque) remonte toute la hiérarchie des sous-classes. Par exemple :
+  - Stockholm (Q31121) → P31 → ville (Q515)
+  - ville (Q515) → P279 → établissement humain (Q486972)
+  
+  Donc Stockholm est bien un établissement humain, même indirectement. Ce filtre nous permet d'exclure les régions (Q10686), les comtés (Q166050), et autres divisions administratives qui ne sont pas des villes.
+  
+  Sans ce filtre, on récupérerait n'importe quoi : des provinces, des municipalités, des diocèses... Avec, on est sûrs d'avoir de vrais lieux habités.
+  
+  Exemple de résultat pour la Suède : Stockholm, Göteborg, Malmö, Uppsala... Pour chaque ville, on récupère ses coordonnées exactes et l'URL de son article Wikipédia en français, qui nous sert ensuite à récupérer la description.
 -->
 
 <!-- end_slide -->
@@ -248,17 +251,17 @@ Exemple de résultat pour la Suède : Stockholm, Göteborg, Malmö, Uppsala... P
 - Contextes navigateur isolés
 
 <!-- speaker_note: |
-Notre stratégie de tests combine deux niveaux complémentaires.
-
-**Vitest pour les tests unitaires** : runner natif Vite, donc même config que le dev, pas de transformation Babel séparée comme avec Jest. Exécution en quelques secondes, isolation des modules, mocks intégrés. On teste la logique pure : calcul de scores, validation de réponses, gestion du timer, utilitaires.
-
-**Playwright pour les tests E2E** : lance de vrais navigateurs (Chromium, Firefox, WebKit) et simule des scénarios utilisateurs complets. On teste des flux entiers : création de partie, connexion d'un deuxième joueur, soumission de réponses, vérification que les scores se mettent à jour en temps réel.
-
-L'isolation des contextes est clé : chaque test tourne dans un navigateur frais, sans cookies ni état partagé. Pas d'interférence entre tests, pas de flakiness.
-
-Pour le temps réel, Playwright attend les événements Socket.io avant de continuer. Exemple : `await page.waitForEvent('websocket')` pour s'assurer que la connexion est établie avant d'envoyer une réponse.
-
-Les deux outils sont complémentaires : Vitest valide que chaque fonction fait ce qu'elle doit faire, Playwright valide que l'ensemble du système fonctionne comme attendu. Couverture globale > 94%, confiance élevée à chaque commit.
+  Notre stratégie de tests combine deux niveaux complémentaires.
+  
+  **Vitest pour les tests unitaires** : runner natif Vite, donc même config que le dev, pas de transformation Babel séparée comme avec Jest. Exécution en quelques secondes, isolation des modules, mocks intégrés. On teste la logique pure : calcul de scores, validation de réponses, gestion du timer, utilitaires.
+  
+  **Playwright pour les tests E2E** : lance de vrais navigateurs (Chromium, Firefox, WebKit) et simule des scénarios utilisateurs complets. On teste des flux entiers : création de partie, connexion d'un deuxième joueur, soumission de réponses, vérification que les scores se mettent à jour en temps réel.
+  
+  L'isolation des contextes est clé : chaque test tourne dans un navigateur frais, sans cookies ni état partagé. Pas d'interférence entre tests, pas de flakiness.
+  
+  Pour le temps réel, Playwright attend les événements Socket.io avant de continuer. Exemple : `await page.waitForEvent('websocket')` pour s'assurer que la connexion est établie avant d'envoyer une réponse.
+  
+  Les deux outils sont complémentaires : Vitest valide que chaque fonction fait ce qu'elle doit faire, Playwright valide que l'ensemble du système fonctionne comme attendu. Couverture globale > 94%, confiance élevée à chaque commit.
 -->
 
 <!-- end_slide -->
@@ -290,7 +293,7 @@ Les deux outils sont complémentaires : Vitest valide que chaque fonction fait c
 # Démo en direct
 
 <!-- speaker_note: |
-Pour illustrer comment ces différentes briques interagissent, nous allons passer à une courte démonstration. Nous allons instancier une partie, connecter un second joueur et lancer une manche de quiz en direct.
+  Pour illustrer comment ces différentes briques interagissent, nous allons passer à une courte démonstration. Nous allons instancier une partie, connecter un second joueur et lancer une manche de quiz en direct.
 -->
 
 <!-- end_slide -->
@@ -310,19 +313,19 @@ Pour illustrer comment ces différentes briques interagissent, nous allons passe
 - Abandonner une techno quand elle freine
 
 <!-- speaker_note: |
-En conclusion, la réalisation de ce projet nous a permis d'évaluer concrètement la maturité d'outils récents.
-
-Certains de nos choix techniques se sont révélés très pertinents :
-
-- La prise en main de Svelte 5 et de sa nouvelle gestion de la réactivité avec les Runes.
-- La stabilité du backend temps réel implémenté avec Socket.io.
-- La simplicité de la persistance avec le couple Drizzle ORM et SQLite.
-
-D'autres choix ont été moins concluants, mais tout aussi instructifs. Par exemple, nous avions initialement opté pour Radicle à la place de GitHub pour la gestion de version. Après avoir investi un temps conséquent dans la configuration des nœuds et la stabilisation de la synchronisation, nous avons dû constater que l'outil n'était pas adapté à notre rythme de développement collaboratif, ce qui nous a obligés à migrer vers GitHub.
-
-Ce travail d'exploration technique nous a poussés à justifier nos choix d'architecture, et surtout à savoir abandonner une technologie lorsqu'elle devenait un frein.
-
-Merci pour votre attention, nous sommes à votre disposition pour répondre à vos questions.
+  En conclusion, la réalisation de ce projet nous a permis d'évaluer concrètement la maturité d'outils récents.
+  
+  Certains de nos choix techniques se sont révélés très pertinents :
+  
+  - La prise en main de Svelte 5 et de sa nouvelle gestion de la réactivité avec les Runes.
+  - La stabilité du backend temps réel implémenté avec Socket.io.
+  - La simplicité de la persistance avec le couple Drizzle ORM et SQLite.
+  
+  D'autres choix ont été moins concluants, mais tout aussi instructifs. Par exemple, nous avions initialement opté pour Radicle à la place de GitHub pour la gestion de version. Après avoir investi un temps conséquent dans la configuration des nœuds et la stabilisation de la synchronisation, nous avons dû constater que l'outil n'était pas adapté à notre rythme de développement collaboratif, ce qui nous a obligés à migrer vers GitHub.
+  
+  Ce travail d'exploration technique nous a poussés à justifier nos choix d'architecture, et surtout à savoir abandonner une technologie lorsqu'elle devenait un frein.
+  
+  Merci pour votre attention, nous sommes à votre disposition pour répondre à vos questions.
 -->
 
 <!-- end_slide -->
