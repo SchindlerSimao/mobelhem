@@ -4,13 +4,14 @@
 import { GAME_CONSTANTS } from '../../config/gameConstants';
 
 type ItemType = 'ikea' | 'city' | 'both';
-type Vote = 'ikea' | 'city' | null;
+type Vote = 'ikea' | 'city' | 'both' | null;
 
 /**
  * Checks if a vote is correct for the given item type
  */
 export function isAnswerCorrect(vote: Vote, itemType: ItemType): boolean {
 	if (!vote) return false;
+	if (vote === 'both') return itemType === 'both';
 	if (vote === 'ikea') return itemType === 'ikea' || itemType === 'both';
 	if (vote === 'city') return itemType === 'city' || itemType === 'both';
 	return false;
@@ -24,12 +25,13 @@ export function calculateRoundScore(vote: Vote, itemType: ItemType, voteTime: nu
 		return 0;
 	}
 
+	const isBothBonus = vote === 'both' && itemType === 'both';
+	const base = isBothBonus
+		? GAME_CONSTANTS.MULTIPLAYER_BASE_POINTS + GAME_CONSTANTS.MULTIPLAYER_BOTH_BONUS
+		: GAME_CONSTANTS.MULTIPLAYER_BASE_POINTS;
 	const speedBonus = Math.max(
 		0,
-		Math.floor(
-			GAME_CONSTANTS.MULTIPLAYER_BASE_POINTS -
-				voteTime / GAME_CONSTANTS.MULTIPLAYER_SPEED_BONUS_DIVISOR
-		)
+		Math.floor(base - voteTime / GAME_CONSTANTS.MULTIPLAYER_SPEED_BONUS_DIVISOR)
 	);
-	return GAME_CONSTANTS.MULTIPLAYER_BASE_POINTS + speedBonus;
+	return base + speedBonus;
 }

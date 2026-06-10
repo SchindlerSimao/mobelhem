@@ -45,7 +45,11 @@
 									? 'text-success'
 									: 'text-danger'}"
 							>
-								{player.lastVote === 'ikea' ? 'ikea' : 'ville'}
+								{player.lastVote === 'ikea'
+									? 'ikea'
+									: player.lastVote === 'city'
+										? 'ville'
+										: 'les deux'}
 							</span>
 						{:else}
 							<span class="text-[10px] text-subtle">-</span>

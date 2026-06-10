@@ -57,7 +57,7 @@ export const actions: Actions = {
 				return fail(400, { error: 'Invalid score' });
 			}
 
-			if (!['classic', 'multiplayer', 'solo'].includes(mode)) {
+			if (!['classic', 'multiplayer', 'solo', 'time_attack'].includes(mode)) {
 				return fail(400, { error: 'Invalid game mode' });
 			}
 

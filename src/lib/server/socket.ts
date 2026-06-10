@@ -122,7 +122,7 @@ export function setupSockets(io: Server) {
 					username: username.trim(),
 					score: 0,
 					voted: false,
-					vote: null as 'ikea' | 'city' | null,
+					vote: null as 'ikea' | 'city' | 'both' | null,
 					voteTime: 0,
 					isHost
 				};
@@ -215,7 +215,7 @@ export function setupSockets(io: Server) {
 					}
 
 					player.voted = true;
-					player.vote = vote as 'ikea' | 'city';
+					player.vote = vote as 'ikea' | 'city' | 'both';
 					player.voteTime = voteTime;
 					roomManager.updateActivity(code);
 

@@ -137,7 +137,7 @@
 		currentUsername = pseudo;
 	}
 
-	function handleVote(vote: 'ikea' | 'city') {
+	function handleVote(vote: 'ikea' | 'city' | 'both') {
 		if (voted || !socket) return;
 		voted = true;
 		const voteTime = Date.now() - roundStartTimestamp;

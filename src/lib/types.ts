@@ -27,7 +27,7 @@ export interface RoundPlayerResult {
 	username: string;
 	score: number;
 	lastVoteCorrect: boolean;
-	lastVote: 'ikea' | 'city' | null;
+	lastVote: 'ikea' | 'city' | 'both' | null;
 	lastVoteTime: number;
 }
 

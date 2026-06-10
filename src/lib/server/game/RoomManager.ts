@@ -10,7 +10,7 @@ export interface Player {
 	username: string;
 	score: number;
 	voted: boolean;
-	vote: 'ikea' | 'city' | null;
+	vote: 'ikea' | 'city' | 'both' | null;
 	voteTime: number;
 	isHost: boolean;
 }

@@ -20,7 +20,7 @@
 		voted: boolean;
 		votedPlayers: string[];
 		playersCount: number;
-		onVote: (vote: 'ikea' | 'city') => void;
+		onVote: (vote: 'ikea' | 'city' | 'both') => void;
 	} = $props();
 </script>
 
@@ -36,7 +36,7 @@
 			<h2 class="text-4xl font-bold tracking-widest uppercase sm:text-5xl">{wordName}</h2>
 		</div>
 
-		<div class="grid grid-cols-2 gap-3">
+		<div class="grid grid-cols-3 gap-3">
 			<button
 				disabled={voted}
 				onclick={() => onVote('city')}
@@ -52,6 +52,14 @@
 					{voted ? 'pointer-events-none opacity-30' : 'hover:bg-border hover:text-fg'}"
 			>
 				Meuble IKEA
+			</button>
+			<button
+				disabled={voted}
+				onclick={() => onVote('both')}
+				class="cursor-pointer rounded-md border border-border bg-surface px-4 py-4 text-sm font-medium transition-colors
+					{voted ? 'pointer-events-none opacity-30' : 'hover:bg-border hover:text-fg'}"
+			>
+				Les Deux
 			</button>
 		</div>
 
