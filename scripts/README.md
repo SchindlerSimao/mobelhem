@@ -10,13 +10,13 @@ Reproducible pipeline to generate `words.csv` from free sources (no API key, no 
 
 ## 5-step pipeline
 
-| Step      | Command                           | Description                                  |
-| --------- | --------------------------------- | -------------------------------------------- |
-| 1. Fetch  | `make fetch` or `npm run fetch`   | Downloads the lar5.com page                  |
-| 2. Parse  | `make parse` or `npm run parse`   | Extracts the IKEA names with Cheerio         |
-| 3. Cities | `make cities` or `npm run cities` | Queries Wikidata (SPARQL) + Wikipedia        |
-| 4. Geo    | `make geo` or `npm run geo`       | Checks which IKEA names are also localities  |
-| 5. Build  | `make build` or `npm run build`   | Assembles the final `words.csv`              |
+| Step      | Command                           | Description                                 |
+| --------- | --------------------------------- | ------------------------------------------- |
+| 1. Fetch  | `make fetch` or `npm run fetch`   | Downloads the lar5.com page                 |
+| 2. Parse  | `make parse` or `npm run parse`   | Extracts the IKEA names with Cheerio        |
+| 3. Cities | `make cities` or `npm run cities` | Queries Wikidata (SPARQL) + Wikipedia       |
+| 4. Geo    | `make geo` or `npm run geo`       | Checks which IKEA names are also localities |
+| 5. Build  | `make build` or `npm run build`   | Assembles the final `words.csv`             |
 
 ## Usage
 
@@ -63,14 +63,14 @@ ABSORB;ikea;;;;
 ASKER;both;NO;59.8353;10.435;Asker est une localité de Norvège...
 ```
 
-| Field      | Type   | Description                            |
-| ---------- | ------ | -------------------------------------- |
-| `name`     | string | Uppercase name                         |
-| `type`     | enum   | `ikea`, `city`, or `both`              |
-| `country`  | string | Country code (SE/NO/DK/FI) or empty    |
-| `lat`      | number | Latitude (4 decimals) or empty         |
-| `lng`      | number | Longitude (4 decimals) or empty        |
-| `cityDesc` | string | French description (for cities)        |
+| Field      | Type   | Description                         |
+| ---------- | ------ | ----------------------------------- |
+| `name`     | string | Uppercase name                      |
+| `type`     | enum   | `ikea`, `city`, or `both`           |
+| `country`  | string | Country code (SE/NO/DK/FI) or empty |
+| `lat`      | number | Latitude (4 decimals) or empty      |
+| `lng`      | number | Longitude (4 decimals) or empty     |
+| `cityDesc` | string | French description (for cities)     |
 
 ## Configuration
 

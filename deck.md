@@ -58,6 +58,18 @@ Cependant, le besoin d'une communication bidirectionnelle performante pour le qu
 
 <!-- reset_layout -->
 
+<!-- speaker_note: |
+  Socket.io est la colonne vertébrale de notre système multijoueur en temps réel.
+
+  Contrairement aux requêtes HTTP classiques qui sont unidirectionnelles — le client demande, le serveur répond — Socket.io établit une connexion persistante entre le client et le serveur. Cela permet au serveur de pousser des événements instantanément : par exemple, quand un joueur vote, le serveur peut immédiatement notifier tous les autres joueurs du résultat.
+
+  Techniquement, Socket.io utilise WebSocket comme protocole principal, mais avec un fallback intelligent vers le long-polling si WebSocket n'est pas disponible. Le long-polling, c'est quand le client maintient une requête HTTP ouverte en permanence : le serveur répond dès qu'il y a un événement, et le client renvoie immédiatement une nouvelle requête. C'est moins efficace que WebSocket, mais ça garantit que le jeu fonctionne même sur les réseaux restrictifs.
+
+  Pour la gestion des parties, nous utilisons le système de rooms de Socket.io. Chaque partie a un ID unique, et tous les joueurs connectés à cette room reçoivent les mêmes événements. Quand un joueur rejoint, on l'ajoute à la room ; quand il quitte, on le retire. Cela isole complètement les parties entre elles : les événements d'une partie ne fuient jamais vers une autre.
+
+  Dans server.ts, on attache Socket.io au même serveur HTTP que SvelteKit, donc une seule adresse URL pour tout : le frontend, l'API, et les WebSockets.
+-->
+
 <!-- end_slide -->
 
 # Drizzle ORM & SQLite
@@ -134,6 +146,20 @@ Cependant, le besoin d'une communication bidirectionnelle performante pour le qu
 
 <!-- reset_layout -->
 
+<!-- speaker_note: |
+  Pour garantir la fiabilité de notre application, nous avons mis en place une stratégie de test à deux niveaux.
+
+  Au premier niveau, nous avons **Vitest** pour les tests unitaires. Vitest est conçu pour fonctionner avec Vite, donc il est extrêmement rapide : il utilise le même bundler que notre application, ce qui permet de tester le code exactement comme il s'exécute en production. Nos tests unitaires couvrent la logique pure : le calcul des scores dans scoring.ts, la gestion des salons dans RoomManager, et nos fonctions utilitaires. Chaque test est isolé, rapide à exécuter, et s'exécute en quelques millisecondes.
+
+  Par exemple, pour RoomManager, nous testons qu'un joueur ne peut rejoindre qu'une room existante, qu'un jeu ne peut démarrer qu'avec au moins deux joueurs, et que les événements sont correctement émis à tous les clients connectés.
+
+  Au deuxième niveau, **Playwright** pour les tests d'end-to-end. Playwright lance de vrais navigateurs — Chrome, Firefox, Safari — et simule des interactions utilisateur réelles : cliquer, taper, naviguer entre les pages. Nous testons des scénarios complets : un joueur crée une partie, un second joueur rejoint via le code, les deux votent, et on vérifie que le leaderboard s'affiche correctement.
+
+  Ce qui est puissant avec Playwright, c'est l'isolation des contextes : chaque test a son propre contexte de navigateur, donc les cookies, le localStorage, et l'état sont complètement nettoyés entre les tests. Ça élimine les effets de bord et garantit que nos tests sont reproductibles.
+
+  Cette approche à deux niveaux nous donne confiance : Vitest valide la logique métier, Playwright valide que tout le système fonctionne ensemble dans un navigateur réel.
+-->
+
 <!-- end_slide -->
 
 # Couverture des tests
@@ -151,14 +177,21 @@ Cependant, le besoin d'une communication bidirectionnelle performante pour le qu
 <!-- reset_layout -->
 
 <!-- speaker_note: |
-  Pour valider la qualité et la robustesse de notre codebase, nous avons mis en place une mesure de couverture de code rigoureuse.
+  La couverture de code est une métrique qui mesure quel pourcentage de notre codebase est exécuté par les tests.
 
-  Les résultats sont extrêmement satisfaisants :
-  - Nous atteignons plus de 94 % de couverture globale sur l'ensemble du projet.
-  - Les composants d'interface utilisateur (comme le bouton, la carte, la liste des joueurs ou la barre de temps) tournent autour de 91 % de couverture.
-  - La logique du serveur de jeu (le RoomManager, le calcul des scores) ainsi que tous nos fichiers utilitaires sont couverts entre 96 % et 100 %.
+  Nos résultats sont très solides :
+  - **Plus de 94 % de couverture globale** sur l'ensemble du projet. Cela signifie que 94 % de nos lignes de code sont exécutées au moins une fois lors de l'exécution des tests.
 
-  Cette couverture élevée nous donne une grande confiance dans le code, en limitant les régressions visuelles et fonctionnelles à chaque modification.
+  - Pour les **composants UI**, nous sommes autour de **91 %**. Les composants Svelte comme Button, Card, PlayerList ou TimerBar sont testés avec Testing Library : on rend le composant, on simule des interactions utilisateur, et on vérifie le rendu. Les quelques pourcents manquants concernent souvent des états d'erreur très spécifiques ou des bordures difficiles à reproduire.
+
+  - Pour la **logique serveur et les utilitaires**, la couverture est encore plus élevée, entre **96 % et 100 %**. Le RoomManager, le système de scoring, et les fonctions utilitaires sont presque entièrement couverts. Ces parties critiques du code sont les plus importantes à tester, car un bug ici casserait le jeu complet.
+
+  Cette couverture élevée nous donne plusieurs avantages :
+  - **Confiance dans les refactorings** : on peut modifier du code en sachant que les tests vont attraper les régressions.
+  - **Documentation vivante** : les tests montrent comment le code est censé fonctionner.
+  - **Détection précoce des bugs** : avant même de déployer, on sait si une modification casse quelque chose.
+
+  Nous utilisons Vitest pour générer ces rapports de couverture, et nous les intégrons dans notre workflow CI pour suivre l'évolution dans le temps.
 -->
 
 <!-- end_slide -->
